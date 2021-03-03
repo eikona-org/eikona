@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2b33332e-e25c-49cc-9c79-f7cab28cfae2" name="Default Changelist" comment="">
-<<<<<<< HEAD
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/backend.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-=======
       <change afterPath="$PROJECT_DIR$/data/models/image.go" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/data/postgres.go" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
@@ -19,8 +9,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
->>>>>>> e024401 (Implement postgres and gin)
     </list>
+    <list default="true" id="2b33332e-e25c-49cc-9c79-f7cab28cfae2" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -61,9 +51,7 @@
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
-<<<<<<< HEAD
     <option name="oldMeFiltersMigrated" value="true" />
-=======
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -73,7 +61,6 @@
         </entry>
       </map>
     </option>
->>>>>>> e024401 (Implement postgres and gin)
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
