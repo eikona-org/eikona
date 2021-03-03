@@ -11,7 +11,6 @@ COPY go.sum .
 # Download all the dependencies
 RUN go mod download
 
-
 COPY . .
 
 # Build the Go app
