@@ -1,6 +1,5 @@
 # GO Repo base repo
 FROM golang:alpine as builder
-ENV GIN_MODE=release
 RUN apk add git
 RUN mkdir /app
 WORKDIR /app
@@ -22,6 +21,7 @@ RUN apk --no-cache add ca-certificates curl
 RUN mkdir /app
 WORKDIR /app/
 
+ENV GIN_MODE=release
 # Copy the Pre-built binary file from the previous stage
 COPY --from=builder /app/main .
 
