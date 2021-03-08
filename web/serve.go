@@ -3,6 +3,7 @@ package web
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-pg/pg/v10"
+	"github.com/imgProcessing/backend/v2/poc"
 	"net/http"
 )
 
@@ -13,6 +14,7 @@ func Serve(dbContext *pg.DB) {
 
 	r := gin.Default()
 	r.GET("/ping", ping)
+	r.GET("/poc", process)
 	r.Run()
 }
 
@@ -28,4 +30,8 @@ func ping(c *gin.Context){
 	c.JSON(http.StatusOK, gin.H{
 		"message": "pong",
 	})
+}
+
+func process(c *gin.Context){
+	c.File(poc.Process(c.Request.URL.Query()))
 }
