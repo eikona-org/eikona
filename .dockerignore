@@ -5,4 +5,5 @@ LICENSE
 README.md
 .dockerignore
 .gitignore
-*.env.sample
+*.env*
+development.yml
