@@ -5,3 +5,4 @@ LICENSE
 README.md
 .dockerignore
 .gitignore
+*.env.sample
