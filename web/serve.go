@@ -13,7 +13,7 @@ func Serve(dbContext *pg.DB) {
 
 	r := gin.Default()
 	r.GET("/ping", ping)
-	r.Run()
+	r.Run(":8080")
 }
 
 func ping(c *gin.Context){

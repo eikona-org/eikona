@@ -4,23 +4,25 @@ import (
 	"github.com/go-pg/pg/v10"
 	"github.com/go-pg/pg/v10/orm"
 	"github.com/imgProcessing/backend/v2/data/models"
+	"os"
 )
 
 func GetContext() *pg.DB {
-	context := pg.Connect(&pg.Options{ //Requires existing DB and User TODO: Create DB on connection if it doesn't exist
-		User: "imgProcessing", //TODO: Make postgres config configurable with config file or comparable
-		Password: "imgProcessing",
-		Addr: "127.0.0.1:5432",
-		Database: "imgProcessing",
-	})
-	defer context.Close()
+	opt, err := pg.ParseURL(os.Getenv("DATABASE_URL"))
 
-	err := createSchema(context)
-	if err!= nil {
+	if err != nil {
 		panic(err)
 	}
 
-	return context
+	db := pg.Connect(opt)
+	defer db.Close()
+
+	err = createSchema(db)
+	if err != nil {
+		panic(err)
+	}
+
+	return db
 }
 
 func createSchema(db *pg.DB) error {
