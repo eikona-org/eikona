@@ -17,6 +17,7 @@ jobs:
   build_and_push_backend_to_registry:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       -
         name: Prepare
         id: prep
