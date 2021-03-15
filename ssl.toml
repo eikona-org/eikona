@@ -1,0 +1,14 @@
+[tls]
+
+[tls.stores]
+
+[tls.stores.default]
+
+[tls.stores.default.defaultCertificate]
+certFile = "/etc/certs/local-cert.pem"
+keyFile = "/etc/certs/local-key.pem"
+
+[[tls.certificates]]
+certFile = "/etc/certs/local-cert.pem"
+keyFile = "/etc/certs/local-key.pem"
+stores = ["default"]
