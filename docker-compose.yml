@@ -14,10 +14,10 @@ services:
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.http.routers.frontend-http.rule=Host(`frontend.docker.localhost`)
+      - traefik.http.routers.frontend-http.rule=Host(`docker.localhost`)
       - traefik.http.routers.frontend-http.entrypoints=http
       - traefik.http.routers.frontend-http.middlewares=redirect
-      - traefik.http.routers.frontend-https.rule=Host(`frontend.docker.localhost`)
+      - traefik.http.routers.frontend-https.rule=Host(`docker.localhost`)
       - traefik.http.routers.frontend-https.entrypoints=https
       - traefik.http.routers.frontend-https.tls=true
       - traefik.http.services.frontend.loadbalancer.server.port=80
@@ -27,15 +27,16 @@ services:
       - frontend
     depends_on:
       - loadbalancer
+      - backend
   backend:
     image: 'ghcr.io/imgprocessing/backend:latest'
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.http.routers.backend-http.rule=Host(`backend.docker.localhost`)
+      - traefik.http.routers.backend-http.rule=Host(`api.docker.localhost`)
       - traefik.http.routers.backend-http.entrypoints=http
       - traefik.http.routers.backend-http.middlewares=redirect
-      - traefik.http.routers.backend-https.rule=Host(`backend.docker.localhost`)
+      - traefik.http.routers.backend-https.rule=Host(`api.docker.localhost`)
       - traefik.http.routers.backend-https.entrypoints=https
       - traefik.http.routers.backend-https.tls=true
       - traefik.http.services.backend.loadbalancer.server.port=8080
@@ -46,27 +47,8 @@ services:
       - storage
     depends_on:
       - database
-      - storage01
+      - storage
       - loadbalancer
-  adminer.imgprocessing.io:
-    image: 'adminer:4-standalone'
-    restart: always
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.adminer-http.rule=Host(`adminer.docker.localhost`)
-      - traefik.http.routers.adminer-http.entrypoints=http
-      - traefik.http.routers.adminer-http.middlewares=redirect
-      - traefik.http.routers.adminer-https.rule=Host(`adminer.docker.localhost`)
-      - traefik.http.routers.adminer-https.entrypoints=https
-      - traefik.http.routers.adminer-https.tls=true
-      - traefik.http.services.adminer.loadbalancer.server.port=8080
-      - traefik.http.middlewares.redirect.redirectscheme.scheme=https
-      - traefik.docker.network=${COMPOSE_PROJECT_NAME}_backend
-    networks:
-      - database
-      - backend
-    depends_on:
-      - database
   loadbalancer:
     image: traefik
     restart: always
@@ -83,7 +65,7 @@ services:
       - backend
       - frontend
       - loadbalancer
-  storage01:
+  storage:
     image: minio/minio
     restart: always
     volumes:
