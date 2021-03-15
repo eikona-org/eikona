@@ -1,2 +1,2 @@
-ssl/*
+infrastructure/ssl/*
 *.env
