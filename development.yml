@@ -1,55 +1,55 @@
-version: "3"
+version: '3'
 services:
   database:
-    image: postgres:latest
+    image: 'postgres:latest'
     ports:
-      - "5432:5432"
+      - '5432:5432'
     env_file:
       - database.env
     volumes:
-      - database-data:/var/lib/postgresql/data/
-
+      - 'database-data:/var/lib/postgresql/data/'
   frontend:
     build:
       context: frontend
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - '80:80'
     depends_on:
       - database
       - storage01
-      - backend    
-
+      - backend
   backend:
     build:
       context: backend
       dockerfile: Dockerfile.debug
     ports:
-      - "8090:2345" # for debugging
-      - "8080:8080"
+      - '8090:2345'
+      - '8080:8080'
     env_file:
       - backend.env
     volumes:
-    - .:/debug_env
+      - '.:/debug_env'
     depends_on:
       - database
       - storage01
-
   storage01:
     image: minio/minio
     volumes:
-      - imgstore-data:/data1
+      - 'imgstore-data:/data1'
     ports:
-      - "9000:9000"
+      - '9000:9000'
     env_file:
       - minio.env
     command: server /data1
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      test:
+        - CMD
+        - curl
+        - '-f'
+        - 'http://localhost:9000/minio/health/live'
       interval: 30s
       timeout: 20s
       retries: 3
-
 volumes:
   database-data: null
   imgstore-data: null
