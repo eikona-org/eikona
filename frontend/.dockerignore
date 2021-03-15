@@ -4,10 +4,8 @@ Dockerfile
 LICENSE
 README.md
 .dockerignore
-.github
 .gitignore
 .prettierrc
-README.md
 
 # Artifacts that will be built during image creation.
 # This should contain all files created during `npm run build`.
