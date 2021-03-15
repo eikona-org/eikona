@@ -8,6 +8,7 @@ services:
       - database.env
     volumes:
       - 'database-data:/var/lib/postgresql/data/'
+
   frontend:
     build:
       context: frontend
@@ -16,8 +17,9 @@ services:
       - '80:80'
     depends_on:
       - database
-      - storage01
+      - storage
       - backend
+
   backend:
     build:
       context: backend
@@ -31,8 +33,9 @@ services:
       - '.:/debug_env'
     depends_on:
       - database
-      - storage01
-  storage01:
+      - storage
+
+  storage:
     image: minio/minio
     volumes:
       - 'imgstore-data:/data1'
@@ -50,6 +53,15 @@ services:
       interval: 30s
       timeout: 20s
       retries: 3
+
+  adminer.imgprocessing.io:
+    image: adminer:4-standalone
+    restart: always
+    ports:
+      - 8081:8080
+    depends_on:
+      - database
+
 volumes:
   database-data: null
   imgstore-data: null
