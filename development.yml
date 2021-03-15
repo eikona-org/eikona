@@ -13,6 +13,7 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile
+    image: frontend_test
     ports:
       - '80:80'
     depends_on:
@@ -24,6 +25,7 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile.debug
+    image: backend_test
     ports:
       - '8090:2345'
       - '8080:8080'
