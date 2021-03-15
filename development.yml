@@ -13,6 +13,7 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile
+    image: frontend_test
     ports:
       - '80:80'
     depends_on:
@@ -22,8 +23,10 @@ services:
 
   backend:
     build:
-      context: .
+      context: backend
       target: debug
+      dockerfile: Dockerfile.debug
+    image: backend_test
     ports:
       - "2345:2345" # for delve remote debugging
       - "8080:8080"
