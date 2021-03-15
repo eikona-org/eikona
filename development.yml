@@ -9,6 +9,17 @@ services:
     volumes:
       - database-data:/var/lib/postgresql/data/
 
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - database
+      - storage01
+      - backend    
+
   backend:
     build:
       context: .
