@@ -72,9 +72,9 @@ services:
     restart: always
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
-      - '${PWD}/traefik.toml:/etc/traefik/traefik.toml'
-      - '${PWD}/ssl.toml:/etc/traefik/ssl.toml'
-      - '${PWD}/ssl:/etc/certs'
+      - '${PWD}/infrastructure/traefik.toml:/etc/traefik/traefik.toml'
+      - '${PWD}/infrastructure/ssl.toml:/etc/traefik/ssl.toml'
+      - '${PWD}/infrastructure/ssl:/etc/certs'
     ports:
       - '80:80'
       - '443:443'

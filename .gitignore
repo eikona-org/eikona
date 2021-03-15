@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Binaries for programs and plugins
 *.exe
 *.exe~
@@ -16,5 +17,5 @@ tmp/
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
-ssl/*
+infrastructure/ssl/*
 *.env

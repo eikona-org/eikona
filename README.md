@@ -12,7 +12,7 @@ Follow the instructions to get mkcert: https://github.com/FiloSottile/mkcert
 mkcert -install
 
 # Generate certificate for domain "docker.localhost", "domain.local" and their sub-domains
-mkcert -cert-file ssl/local-cert.pem -key-file ssl/local-key.pem \
+mkcert -cert-file infrastructure/ssl/local-cert.pem -key-file infrastructure/ssl/local-key.pem \
 "docker.localhost" "*.docker.localhost" "domain.local" "*.domain.local"
 ```
 
