@@ -14,7 +14,7 @@ on:
       - '**.md'
 
 jobs:
-  build_and_push_to_registry:
+  build_and_push_backend_to_registry:
     runs-on: ubuntu-latest
     steps:
       -
@@ -53,6 +53,59 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
+          context: backend
+          platforms: linux/amd64
+          push: ${{ github.event_name != 'pull_request' && (endsWith(github.ref, github.event.repository.default_branch) || startsWith(github.ref, 'refs/tags/')) }}
+          tags: ${{ steps.prep.outputs.tags }}
+          build-args: |
+            VERSION=${{ steps.prep.outputs.version }}
+            BUILD_DATE=${{ steps.prep.outputs.build_date }}
+            VCS_REF=${{ steps.prep.outputs.vcs_ref }}
+      -
+        name: Check manifest
+        if: github.event_name != 'pull_request' && (endsWith(github.ref, github.event.repository.default_branch) || startsWith(github.ref, 'refs/tags/'))
+        run: |
+          docker buildx imagetools inspect ${{ steps.prep.outputs.ghcr_image }}:${{ steps.prep.outputs.version }}
+  build_and_push_frontend_to_registry:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Prepare
+        id: prep
+        run: |
+          GHCR_IMAGE=ghcr.io/imgprocessing/frontend
+          VERSION=latest
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            TAG=${GITHUB_REF#refs/tags/}
+            VERSION=${TAG%-*}
+          fi
+          TAGS=""
+          TAGS="${TAGS}${GHCR_IMAGE}:${VERSION},"
+          echo ::set-output name=version::${VERSION}
+          echo ::set-output name=ghcr_image::${GHCR_IMAGE}
+          echo ::set-output name=tags::${TAGS}
+          echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+          echo ::set-output name=vcs_ref::${GITHUB_SHA::8}
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - 
+        name: Login to GitHub Container Registry
+        if: github.event_name != 'pull_request' && (endsWith(github.ref, github.event.repository.default_branch) || startsWith(github.ref, 'refs/tags/'))
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: imgProcessing-runner
+          password: ${{ secrets.PUSH_SECRET }} # - must be in GitHub Secrets!
+      -
+        name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: frontend
           platforms: linux/amd64
           push: ${{ github.event_name != 'pull_request' && (endsWith(github.ref, github.event.repository.default_branch) || startsWith(github.ref, 'refs/tags/')) }}
           tags: ${{ steps.prep.outputs.tags }}
