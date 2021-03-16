@@ -7,10 +7,12 @@
           <list>
             <option value="backend" />
             <option value="database" />
-            <option value="storage01" />
+            <option value="adminer.imgprocessing.io" />
+            <option value="storage" />
+            <option value="frontend" />
           </list>
         </option>
-        <option name="sourceFilePath" value="development.yml" />
+        <option name="sourceFilePath" value="../development.yml" />
       </settings>
     </deployment>
     <method v="2" />
