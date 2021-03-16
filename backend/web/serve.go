@@ -1,6 +1,7 @@
 package web
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-pg/pg/v10"
 	"github.com/imgProcessing/backend/v2/poc"
@@ -33,5 +34,11 @@ func ping(c *gin.Context){
 }
 
 func process(c *gin.Context){
-	c.File(poc.Process(c.Request.URL.Query()))
+	data := poc.Process(c.Request.URL.Query())
+
+	c.Writer.WriteHeader(http.StatusOK)
+	c.Header("Content-Disposition", "filename=test.png")
+	c.Header("Content-Type", "image/png")
+	c.Header("Content-Length", fmt.Sprintf("%d", len(data)))
+	c.Writer.Write(data)
 }

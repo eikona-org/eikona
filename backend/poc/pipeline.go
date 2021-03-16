@@ -1,36 +1,39 @@
 package poc
 
 import (
-	"fmt"
+	"bytes"
 	"github.com/disintegration/gift"
 	"image"
 	"image/png"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 // TODO: For now static file serving
 // TODO: Minio sdk for future with caching for processed images
 // TODO: Currently only png
 // TODO: dynamic application of filters, dynamic image selection
-func Process(queryArguments map[string][]string) string {
+func Process(queryArguments map[string][]string) []byte {
 	pipeline := gift.New()
 
 	applyQueryOperations(pipeline, queryArguments)
 
-	filePathPattern := "./poc/fixtures/%s/image2.png"
+	absPathRaw, _ := filepath.Abs("./poc/fixtures/raw/image2.png")
 
-	src := loadImage(fmt.Sprintf(filePathPattern, "raw"))
+	src := loadImage(absPathRaw)
 
 	dst := image.NewRGBA(pipeline.Bounds(src.Bounds()))
 
 	pipeline.Draw(dst, src)
 
-	processedFilePath := fmt.Sprintf(filePathPattern, "processed")
+	buffer := new(bytes.Buffer)
+	encodeError := png.Encode(buffer, dst)
+	if encodeError != nil {
+		log.Fatalf("png.Encode failed: %v", encodeError)
+	}
 
-	saveImage(processedFilePath, dst)
-
-	return processedFilePath
+	return buffer.Bytes()
 }
 
 // TODO: check for mime type, only support jpeg and png
