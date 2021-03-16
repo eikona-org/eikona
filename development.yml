@@ -12,14 +12,14 @@ services:
   backend:
     build:
       context: .
-      dockerfile: Dockerfile.debug
+      target: debug
     ports:
-      - "8090:2345" # for debugging
+      - "2345:2345" # for delve remote debugging
       - "8080:8080"
     env_file:
       - backend.env
-    volumes:
-    - .:/debug_env
+    security_opt:
+      - "seccomp:unconfined"
     depends_on:
       - database
       - storage01
