@@ -9,46 +9,56 @@ services:
       - 'database-data:/var/lib/postgresql/data/'
     networks:
       - database
+
   frontend:
     image: 'ghcr.io/imgprocessing/frontend:latest'
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.http.routers.frontend-http.rule=Host(`docker.localhost`)
+      - traefik.http.routers.frontend-http.rule=Host(`${COMPOSE_SITE_NAME}`)
       - traefik.http.routers.frontend-http.entrypoints=http
       - traefik.http.routers.frontend-http.middlewares=redirect
-      - traefik.http.routers.frontend-https.rule=Host(`docker.localhost`)
+      - traefik.http.routers.frontend-https.rule=Host(`${COMPOSE_SITE_NAME}`)
       - traefik.http.routers.frontend-https.entrypoints=https
       - traefik.http.routers.frontend-https.tls=true
       - traefik.http.services.frontend.loadbalancer.server.port=80
+      - traefik.http.services.frontend.loadbalancer.healthcheck.interval=5s
+      - traefik.http.services.frontend.loadbalancer.healthcheck.timeout=2s
       - traefik.http.middlewares.redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.redirect.redirectscheme.permanent=true
       - traefik.docker.network=${COMPOSE_PROJECT_NAME}_frontend
     networks:
       - frontend
     depends_on:
       - loadbalancer
       - backend
+
   backend:
     image: 'ghcr.io/imgprocessing/backend:latest'
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.http.routers.backend-http.rule=Host(`api.docker.localhost`)
+      - traefik.http.routers.backend-http.rule=Host(`${COMPOSE_SITE_NAME}`) && PathPrefix(`/api`)
       - traefik.http.routers.backend-http.entrypoints=http
       - traefik.http.routers.backend-http.middlewares=redirect
-      - traefik.http.routers.backend-https.rule=Host(`api.docker.localhost`)
+      - traefik.http.routers.backend-https.rule=Host(`${COMPOSE_SITE_NAME}`) && PathPrefix(`/api`)
       - traefik.http.routers.backend-https.entrypoints=https
       - traefik.http.routers.backend-https.tls=true
       - traefik.http.services.backend.loadbalancer.server.port=8080
+      - traefik.http.services.backend.loadbalancer.healthcheck.interval=5s
+      - traefik.http.services.backend.loadbalancer.healthcheck.timeout=2s
       - traefik.http.middlewares.redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.redirect.redirectscheme.permanent=true
       - traefik.docker.network=${COMPOSE_PROJECT_NAME}_backend
     networks:
       - backend
       - storage
+      - database
     depends_on:
       - database
       - storage
       - loadbalancer
+
   loadbalancer:
     image: traefik
     restart: always
@@ -65,6 +75,7 @@ services:
       - backend
       - frontend
       - loadbalancer
+
   storage:
     image: minio/minio
     restart: always
@@ -86,6 +97,7 @@ services:
       retries: 3
     networks:
       - storage
+
 networks:
   loadbalancer:
     internal: false
@@ -97,6 +109,7 @@ networks:
     internal: true
   storage:
     internal: true
+    
 volumes:
   database-data: null
   imgstore-data: null
