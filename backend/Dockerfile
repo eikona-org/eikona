@@ -1,10 +1,23 @@
+FROM golang:alpine as debug
+
+RUN apk add git curl
+
+WORKDIR /app
+
+RUN go get github.com/go-delve/delve/cmd/dlv
+
+RUN curl -fLo install.sh https://raw.githubusercontent.com/cosmtrek/air/master/install.sh \
+    && chmod +x install.sh && sh install.sh && cp ./bin/air /bin/air
+
+CMD air
+
+#########################################################################
 # GO Repo base repo
 FROM golang:alpine as builder
 RUN apk add git
 RUN mkdir /app
 WORKDIR /app
 
-#COPY go.mod ./
 COPY go.mod .
 COPY go.sum .
 # Download all the dependencies
@@ -15,8 +28,10 @@ COPY . .
 # Build the Go app
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -a -installsuffix cgo -o main .
 
+#########################################################################
 # GO Repo base repo
-FROM alpine:latest
+FROM alpine:latest as prod
+RUN apk --no-cache add ca-certificates curl
 RUN mkdir /app
 WORKDIR /app/
 
