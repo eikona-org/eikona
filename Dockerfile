@@ -1,32 +1,15 @@
 FROM golang:alpine as debug
 
-RUN apk update && apk upgrade && \
-    apk add --no-cache git \
-        dpkg \
-        gcc \
-        git \
-        musl-dev
+RUN apk add git curl
 
-RUN mkdir /app
 WORKDIR /app
-
-COPY go.mod .
-COPY go.sum .
-# Download all the dependencies
-RUN go mod download
 
 RUN go get github.com/go-delve/delve/cmd/dlv
 
-COPY . .
+RUN curl -fLo install.sh https://raw.githubusercontent.com/cosmtrek/air/master/install.sh \
+    && chmod +x install.sh && sh install.sh && cp ./bin/air /bin/air
 
-# Build the Go app
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -a -installsuffix cgo -o main .
-
-WORKDIR /
-
-COPY ./dlv.sh /
-RUN chmod +x /dlv.sh
-ENTRYPOINT ["/dlv.sh"]
+CMD air
 
 #########################################################################
 # GO Repo base repo

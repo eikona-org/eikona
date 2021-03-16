@@ -20,6 +20,8 @@ services:
       - backend.env
     security_opt:
       - "seccomp:unconfined"
+    volumes:
+      - ./:/app
     depends_on:
       - database
       - storage01
