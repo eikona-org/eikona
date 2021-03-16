@@ -49,4 +49,3 @@ Traefik Dashboard: http://localhost:8080/dashboard/#/
 Backend: https://backend.docker.localhost/
 
 Frontend: https://frontend.docker.localhost/
-
