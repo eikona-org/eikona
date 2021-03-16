@@ -31,7 +31,6 @@ RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -a -installsuffix cgo -o 
 #########################################################################
 # GO Repo base repo
 FROM alpine:latest as prod
-RUN apk --no-cache add ca-certificates curl
 RUN mkdir /app
 WORKDIR /app/
 
