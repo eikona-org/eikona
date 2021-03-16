@@ -9,7 +9,7 @@ RUN go get github.com/go-delve/delve/cmd/dlv
 RUN curl -fLo install.sh https://raw.githubusercontent.com/cosmtrek/air/master/install.sh \
     && chmod +x install.sh && sh install.sh && cp ./bin/air /bin/air
 
-CMD air
+CMD air -c .air.toml
 
 #########################################################################
 # GO Repo base repo
@@ -31,7 +31,6 @@ RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -a -installsuffix cgo -o 
 #########################################################################
 # GO Repo base repo
 FROM alpine:latest as prod
-RUN apk --no-cache add ca-certificates curl
 RUN mkdir /app
 WORKDIR /app/
 

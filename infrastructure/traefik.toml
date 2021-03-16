@@ -1,0 +1,28 @@
+[global]
+  sendAnonymousUsage = false
+
+[log]
+  # If something goes wrong, changing this to `DEBUG` might help you finding
+  # out what happens.
+  level = "INFO" #DEBUG, INFO, WARN, ERROR, FATAL, PANIC
+  format = "common"
+
+[entryPoints]
+  [entryPoints.http]
+   address = ":80"
+
+  [entryPoints.https]
+   address = ":443"
+
+[api]
+  # With this you enable the web UI
+  insecure = true
+  dashboard = true
+
+[providers.docker]
+  watch = true
+  exposedByDefault = false
+  endpoint = "unix:///var/run/docker.sock"
+
+[providers.file]
+  filename = "/etc/traefik/ssl.toml"
