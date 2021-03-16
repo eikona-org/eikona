@@ -34,7 +34,7 @@ services:
     security_opt:
       - 'seccomp:unconfined'
     volumes:
-      - ./:/app
+      - ./backend/:/app
     depends_on:
       - database
       - storage
