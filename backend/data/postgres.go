@@ -42,9 +42,9 @@ func createSchema() error {
 	defer func() { //in case something goes horribly wrong, recover at end of function
 		if r:= recover(); r!= nil {
 			fmt.Printf("Something went horribly wrong during Schema creation: %s\n", r)
+			transaction.Rollback()
 			panic(r)
 		}
-		transaction.Rollback()
 	}()
 
 	models := []interface{}{
