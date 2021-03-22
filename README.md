@@ -35,7 +35,7 @@ Rename the *.env.sample files to *.env and edit them.
 ## 4. Run
 Scale 2 instances of frontend and 2 instances of backend
 ```bash
-docker-compose up --scale frontend=2 --scale backend=2
+docker-compose up
 ```
 
 ### 4.1 Run on dev system

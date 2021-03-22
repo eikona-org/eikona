@@ -32,6 +32,8 @@ services:
     depends_on:
       - loadbalancer
       - backend
+    deploy:
+      replicas: 2
 
   backend:
     image: 'ghcr.io/imgprocessing/backend:latest'
@@ -58,6 +60,8 @@ services:
       - database
       - storage
       - loadbalancer
+    deploy:
+      replicas: 2
 
   loadbalancer:
     image: traefik
