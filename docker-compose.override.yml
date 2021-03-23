@@ -1,0 +1,42 @@
+version: '3'
+services:
+  database:
+    ports:
+      - '5432:5432'
+
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    image: frontend_test
+    ports:
+      - '8080:80'
+
+  backend:
+    build:
+      context: backend
+      target: debug
+    image: backend_test
+    ports:
+      - '2345:2345' # for delve remote debugging
+      - '8081:8080'
+    env_file:
+      - backend.env
+    security_opt:
+      - 'seccomp:unconfined'
+    volumes:
+      - ./backend/:/app
+
+  loadbalancer:
+    volumes:
+      - '${PWD}/infrastructure/traefik.dev.toml:/etc/traefik/traefik.toml'
+      - '${PWD}/infrastructure/ssl.dev.toml:/etc/traefik/ssl.toml'
+      - '${PWD}/infrastructure/ssl:/etc/certs'
+    ports:
+      - '80:80'
+      - '443:443'
+      - '8082:8080'
+
+  storage:
+    ports:
+      - '9000:9000'

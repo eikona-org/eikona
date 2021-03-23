@@ -49,13 +49,17 @@ func Serve() {
 
 func ping(c *gin.Context){
 	//You can work with dbContext in here e.g.
-	//  databaseContext := data.GetContext()
-	//  databaseContext.Model(&data.Image{
-	//  	Id: 0,
+	//  database := data.GetDbConnection()
+	//  defer database.Close() //IMPORTANT!!! Close so Connection doesn't stay open indefinitely
+	//  transaction, transactionError := db.Begin()
+	//  if transactionError != nil {
+	//    panic(transactionError)
+	//  }
+	//  database.Model(&data.Image{
+	//      Name: "TestImage",
 	//  	DateUploaded: time.Now(),
-	//  	Hash: "SomeHash1234",
-	//  	Location: "/path/to/image",
 	//  }).Insert()
+	//  transaction.Commit()
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "pong",

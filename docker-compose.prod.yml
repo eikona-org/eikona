@@ -1,0 +1,31 @@
+version: '3'
+services:
+  frontend:
+    deploy:
+      replicas: 2
+
+  backend:
+    deploy:
+      replicas: 2
+
+  loadbalancer:
+    ports:
+      - '80:80'
+      - '443:443'
+      - '127.0.0.1:8080:8080'
+    volumes:
+      - '${PWD}/infrastructure/traefik.toml:/etc/traefik/traefik.toml'
+      - '${PWD}/infrastructure/ssl.toml:/etc/traefik/ssl.toml'
+      - '${PWD}/infrastructure/ssl:/etc/certs'
+
+networks:
+  loadbalancer:
+    internal: false
+  frontend:
+    internal: true
+  backend:
+    internal: true
+  database:
+    internal: true
+  storage:
+    internal: true

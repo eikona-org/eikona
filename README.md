@@ -5,12 +5,36 @@ Welcome to the DS1 Challenge Project: ImageProcessing
 
 //TODO Image
 
-## Usage
+## Usage Prod
 ## 1. Clone
 ```bash
-git clone https://github.com/imgProcessing/???
+git clone https://github.com/imgProcessing/backend
 ```
-## 2.1 mkcert (developing only)
+## 2. copy cert - TODO: Let's encrypt
+```bash
+# Copy your certs:
+cp cert.pem key.pem infrastructure/ssl/
+```
+## 3. Environment
+Rename the *.env.sample files to *.env and edit them.
+```bash
+
+```
+## 4. Run
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
+## 5. Access
+
+LB: https://[domain]/
+
+## Usage Dev
+
+## 1. Clone
+```bash
+git clone https://github.com/imgProcessing/backend
+```
+## 2. mkcert
 Follow the instructions to get mkcert: https://github.com/FiloSottile/mkcert
 ```bash
 # If it's the firt install of mkcert, run
@@ -20,32 +44,24 @@ mkcert -install
 mkcert -cert-file infrastructure/ssl/cert.pem -key-file infrastructure/ssl/key.pem \
 "docker.localhost" "*.docker.localhost" "domain.local" "*.domain.local"
 ```
-
-## 2.2 copy cert (prod only)
-```bash
-# Copy your certs:
-cp cert.pem key.pem infrastructure/ssl/
-```
-
 ## 3. Environment
 Rename the *.env.sample files to *.env and edit them.
 ```bash
 
 ```
 ## 4. Run
-Scale 2 instances of frontend and 2 instances of backend
 ```bash
-docker-compose up --scale frontend=2 --scale backend=2
+docker-compose up
 ```
 
-### 4.1 Run on dev system
-Scale 2 instances of frontend and 2 instances of backend
-```bash
-docker-compose -f development.yml up
-```
 ## 5. Access
-Traefik Dashboard: http://localhost:8080/dashboard/#/
 
-Backend: https://backend.docker.localhost/
+LB: https://docker.localhost/
 
-Frontend: https://frontend.docker.localhost/
+Traefik Dashboard: http://docker.localhost:8082/dashboard/#/
+
+Backend: http://docker.localhost:8081/
+
+Frontend: http://docker.localhost:8080/
+
+MinIO: http://docker.localhost:9000/
