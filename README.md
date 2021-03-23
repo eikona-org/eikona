@@ -63,3 +63,5 @@ Traefik Dashboard: http://docker.localhost:8082/dashboard/#/
 Backend: http://docker.localhost:8081/
 
 Frontend: http://docker.localhost:8080/
+
+MinIO: http://docker.localhost:9000/
