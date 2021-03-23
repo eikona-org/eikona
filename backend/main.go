@@ -6,7 +6,10 @@ import (
 )
 
 func main() {
-	context := data.GetContext()
+	err := data.Init()
+	if err != nil {
+		panic(err)
+	}
 
-	web.Serve(context)
+	web.Serve()
 }
