@@ -32,8 +32,6 @@ services:
     depends_on:
       - loadbalancer
       - backend
-    deploy:
-      replicas: 2
 
   backend:
     image: 'ghcr.io/imgprocessing/backend:latest'
@@ -60,21 +58,12 @@ services:
       - database
       - storage
       - loadbalancer
-    deploy:
-      replicas: 2
 
   loadbalancer:
     image: traefik
     restart: always
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock:ro'
-      - '${PWD}/infrastructure/traefik.toml:/etc/traefik/traefik.toml'
-      - '${PWD}/infrastructure/ssl.toml:/etc/traefik/ssl.toml'
-      - '${PWD}/infrastructure/ssl:/etc/certs'
-    ports:
-      - '80:80'
-      - '443:443'
-      - '8080:8080'
     networks:
       - backend
       - frontend
@@ -104,16 +93,11 @@ services:
 
 networks:
   loadbalancer:
-    internal: false
   frontend:
-    internal: true
   backend:
-    internal: true
   database:
-    internal: true
   storage:
-    internal: true
     
 volumes:
-  database-data: null
-  imgstore-data: null
+  database-data:
+  imgstore-data:
