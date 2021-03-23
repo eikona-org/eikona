@@ -16,25 +16,17 @@ func Serve() {
 
 	r := gin.Default()
 	r.GET("/ping", ping)
-	auth := r.Group("/auth", middleware.AuthorizeJWT())
-	{
-		auth.GET("/hello", func(ctx *gin.Context) {
-			ctx.JSON(http.StatusOK, gin.H{
-				"message": "pong",
-			})
-		})
-	}
 	// JWT Authorization Middleware applies to "/api" only.
-	apiRoutes := r.Group("/api", middleware.AuthorizeJWT())
+	apiRoutes := r.Group("/api/test/", middleware.AuthorizeJWT())
 	{
-		apiRoutes.GET("/videos", func(ctx *gin.Context) {
+		apiRoutes.GET("/upload", func(ctx *gin.Context) {
 			ctx.JSON(200, gin.H{
 				"message": "pong",
 			})
 		})
 	}
 
-	r.POST("/login", func(ctx *gin.Context) {
+	r.POST("/api/login", func(ctx *gin.Context) {
 		token := loginController.Login(ctx)
 		if token != "" {
 			ctx.JSON(http.StatusOK, gin.H{

@@ -2,16 +2,20 @@
   <configuration default="false" name="Docker - Up" type="docker-deploy" factoryName="docker-compose.yml" server-name="Docker">
     <deployment type="docker-compose.yml">
       <settings>
+        <option name="secondarySourceFiles">
+          <list>
+            <option value="../docker-compose.override.yml" />
+          </list>
+        </option>
         <option name="services">
           <list>
             <option value="database" />
             <option value="backend" />
-            <option value="adminer.imgprocessing.io" />
             <option value="storage" />
             <option value="frontend" />
           </list>
         </option>
-        <option name="sourceFilePath" value="../development.yml" />
+        <option name="sourceFilePath" value="../docker-compose.yml" />
       </settings>
     </deployment>
     <method v="2" />

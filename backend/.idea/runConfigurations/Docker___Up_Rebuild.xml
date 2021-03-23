@@ -3,16 +3,20 @@
     <deployment type="docker-compose.yml">
       <settings>
         <option name="commandLineOptions" value="--build" />
+        <option name="secondarySourceFiles">
+          <list>
+            <option value="../docker-compose.override.yml" />
+          </list>
+        </option>
         <option name="services">
           <list>
             <option value="backend" />
             <option value="database" />
-            <option value="adminer.imgprocessing.io" />
             <option value="storage" />
             <option value="frontend" />
           </list>
         </option>
-        <option name="sourceFilePath" value="../development.yml" />
+        <option name="sourceFilePath" value="../docker-compose.yml" />
       </settings>
     </deployment>
     <method v="2" />

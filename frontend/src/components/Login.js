@@ -14,7 +14,7 @@ import Container from '@material-ui/core/Container'
 import Copyright from './Copyright'
 
 async function loginUser(credentials) {
-    return fetch('http://docker.localhost:8080/login', {
+    return fetch('https://docker.localhost/api/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
