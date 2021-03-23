@@ -76,8 +76,6 @@ func loadImage(bucketName string, objectName string) *ImgWrapper {
 	}
 	defer reader.Close()
 
-	//reader.Seek(0, 0)
-
 	img, imgType, decodeError := image.Decode(reader)
 	if decodeError != nil {
 		log.Fatalf("image.Decode failed: %v", decodeError)
