@@ -20,13 +20,13 @@ type authCustomClaims struct {
 
 type jwtServices struct {
 	secretKey string
-	issure    string
+	issuer    string
 }
 
 func JWTAuthService() JWTService {
 	return &jwtServices{
 		secretKey: getSecretKey(),
-		issure:    "ImgProcessing",
+		issuer:    "ImgProcessingService",
 	}
 }
 
@@ -44,13 +44,12 @@ func (service *jwtServices) GenerateToken(email string, isUser bool) string {
 		isUser,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
-			Issuer:    service.issure,
+			Issuer:    service.issuer,
 			IssuedAt:  time.Now().Unix(),
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	//encoded string
 	t, err := token.SignedString([]byte(service.secretKey))
 	if err != nil {
 		panic(err)
@@ -62,7 +61,6 @@ func (service *jwtServices) ValidateToken(encodedToken string) (*jwt.Token, erro
 	return jwt.Parse(encodedToken, func(token *jwt.Token) (interface{}, error) {
 		if _, isvalid := token.Method.(*jwt.SigningMethodHMAC); !isvalid {
 			return nil, fmt.Errorf("Invalid token", token.Header["alg"])
-
 		}
 		return []byte(service.secretKey), nil
 	})
