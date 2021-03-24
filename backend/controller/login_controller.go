@@ -1,13 +1,13 @@
 package controller
 
 import (
-	"github.com/imgProcessing/backend/v2/web/dto"
-	"github.com/imgProcessing/backend/v2/web/service"
+	"github.com/imgProcessing/backend/v2/dto"
+	"github.com/imgProcessing/backend/v2/service"
 
 	"github.com/gin-gonic/gin"
 )
 
-//login contorller interface
+//Login Controller Interface
 type LoginController interface {
 	Login(ctx *gin.Context) string
 }

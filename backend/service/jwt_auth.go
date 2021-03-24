@@ -8,7 +8,6 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-//jwt service
 type JWTService interface {
 	GenerateToken(email string, isUser bool) string
 	ValidateToken(token string) (*jwt.Token, error)
@@ -24,7 +23,6 @@ type jwtServices struct {
 	issure    string
 }
 
-//auth-jwt
 func JWTAuthService() JWTService {
 	return &jwtServices{
 		secretKey: getSecretKey(),
@@ -33,7 +31,7 @@ func JWTAuthService() JWTService {
 }
 
 func getSecretKey() string {
-	secret := os.Getenv("SECRET")
+	secret := os.Getenv("JWT_SECRET")
 	if secret == "" {
 		secret = "dooj3Aecipoar6shiitoX6lugh1Loh3yaedieZeegh"
 	}
