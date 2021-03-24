@@ -5,6 +5,7 @@ import (
 	"github.com/imgProcessing/backend/v2/controller"
 	"github.com/imgProcessing/backend/v2/middleware"
 	"github.com/imgProcessing/backend/v2/service"
+	"github.com/imgProcessing/backend/v2/poc"
 	//"github.com/go-pg/pg/v10"
 	"net/http"
 )
@@ -16,7 +17,6 @@ var (
 )
 
 func Serve() {
-
 	server := gin.Default()
 	server.Use(gin.Recovery(), gin.Logger())
 
@@ -54,6 +54,9 @@ func Serve() {
 		})
 	}
 	server.Run(":8080") //TODO: Make this configurable
+	r.GET("/ping", ping)
+	r.GET("/poc", process)
+	r.Run(":8080") //TODO: Make this configurable
 }
 
 func ping(c *gin.Context) {
@@ -73,4 +76,16 @@ func ping(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "pong",
 	})
+}
+
+func process(c *gin.Context){
+	data := poc.Process(c.Request.URL.Query())
+
+	c.DataFromReader(
+		http.StatusOK,
+		int64(len(data.Bytes())),
+		"image/png",
+		data,
+		nil,
+	)
 }

@@ -65,3 +65,5 @@ Backend: http://docker.localhost:8081/
 Frontend: http://docker.localhost:8080/
 
 MinIO: http://docker.localhost:9000/
+
+Database: docker.localhost:5432
