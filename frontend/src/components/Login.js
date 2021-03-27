@@ -17,7 +17,7 @@ async function loginUser(credentials) {
     return fetch('https://docker.localhost/api/login', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(credentials),
     }).then((data) => data.json())

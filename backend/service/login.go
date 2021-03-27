@@ -1,5 +1,11 @@
 package service
 
+import (
+	"golang.org/x/crypto/bcrypt"
+	"log"
+)
+
+
 type LoginService interface {
 	LoginUser(email string, password string) bool
 }
@@ -17,11 +23,25 @@ func StaticLoginService() LoginService {
 
 func DBLoginService() LoginService {
 	return &loginInformation{
+		//TODO get Password and Hash from DB
 		email:    "pascal",
 		password: "testing",
 	}
 }
 
 func (info *loginInformation) LoginUser(email string, password string) bool {
-	return info.email == email && info.password == password
+	print(password)
+	return info.email == email && comparePasswords(info.password, password)
+}
+
+func comparePasswords(hashedPwd string, plainPwd string) bool {
+	byteHash := []byte(hashedPwd)
+	bytePassword := []byte(plainPwd)
+	err := bcrypt.CompareHashAndPassword(byteHash, bytePassword)
+	if err != nil {
+		log.Println(err)
+		return false
+	}
+
+	return true
 }

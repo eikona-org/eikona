@@ -12,8 +12,10 @@ import (
 
 var (
 	loginService    = service.StaticLoginService()
+	registerService    = service.DatabaseRegisterService()
 	jwtService      = service.JWTAuthService()
 	loginController = controller.LoginHandler(loginService, jwtService)
+	registerController = controller.RegisterHandler(registerService)
 )
 
 func Serve() {
@@ -38,9 +40,15 @@ func Serve() {
 
 	//Register -> POST /api/register
 	server.POST("/api/register", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"message": "Register",
-		})
+		status := registerController.Register(ctx)
+		print(status)
+		if status != "" {
+			ctx.Redirect(http.StatusTemporaryRedirect, "http://www.google.com/")
+		} else {
+			ctx.JSON(http.StatusNotAcceptable, gin.H{
+				"error": "Failed",
+			})
+		}
 	})
 
 	//Auth Path
@@ -54,9 +62,9 @@ func Serve() {
 		})
 	}
 	server.Run(":8080") //TODO: Make this configurable
-	r.GET("/ping", ping)
-	r.GET("/poc", process)
-	r.Run(":8080") //TODO: Make this configurable
+	server.GET("/ping", ping)
+	server.GET("/poc", process)
+	server.Run(":8080") //TODO: Make this configurable
 }
 
 func ping(c *gin.Context) {
