@@ -15,6 +15,16 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Copyright from './Copyright'
 
+async function registerUser(data) {
+    return fetch('https://docker.localhost/api/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    }).then((data) => data.json())
+}
+
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -36,7 +46,19 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function SignUp({ setToken }) {
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
     const classes = useStyles()
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const token = await registerUser({
+            email,
+            password,
+        })
+        console.log(token)
+        setToken(token)
+    }
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -47,7 +69,7 @@ export default function SignUp({ setToken }) {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <form className={classes.form}>
+                <form className={classes.form} onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
@@ -82,6 +104,7 @@ export default function SignUp({ setToken }) {
                                 type="email"
                                 name="email"
                                 autoComplete="email"
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -94,6 +117,7 @@ export default function SignUp({ setToken }) {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>

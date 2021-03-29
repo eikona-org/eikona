@@ -3,19 +3,21 @@ package web
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/imgProcessing/backend/v2/controller"
+	"github.com/imgProcessing/backend/v2/data"
+	"github.com/imgProcessing/backend/v2/helper"
 	"github.com/imgProcessing/backend/v2/middleware"
-	"github.com/imgProcessing/backend/v2/service"
 	"github.com/imgProcessing/backend/v2/poc"
+	"github.com/imgProcessing/backend/v2/service"
 	//"github.com/go-pg/pg/v10"
 	"net/http"
 )
 
 var (
-	loginService    = service.StaticLoginService()
-	registerService    = service.DatabaseRegisterService()
-	jwtService      = service.JWTAuthService()
-	loginController = controller.LoginHandler(loginService, jwtService)
-	registerController = controller.RegisterHandler(registerService)
+	db             = data.Init2()
+	userHelper     = helper.NewUserHelper(db)
+	jwtService     = service.NewJWTService()
+	authService    = service.NewAuthService(userHelper)
+	authController = controller.NewAuthController(authService, jwtService)
 )
 
 func Serve() {
@@ -25,34 +27,12 @@ func Serve() {
 	server.GET("/ping", ping)
 
 	//Login -> POST /api/login
-	server.POST("/api/login", func(ctx *gin.Context) {
-		token := loginController.Login(ctx)
-		if token != "" {
-			ctx.JSON(http.StatusOK, gin.H{
-				"token": token,
-			})
-		} else {
-			ctx.JSON(http.StatusUnauthorized, gin.H{
-				"error": "unauthorized",
-			})
-		}
-	})
-
+	server.POST("/api/login", authController.Login)
 	//Register -> POST /api/register
-	server.POST("/api/register", func(ctx *gin.Context) {
-		status := registerController.Register(ctx)
-		print(status)
-		if status != "" {
-			ctx.Redirect(http.StatusTemporaryRedirect, "http://www.google.com/")
-		} else {
-			ctx.JSON(http.StatusNotAcceptable, gin.H{
-				"error": "Failed",
-			})
-		}
-	})
+	server.POST("/api/register", authController.Register)
 
 	//Auth Path
-	apiRoutes := server.Group("/api/auth", middleware.AuthorizeJWT())
+	apiRoutes := server.Group("/api/auth", middleware.AuthorizeJWT(jwtService))
 	{
 		// -> POST /api/auth/upload
 		apiRoutes.GET("/upload", func(ctx *gin.Context) {
@@ -86,7 +66,7 @@ func ping(c *gin.Context) {
 	})
 }
 
-func process(c *gin.Context){
+func process(c *gin.Context) {
 	data := poc.Process(c.Request.URL.Query())
 
 	c.DataFromReader(
