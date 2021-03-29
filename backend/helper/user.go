@@ -18,7 +18,7 @@ type UserHelper interface {
 }
 
 type userConnection struct {
-	connection *pg.DB
+	connection *pg.Conn
 }
 
 func (db *userConnection) IsDuplicateEmail(email string) (tx *pg.DB) {
@@ -55,7 +55,7 @@ func (db *userConnection) UpdateUser(user data2.User) data2.User {
 	panic("implement me")
 }
 
-func NewUserHelper(db *pg.DB) UserHelper {
+func NewUserHelper(db *pg.Conn) UserHelper {
 	return &userConnection{
 		connection: db,
 	}

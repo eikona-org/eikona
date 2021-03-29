@@ -13,8 +13,8 @@ import (
 )
 
 var (
-	db             = data.Init2()
-	userHelper     = helper.NewUserHelper(db)
+	dbConn         = data.GetDbConnection()
+	userHelper     = helper.NewUserHelper(dbConn)
 	jwtService     = service.NewJWTService()
 	authService    = service.NewAuthService(userHelper)
 	authController = controller.NewAuthController(authService, jwtService)

@@ -9,7 +9,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-
 type AuthService interface {
 	VerifyCredential(email string, password string) interface{}
 	CreateUser(user dto.RegisterInformation) data2.User
@@ -53,7 +52,7 @@ func (service *authService) FindByEmail(email string) data2.User {
 func (service *authService) IsDuplicateEmail(email string) bool {
 	res := service.userHelper.IsDuplicateEmail(email)
 	//TODO add !(==)
-	return (res == nil)
+	return res == nil
 }
 
 func comparePassword(hashedPwd string, plainPassword []byte) bool {

@@ -24,21 +24,6 @@ func Init() error {
 	return nil
 }
 
-func Init2() *pg.DB {
-	url := os.Getenv("DATABASE_URL")
-	fmt.Printf("Connecting to %s\n", url)
-	opt, err := pg.ParseURL(url)
-	if err != nil {
-		panic(err)
-	}
-
-	db = pg.Connect(opt)
-	createSchema()
-
-	return db
-}
-
-
 func GetDbConnection() *pg.Conn {
 	return db.Conn()
 }
