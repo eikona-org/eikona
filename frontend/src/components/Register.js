@@ -48,11 +48,13 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp({ setToken }) {
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
+    const [name, setName] = useState()
     const classes = useStyles()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         const token = await registerUser({
+            name,
             email,
             password,
         })
@@ -88,10 +90,11 @@ export default function SignUp({ setToken }) {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                id="lastName"
+                                id="name"
                                 label="Last Name"
-                                name="lastName"
+                                name="name"
                                 autoComplete="lname"
+                                onChange={(e) => setName(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
