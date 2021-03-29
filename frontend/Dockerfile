@@ -6,6 +6,7 @@ RUN yarn
 RUN yarn build
 # production environment
 FROM nginx:alpine
+COPY ./nginx/ /etc/nginx/
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 COPY --from=build /app/build/ ./

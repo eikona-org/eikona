@@ -8,7 +8,6 @@ import (
 	"log"
 )
 
-//UserRepository is contract what userRepository can do to db
 type UserHelper interface {
 	InsertUser(user data2.User) data2.User
 	UpdateUser(user data2.User) data2.User

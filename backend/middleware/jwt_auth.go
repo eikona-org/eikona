@@ -10,7 +10,6 @@ import (
 	"github.com/imgProcessing/backend/v2/service"
 )
 
-//AuthorizeJWT validates the token user given, return 401 if not valid
 func AuthorizeJWT(jwtService service.JWTService) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		const BEARER_SCHEMA = "Bearer "
