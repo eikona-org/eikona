@@ -32,6 +32,6 @@ jobs:
           args: -f docker-compose.prod.yml up -d
           pull_images_first: 'true'
           copy_stack_file: true
-          deploy_path: /root/imgprocessing/
+          deploy_path: /root/imgprocessing
           stack_file_name: docker-compose.yml
           keep_files: 4
