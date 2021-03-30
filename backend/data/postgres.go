@@ -11,15 +11,17 @@ import (
 var db *pg.DB
 
 func Init() error {
-	url := os.Getenv("DATABASE_URL")
-	fmt.Printf("Connecting to %s\n", url)
-	opt, err := pg.ParseURL(url)
+	opt, err := pg.ParseURL(os.Getenv("DATABASE_URL"))
 	if err != nil {
 		panic(err)
 	}
 
 	db = pg.Connect(opt)
-	createSchema()
+
+	err = createSchema()
+	if err != nil {
+		panic(err)
+	}
 
 	return nil
 }
@@ -53,9 +55,9 @@ func createSchema() error {
 		panic(transactionError)
 	}
 
-	defer func() { //in case something goes horribly wrong, recover at end of function
+	defer func() {
 		if r:= recover(); r!= nil {
-			fmt.Printf("Something went horribly wrong during Schema creation: %s\n", r)
+			fmt.Printf("Something went wrong during Schema creation: %s\n", r)
 			transaction.Rollback()
 			panic(r)
 		}
@@ -81,6 +83,7 @@ func createSchema() error {
 
 	transaction.Commit()
 	fmt.Println("DB Schema created!")
+
 
 	err := healthCheck()
 	if err != nil {
@@ -129,7 +132,7 @@ func healthCheck() error {
 		panic(err)
 	}
 
-	var processingSteps []data.Image
+	var processingSteps []data.ProcessingStep
 	err = db.Model(&processingSteps).Select()
 	if err != nil {
 		panic(err)
