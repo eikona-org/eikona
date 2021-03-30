@@ -14,7 +14,7 @@ import Container from '@material-ui/core/Container'
 import Copyright from './Copyright'
 
 async function loginUser(credentials) {
-    return fetch(`https://${process.env.REACT_APP_URL}/api/login`, {
+    return fetch(`https://${process.env.REACT_APP_BACKEND_URL}/api/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
