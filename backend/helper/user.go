@@ -42,7 +42,7 @@ func (db *userConnection) InsertUser(user data2.User) data2.User {
 		panic(transactionError)
 	}
 	database.Model(&data2.User{
-		LoginName: user.LoginName,
+		LoginName: "pascal",
 		Hash: user.Hash,
 	}).Insert()
 	transaction.Commit()

@@ -1,0 +1,36 @@
+name: Deploy
+'on':
+  push:
+    branches:
+      - poc-jwt
+    tags:
+      - '*'
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    branches:
+      - poc-jwt
+    paths-ignore:
+      - '**.md'
+
+# on:
+#   workflow_run:
+#     workflows: ["CI build"]
+#     types:
+#       - completed
+      
+jobs:
+  deployit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: wshihadeh/docker-deployment-action@v2
+        with:
+          remote_docker_host: ${{ secrets.DOCKER_HOST }}
+          ssh_private_key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
+          ssh_public_key: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
+          deployment_mode: docker-compose
+          args: -f docker-compose.prod.yml up -d
+          pull_images_first: 'true'
+          deploy_path: /root/imgprocessing
+          stack_file_name: docker-compose.yaml
+          keep_files: 5
