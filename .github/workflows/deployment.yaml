@@ -33,4 +33,4 @@ jobs:
           pull_images_first: 'true'
           deploy_path: /root/imgprocessing
           stack_file_name: docker-compose.yaml
-          keep_files: 3
+          keep_files: 4
