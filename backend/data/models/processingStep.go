@@ -1,6 +1,8 @@
 package data
 
-import uuid "github.com/satori/go.uuid"
+import (
+	"github.com/google/uuid"
+)
 
 type ProcessingStep struct {
 	ProcessingStepId uuid.UUID `pg:"type:uuid,default:gen_random_uuid(),pk"`
