@@ -30,6 +30,7 @@ func (service *authService) VerifyCredential(email string, password string) inte
 	res := service.userHelper.VerifyCredential(email, password)
 	if v, ok := res.(data2.User); ok {
 		//TODO remove hash use from db -> v.hash
+		//comparedPassword := comparePassword(v.PasswordHashSalt, []byte(password))
 		comparedPassword := comparePassword("$2a$04$JKaM506hJ0RdnF7eOkEpHuTEeJJp9PbkVsK027bkhm6ibLyzSKPlW", []byte(password))
 		if v.Email == email && comparedPassword {
 			return res

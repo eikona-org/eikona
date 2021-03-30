@@ -61,12 +61,13 @@ func (c *authController) Register(ctx *gin.Context) {
 		response := helper.BuildErrorResponse("Failed to process request", "Duplicate email", helper.EmptyObj{})
 		ctx.JSON(http.StatusConflict, response)
 	} else {
-		createdUser := c.authService.CreateUser(registerDTO)
+		c.authService.CreateUser(registerDTO)
 		//Not login after reg
 		//token := c.jwtService.GenerateToken(createdUser)
 		//createdUser.Token = token
 		//TODO add 301
 		//response := helper.BuildResponse(true, "OK!", createdUser)
-		ctx.JSON(http.StatusCreated, createdUser)
+		ctx.Redirect(301, "/login")
+		//ctx.JSON(http.StatusCreated, createdUser)
 	}
 }
