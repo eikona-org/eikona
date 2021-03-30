@@ -1,6 +1,6 @@
 package data
 
-import uuid "github.com/satori/go.uuid"
+import uuid "github.com/google/uuid"
 
 type Organization struct {
 	OrganizationId uuid.UUID `pg:"type:uuid,default:gen_random_uuid(),pk"`

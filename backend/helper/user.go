@@ -23,7 +23,6 @@ type userConnection struct {
 func (db *userConnection) IsDuplicateEmail(email string) (tx *pg.DB) {
 	//var user data2.User
 	return nil
-	//return db.connection.Where("email = ?", email).Take(&user)
 }
 
 
@@ -60,6 +59,7 @@ func NewUserHelper(db *pg.DB) UserHelper {
 	}
 }
 
+
 func (db *userConnection) VerifyCredential(email string, password string) interface{} {
 	var user data2.User
 	database := data.GetDbConnection()
@@ -75,11 +75,6 @@ func (db *userConnection) VerifyCredential(email string, password string) interf
 	user.LoginName = "pascal@pascalchristen.ch"
 	return user
 	//TODO getuser
-	//res := db.connection.Where("email = ?", email).Take(&user)
-	//if res.Error == nil {
-	//	return user
-	//}
-	//return nil
 }
 
 func hashAndSalt(pwd []byte) string {

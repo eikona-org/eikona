@@ -9,6 +9,7 @@ require (
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-pg/pg/v10 v10.7.7
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
+	github.com/google/uuid v1.2.0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/minio/minio-go/v7 v7.0.10
 	github.com/satori/go.uuid v1.2.0

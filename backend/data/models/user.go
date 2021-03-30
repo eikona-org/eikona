@@ -1,11 +1,11 @@
 package data
 
-import uuid "github.com/satori/go.uuid"
+import uuid "github.com/google/uuid"
 
 type User struct {
 	UserId uuid.UUID `pg:"type:uuid,default:gen_random_uuid(),pk"`
 	LoginName string
 	Hash string
 	Organization Organization `pg:"rel:has-one,fk:organization_id"`
-	OrganizationId uuid.UUID
+	OrganizationId uuid.UUID `pg:"type:uuid"`
 }
