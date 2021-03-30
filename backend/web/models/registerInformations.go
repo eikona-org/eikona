@@ -1,4 +1,4 @@
-package dto
+package models
 
 type RegisterInformation struct {
 	Name     string `json:"name" form:"name" binding:"required"`

@@ -2,10 +2,10 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	data2 "github.com/imgProcessing/backend/v2/data/models"
-	"github.com/imgProcessing/backend/v2/dto"
+	datamodels "github.com/imgProcessing/backend/v2/data/models"
 	"github.com/imgProcessing/backend/v2/helper"
 	"github.com/imgProcessing/backend/v2/service"
+	webmodels "github.com/imgProcessing/backend/v2/web/models"
 	"net/http"
 )
 
@@ -27,7 +27,7 @@ func NewAuthController(authService service.AuthService, jwtService service.JWTSe
 }
 
 func (c *authController) Login(ctx *gin.Context) {
-	var loginDTO dto.LoginCredentials
+	var loginDTO webmodels.LoginCredentials
 	errDTO := ctx.ShouldBind(&loginDTO)
 	if errDTO != nil {
 		response := helper.BuildErrorResponse("Failed to process request", errDTO.Error(), helper.EmptyObj{})
@@ -35,8 +35,8 @@ func (c *authController) Login(ctx *gin.Context) {
 		return
 	}
 	authResult := c.authService.VerifyCredential(loginDTO.Email, loginDTO.Password)
-	if v, ok := authResult.(data2.User); ok {
-		generatedToken := c.jwtService.GenerateToken(v.LoginName)
+	if v, ok := authResult.(datamodels.User); ok {
+		generatedToken := c.jwtService.GenerateToken(v.Email)
 		//print(generatedToken)
 		//response := helper.BuildResponse(true, "OK!", v)
 		ctx.JSON(http.StatusOK, gin.H{
@@ -49,7 +49,7 @@ func (c *authController) Login(ctx *gin.Context) {
 }
 
 func (c *authController) Register(ctx *gin.Context) {
-	var registerDTO dto.RegisterInformation
+	var registerDTO webmodels.RegisterInformation
 	errDTO := ctx.ShouldBind(&registerDTO)
 	if errDTO != nil {
 		response := helper.BuildErrorResponse("Failed to process request", errDTO.Error(), helper.EmptyObj{})

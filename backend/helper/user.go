@@ -3,17 +3,17 @@ package helper
 import (
 	"github.com/go-pg/pg/v10"
 	"github.com/imgProcessing/backend/v2/data"
-	data2 "github.com/imgProcessing/backend/v2/data/models"
+	datamodels "github.com/imgProcessing/backend/v2/data/models"
 	"golang.org/x/crypto/bcrypt"
 	"log"
 )
 
 type UserHelper interface {
-	InsertUser(user data2.User) data2.User
-	UpdateUser(user data2.User) data2.User
+	InsertUser(user datamodels.User) datamodels.User
+	UpdateUser(user datamodels.User) datamodels.User
 	VerifyCredential(email string, password string) interface{}
 	IsDuplicateEmail(email string) (tx *pg.DB)
-	FindByEmail(email string) data2.User
+	FindByEmail(email string) datamodels.User
 }
 
 type userConnection struct {
@@ -26,30 +26,30 @@ func (db *userConnection) IsDuplicateEmail(email string) (tx *pg.DB) {
 }
 
 
-func (db *userConnection) FindByEmail(email string) data2.User {
+func (db *userConnection) FindByEmail(email string) datamodels.User {
 	panic("implement me")
 }
 
-func (db *userConnection) InsertUser(user data2.User) data2.User {
-	user.Hash = hashAndSalt([]byte(user.Hash))
+func (db *userConnection) InsertUser(user datamodels.User) datamodels.User {
+	user.PasswordHashSalt = hashAndSalt([]byte(user.PasswordHashSalt))
 	//db.connection.Save(&user)
-	print(user.Hash)
+	print(user.PasswordHashSalt)
 	database := data.GetDbConnection()
 	defer database.Close()
 	transaction, transactionError := database.Begin()
 	if transactionError != nil {
 		panic(transactionError)
 	}
-	database.Model(&data2.User{
-		LoginName: "pascal",
-		Hash: user.Hash,
+	database.Model(&datamodels.User{
+		Email: "pascal",
+		PasswordHashSalt: user.PasswordHashSalt,
 	}).Insert()
 	transaction.Commit()
-	user.LoginName = "pascal@pascalchristen.ch"
+	user.Email = "pascal@pascalchristen.ch"
 	return user
 }
 
-func (db *userConnection) UpdateUser(user data2.User) data2.User {
+func (db *userConnection) UpdateUser(user datamodels.User) datamodels.User {
 	panic("implement me")
 }
 
@@ -61,18 +61,18 @@ func NewUserHelper(db *pg.DB) UserHelper {
 
 
 func (db *userConnection) VerifyCredential(email string, password string) interface{} {
-	var user data2.User
+	var user datamodels.User
 	database := data.GetDbConnection()
 	defer database.Close()
 	transaction, transactionError := database.Begin()
 	if transactionError != nil {
 		panic(transactionError)
 	}
-	database.Model(&data2.User{
-		LoginName: email,
+	database.Model(&datamodels.User{
+		Email: email,
 	}).Select()
 	transaction.Commit()
-	user.LoginName = "pascal@pascalchristen.ch"
+	user.Email = "pascal@pascalchristen.ch"
 	return user
 	//TODO getuser
 }

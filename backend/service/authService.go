@@ -3,15 +3,15 @@ package service
 import (
 	data2 "github.com/imgProcessing/backend/v2/data/models"
 	"github.com/imgProcessing/backend/v2/helper"
+	"github.com/imgProcessing/backend/v2/web/models"
 	"log"
 
-	"github.com/imgProcessing/backend/v2/dto"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type AuthService interface {
 	VerifyCredential(email string, password string) interface{}
-	CreateUser(user dto.RegisterInformation) data2.User
+	CreateUser(user models.RegisterInformation) data2.User
 	FindByEmail(email string) data2.User
 	IsDuplicateEmail(email string) bool
 }
@@ -31,7 +31,7 @@ func (service *authService) VerifyCredential(email string, password string) inte
 	if v, ok := res.(data2.User); ok {
 		//TODO remove hash use from db -> v.hash
 		comparedPassword := comparePassword("$2a$04$JKaM506hJ0RdnF7eOkEpHuTEeJJp9PbkVsK027bkhm6ibLyzSKPlW", []byte(password))
-		if v.LoginName == email && comparedPassword {
+		if v.Email == email && comparedPassword {
 			return res
 		}
 		return false
@@ -39,7 +39,7 @@ func (service *authService) VerifyCredential(email string, password string) inte
 	return false
 }
 
-func (service *authService) CreateUser(user dto.RegisterInformation) data2.User {
+func (service *authService) CreateUser(user models.RegisterInformation) data2.User {
 	userToCreate := data2.User{}
 	res := service.userHelper.InsertUser(userToCreate)
 	return res
