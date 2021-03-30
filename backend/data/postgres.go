@@ -118,7 +118,7 @@ func healthCheck() error {
 		panic(err)
 	}
 
-	var processingSteps []data.Image
+	var processingSteps []data.ProcessingStep
 	err = db.Model(&processingSteps).Select()
 	if err != nil {
 		panic(err)
