@@ -32,6 +32,8 @@ services:
     depends_on:
       - loadbalancer
       - backend
+    env_file:
+      - frontend.env
 
   backend:
     image: 'ghcr.io/imgprocessing/backend:latest'
@@ -58,6 +60,8 @@ services:
       - database
       - storage
       - loadbalancer
+    env_file:
+      - backend.env
 
   loadbalancer:
     image: traefik

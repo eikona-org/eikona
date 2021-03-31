@@ -3,16 +3,16 @@ package repositories
 import (
 	"github.com/google/uuid"
 	"github.com/imgProcessing/backend/v2/data"
-	models "github.com/imgProcessing/backend/v2/data/models"
+	datamodels "github.com/imgProcessing/backend/v2/data/models"
 )
 
-type OrganizationRepository struct {}
+type OrganizationRepository struct{}
 
-func (r OrganizationRepository) Find(id uuid.UUID) *models.Organization {
+func (r OrganizationRepository) Find(id uuid.UUID) *datamodels.Organization {
 	return findOrganization(id)
 }
 
-func (r OrganizationRepository) CreateNew(name string) *models.Organization {
+func (r OrganizationRepository) CreateNew(name string) *datamodels.Organization {
 	dbConnection := data.GetDbConnection()
 	defer dbConnection.Close()
 
@@ -22,7 +22,7 @@ func (r OrganizationRepository) CreateNew(name string) *models.Organization {
 	}
 
 	minioBucketName := uuid.NewString()
-	_, creationError := dbConnection.Model(&models.Organization{
+	_, creationError := dbConnection.Model(&datamodels.Organization{
 		Name:            name,
 		MinioBucketName: minioBucketName,
 	}).Insert()
@@ -31,7 +31,7 @@ func (r OrganizationRepository) CreateNew(name string) *models.Organization {
 		panic(creationError)
 	}
 
-	organization := &models.Organization{}
+	organization := &datamodels.Organization{}
 	findError := dbConnection.Model(organization).Where("minio_bucket_name = ?", minioBucketName).Select()
 	if findError != nil {
 		transaction.Rollback()
@@ -43,12 +43,12 @@ func (r OrganizationRepository) CreateNew(name string) *models.Organization {
 	return organization
 }
 
-func findOrganization(id uuid.UUID) *models.Organization {
+func findOrganization(id uuid.UUID) *datamodels.Organization {
 	dbConnection := data.GetDbConnection()
 	defer dbConnection.Close()
 
-	var organization models.Organization
-	err := dbConnection.Model(&models.Organization{
+	var organization datamodels.Organization
+	err := dbConnection.Model(&datamodels.Organization{
 		OrganizationId: id,
 	}).Select(organization)
 	if err != nil {

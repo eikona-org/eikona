@@ -3,6 +3,8 @@ module github.com/imgProcessing/backend/v2
 go 1.16
 
 require (
+	github.com/badoux/checkmail v1.2.1 // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/disintegration/gift v1.2.1
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-pg/pg/v10 v10.7.7

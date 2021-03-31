@@ -14,7 +14,7 @@ import Container from '@material-ui/core/Container'
 import Copyright from './Copyright'
 
 async function loginUser(credentials) {
-    return fetch('http://localhost:8000/login', {
+    return fetch(`https://${window._env_.API_URL}/api/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -44,14 +44,14 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function LogIn({ setToken }) {
-    const [username, setUserName] = useState()
+    const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const classes = useStyles()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         const token = await loginUser({
-            username,
+            email,
             password,
         })
         console.log(token)
@@ -75,11 +75,12 @@ export default function LogIn({ setToken }) {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                id="username"
-                                label="Username"
-                                name="username"
-                                autoComplete="username"
-                                onChange={(e) => setUserName(e.target.value)}
+                                id="email"
+                                label="Email"
+                                name="email"
+                                type="email"
+                                autoComplete="email"
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>

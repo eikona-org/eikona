@@ -20,8 +20,6 @@ services:
     ports:
       - '2345:2345' # for delve remote debugging
       - '8081:8080'
-    env_file:
-      - backend.env
     security_opt:
       - 'seccomp:unconfined'
     volumes:

@@ -8,5 +8,10 @@ RUN yarn build
 FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
-COPY --from=build /app/build/ .
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+COPY --from=build /app/build/ ./
+COPY --from=build /app/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./env.sh .
+COPY .env .
+RUN apk add --no-cache bash
+RUN chmod +x env.sh
+ENTRYPOINT ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
