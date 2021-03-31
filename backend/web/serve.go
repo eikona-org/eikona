@@ -20,8 +20,8 @@ var (
 
 func Serve() {
 	server := gin.Default()
-	server.GET("/ping", ping)
-	server.GET("/poc", process)
+	server.GET("/api/ping", ping)
+	server.GET("/api/poc", process)
 	//Login -> POST /api/login
 	server.POST("/api/login", authController.Login)
 	//Register -> POST /api/register
