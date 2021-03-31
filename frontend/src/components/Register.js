@@ -16,7 +16,7 @@ import Container from '@material-ui/core/Container'
 import Copyright from './Copyright'
 
 async function registerUser(data) {
-    return fetch(`https://{window._env_.API_URL}/api/register`, {
+    return fetch(`https://${window._env_.API_URL}/api/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
