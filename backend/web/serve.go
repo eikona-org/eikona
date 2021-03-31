@@ -6,6 +6,7 @@ import (
 	"github.com/imgProcessing/backend/v2/data"
 	"github.com/imgProcessing/backend/v2/helper"
 	"github.com/imgProcessing/backend/v2/middleware"
+	"github.com/imgProcessing/backend/v2/data/repositories"
 	"github.com/imgProcessing/backend/v2/poc"
 	"github.com/imgProcessing/backend/v2/service"
 	"net/http"
@@ -22,8 +23,9 @@ var (
 
 func Serve() {
 	server := gin.Default()
-	server.Use(gin.Recovery(), gin.Logger())
-
+	server.GET("/ping", ping)
+	server.GET("/poc", process)
+	server.GET("/userRepoTest", userRepoTest)
 	//Login -> POST /api/login
 	server.POST("/api/login", authController.Login)
 	//Register -> POST /api/register
@@ -39,8 +41,6 @@ func Serve() {
 			})
 		})
 	}
-	server.GET("/ping", ping)
-	server.GET("/poc", process)
 	server.Run(":8080") //TODO: Make this configurable
 }
 
@@ -60,4 +60,30 @@ func process(c *gin.Context) {
 		data,
 		nil,
 	)
+}
+
+func userRepoTest(c *gin.Context){
+	testEmail := "testuser@imgprocessing.io"
+	testPassword := "My5up3r53cr3tP455w0rd"
+	testOrganizationName := "Testing Inc."
+	userRepo := repositories.UserRepository{}
+	organizationRepo := repositories.OrganizationRepository{}
+
+	organization := organizationRepo.CreateNew(testOrganizationName)
+	user, userFound := userRepo.InsertOrUpdate(testEmail, []byte(testPassword), organization.OrganizationId)
+	if user == nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"insertSuccess": false,
+		})
+		return
+	}
+
+	passwordVerified := userRepo.VerifyCredential(testEmail, testPassword)
+
+	c.JSON(http.StatusOK, gin.H{
+		"insertSuccess": true,
+		"existingUserFound": userFound,
+		"passwordVerified": passwordVerified,
+		"userEmail": user.Email,
+	})
 }
