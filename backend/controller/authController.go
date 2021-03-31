@@ -35,10 +35,8 @@ func (c *authController) Login(ctx *gin.Context) {
 		return
 	}
 	authResult := c.authService.VerifyCredential(loginDTO.Email, loginDTO.Password)
-	if v, ok := authResult.(datamodels.User); ok {
+	if v, ok := authResult.(*datamodels.User); ok {
 		generatedToken := c.jwtService.GenerateToken(v.Email)
-		//print(generatedToken)
-		//response := helper.BuildResponse(true, "OK!", v)
 		ctx.JSON(http.StatusOK, gin.H{
 			"token": generatedToken,
 		})
@@ -56,18 +54,14 @@ func (c *authController) Register(ctx *gin.Context) {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, response)
 		return
 	}
-
-	if !c.authService.IsDuplicateEmail(registerDTO.Email) {
+	if !c.authService.IsValidEmail(registerDTO.Email) {
+		response := helper.BuildErrorResponse("Failed to process request", "Invalid email", helper.EmptyObj{})
+		ctx.JSON(http.StatusBadRequest, response)
+	} else if !c.authService.IsDuplicateEmail(registerDTO.Email) {
 		response := helper.BuildErrorResponse("Failed to process request", "Duplicate email", helper.EmptyObj{})
 		ctx.JSON(http.StatusConflict, response)
 	} else {
 		c.authService.CreateUser(registerDTO)
-		//Not login after reg
-		//token := c.jwtService.GenerateToken(createdUser)
-		//createdUser.Token = token
-		//TODO add 301
-		//response := helper.BuildResponse(true, "OK!", createdUser)
 		ctx.Redirect(301, "/login")
-		//ctx.JSON(http.StatusCreated, createdUser)
 	}
 }

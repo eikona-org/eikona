@@ -2,3 +2,4 @@ infrastructure/ssl/*
 *.env
 .idea/
 .DS_Store
+env-config.js

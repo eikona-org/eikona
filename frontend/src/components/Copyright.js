@@ -5,9 +5,9 @@ export default function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <a color="inherit" href="https:/ost.ch/">
-                imgprocessing - DS1 - FH OST
-            </a>{' '}
+            <Link color="inherit" href="">
+                imgprocessing - DS1, OST
+            </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>

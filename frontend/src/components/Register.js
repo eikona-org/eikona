@@ -16,7 +16,7 @@ import Container from '@material-ui/core/Container'
 import Copyright from './Copyright'
 
 async function registerUser(data) {
-    return fetch(`https://${process.env.REACT_APP_BACKEND_URL}/api/register`, {
+    return fetch(`https://{window._env_.API_URL}/api/register`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -73,19 +73,7 @@ export default function SignUp({ setToken }) {
                 </Typography>
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                autoComplete="fname"
-                                name="firstName"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="firstName"
-                                label="First Name"
-                                autoFocus
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12}>
                             <TextField
                                 variant="outlined"
                                 required

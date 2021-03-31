@@ -1,37 +1,37 @@
 package service
 
 import (
-	data2 "github.com/imgProcessing/backend/v2/data/models"
-	"github.com/imgProcessing/backend/v2/helper"
-	"github.com/imgProcessing/backend/v2/web/models"
-	"log"
-
+	"github.com/badoux/checkmail"
+	datamodels "github.com/imgProcessing/backend/v2/data/models"
+	"github.com/imgProcessing/backend/v2/data/repositories"
+	webmodels "github.com/imgProcessing/backend/v2/web/models"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type AuthService interface {
 	VerifyCredential(email string, password string) interface{}
-	CreateUser(user models.RegisterInformation) data2.User
-	FindByEmail(email string) data2.User
+	CreateUser(user webmodels.RegisterInformation) datamodels.User
+	FindByEmail(email string) *datamodels.User
 	IsDuplicateEmail(email string) bool
+	IsValidEmail(email string) bool
 }
 
 type authService struct {
-	userHelper helper.UserHelper
+	userRepository repositories.UserRepository
+	organizationRepository repositories.OrganizationRepository
 }
 
-func NewAuthService(userHelper helper.UserHelper) AuthService {
+func NewAuthService(userRep repositories.UserRepository, orgRep repositories.OrganizationRepository) AuthService {
 	return &authService{
-		userHelper: userHelper,
+		userRepository: userRep,
+		organizationRepository: orgRep,
 	}
 }
 
 func (service *authService) VerifyCredential(email string, password string) interface{} {
-	res := service.userHelper.VerifyCredential(email, password)
-	if v, ok := res.(data2.User); ok {
-		//TODO remove hash use from db -> v.hash
-		//comparedPassword := comparePassword(v.PasswordHashSalt, []byte(password))
-		comparedPassword := comparePassword("$2a$04$JKaM506hJ0RdnF7eOkEpHuTEeJJp9PbkVsK027bkhm6ibLyzSKPlW", []byte(password))
+	res := service.userRepository.VerifyCredential(email, password)
+	if v, ok := res.(*datamodels.User); ok {
+		comparedPassword := comparePassword(v.PasswordHashSalt, []byte(password))
 		if v.Email == email && comparedPassword {
 			return res
 		}
@@ -40,27 +40,32 @@ func (service *authService) VerifyCredential(email string, password string) inte
 	return false
 }
 
-func (service *authService) CreateUser(user models.RegisterInformation) data2.User {
-	userToCreate := data2.User{}
-	res := service.userHelper.InsertUser(userToCreate)
-	return res
+func (service *authService) CreateUser(user webmodels.RegisterInformation) datamodels.User {
+	organization := service.organizationRepository.CreateNew(user.Email)
+	res, _ := service.userRepository.InsertOrUpdate(user.Email, []byte(user.Password), organization.OrganizationId)
+	return *res
 }
 
-func (service *authService) FindByEmail(email string) data2.User {
-	return service.userHelper.FindByEmail(email)
+func (service *authService) FindByEmail(email string) *datamodels.User {
+	return service.userRepository.FindByEmail(email)
 }
 
 func (service *authService) IsDuplicateEmail(email string) bool {
-	res := service.userHelper.IsDuplicateEmail(email)
-	//TODO add !(==)
-	return res == nil
+	return service.userRepository.IsDuplicateEmail(email)
+}
+
+func (service *authService) IsValidEmail(email string) bool {
+	err := checkmail.ValidateFormat(email)
+	if err != nil {
+		return false
+	}
+	return true
 }
 
 func comparePassword(hashedPwd string, plainPassword []byte) bool {
 	byteHash := []byte(hashedPwd)
 	err := bcrypt.CompareHashAndPassword(byteHash, plainPassword)
 	if err != nil {
-		log.Println(err)
 		return false
 	}
 	return true

@@ -32,7 +32,7 @@ func NewJWTService() JWTService {
 
 func getSecretKey() string {
 	secretKey := os.Getenv("JWT_SECRET")
-	if secretKey != "" {
+	if secretKey == "" {
 		secretKey = "dooj3Aecipoar6shiitoX6lugh1Loh3yaedieZeegh"
 	}
 	return secretKey
