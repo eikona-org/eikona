@@ -26,21 +26,6 @@ func Init() error {
 	return nil
 }
 
-func Init2() *pg.DB {
-	url := os.Getenv("DATABASE_URL")
-	fmt.Printf("Connecting to %s\n", url)
-	opt, err := pg.ParseURL(url)
-	if err != nil {
-		panic(err)
-	}
-
-	db = pg.Connect(opt)
-	createSchema()
-
-	return db
-}
-
-
 func GetDbConnection() *pg.Conn {
 	return db.Conn()
 }
@@ -56,7 +41,7 @@ func createSchema() error {
 	}
 
 	defer func() {
-		if r:= recover(); r!= nil {
+		if r := recover(); r != nil {
 			fmt.Printf("Something went wrong during Schema creation: %s\n", r)
 			transaction.Rollback()
 			panic(r)
@@ -84,7 +69,6 @@ func createSchema() error {
 	transaction.Commit()
 	fmt.Println("DB Schema created!")
 
-
 	err := healthCheck()
 	if err != nil {
 		return err
@@ -94,7 +78,7 @@ func createSchema() error {
 
 func healthCheck() error {
 	fmt.Println("Performing DB Health Check...")
-	db:= GetDbConnection()
+	db := GetDbConnection()
 
 	context := db.Context()
 	err := db.Ping(context)
