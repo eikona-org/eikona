@@ -20,6 +20,7 @@ var (
 	authService      = service.NewAuthService(userRepo, orgRepo, storageClient)
 	jwtService       = service.NewJWTService()
 	renderService    = service.NewRenderService(imgRepo, procRepo)
+	//renderService    = service.NewRenderService(imgRepo, procRepo)
 	authController   = controller.NewAuthController(authService, jwtService)
 )
 
