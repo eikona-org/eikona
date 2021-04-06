@@ -8,7 +8,6 @@ import Checkbox from '@material-ui/core/Checkbox'
 import Link from '@material-ui/core/Link'
 import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
-import PropTypes from 'prop-types'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
@@ -45,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function SignUp({ setToken }) {
+export default function SignUp() {
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const [name, setName] = useState()
@@ -53,13 +52,11 @@ export default function SignUp({ setToken }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const token = await registerUser({
+        await registerUser({
             name,
             email,
             password,
         })
-        console.log(token)
-        setToken(token)
     }
     return (
         <Container component="main" maxWidth="xs">
@@ -79,7 +76,7 @@ export default function SignUp({ setToken }) {
                                 required
                                 fullWidth
                                 id="name"
-                                label="Last Name"
+                                label="Name"
                                 name="name"
                                 autoComplete="lname"
                                 onChange={(e) => setName(e.target.value)}
@@ -91,7 +88,7 @@ export default function SignUp({ setToken }) {
                                 required
                                 fullWidth
                                 id="email"
-                                label="Email Address"
+                                label="Email"
                                 type="email"
                                 name="email"
                                 autoComplete="email"
@@ -114,7 +111,8 @@ export default function SignUp({ setToken }) {
                         <Grid item xs={12}>
                             <FormControlLabel
                                 control={<Checkbox required value="allowExtraEmails" color="primary" />}
-                                label="I've read the terms and I will sell my liver"
+                                //TODO Add terms link for legal stuff
+                                label="I read and agree with the terms and conditions."
                             />
                         </Grid>
                     </Grid>
@@ -135,8 +133,4 @@ export default function SignUp({ setToken }) {
             </Box>
         </Container>
     )
-}
-
-SignUp.propTypes = {
-    setToken: PropTypes.func.isRequired,
 }

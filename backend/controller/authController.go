@@ -62,6 +62,6 @@ func (c *authController) Register(ctx *gin.Context) {
 		ctx.JSON(http.StatusConflict, response)
 	} else {
 		c.authService.CreateUser(registerDTO)
-		ctx.Redirect(301, "/login")
+		ctx.JSON(http.StatusCreated, "Account created")
 	}
 }

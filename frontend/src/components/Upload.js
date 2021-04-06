@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useCallback, useMemo } from 'react'
+import useToken from './useToken'
+import { useDropzone } from 'react-dropzone'
+import Avatar from '@material-ui/core/Avatar'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import PropTypes from 'prop-types'
+import BackupIcon from '@material-ui/icons/Backup'
+import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import { DropzoneAreaBase } from 'material-ui-dropzone'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -25,24 +28,82 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function LogIn({ setToken }) {
+const baseStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '20px',
+    borderWidth: 2,
+    borderRadius: 2,
+    borderColor: '#eeeeee',
+    borderStyle: 'dashed',
+    backgroundColor: '#fafafa',
+    color: '#bdbdbd',
+    transition: 'border .3s ease-in-out',
+}
+
+const activeStyle = {
+    borderColor: '#2196f3',
+}
+
+const acceptStyle = {
+    borderColor: '#00e676',
+}
+
+const rejectStyle = {
+    borderColor: '#ff1744',
+}
+
+export default function Upload(props) {
+    const { token } = useToken()
     const classes = useStyles()
+    const onDrop = useCallback(
+        (acceptedFiles) => {
+            //console.log(acceptedFiles);
+            var formData = new FormData()
+            formData.append('file', acceptedFiles[0])
+            fetch(`https://${window._env_.API_URL}/api/upload`, {
+                method: 'POST',
+                headers: {
+                    Authorization: 'Bearer ' + token,
+                },
+                body: formData,
+            })
+        },
+        [token]
+    )
+
+    const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
+        onDrop,
+        accept: 'image/jpeg, image/png',
+    })
+
+    const style = useMemo(
+        () => ({
+            ...baseStyle,
+            ...(isDragActive ? activeStyle : {}),
+            ...(isDragAccept ? acceptStyle : {}),
+            ...(isDragReject ? rejectStyle : {}),
+        }),
+        [isDragActive, isDragReject, isDragAccept]
+    )
 
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
-                <DropzoneAreaBase
-                    acceptedFiles={['image/*']}
-                    dropzoneText={'Drag and drop an image here or click'}
-                    onChange={(files) => console.log('Files:', files)}
-                    onAlert={(message, variant) => console.log(`${variant}: ${message}`)}
-                />
+                <Avatar className={classes.avatar}>
+                    <BackupIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Upload
+                </Typography>
+
+                <div {...getRootProps({ style })}>
+                    <input {...getInputProps()} />
+                    <div>Drag and drop your images here.</div>
+                </div>
             </div>
         </Container>
     )
-}
-
-LogIn.propTypes = {
-    setToken: PropTypes.func.isRequired,
 }

@@ -14,7 +14,7 @@ type JWTService interface {
 }
 
 type jwtCustomClaim struct {
-	Name string `json:"Email"`
+	Name string `json:"email"`
 	jwt.StandardClaims
 }
 
@@ -38,9 +38,9 @@ func getSecretKey() string {
 	return secretKey
 }
 
-func (j *jwtService) GenerateToken(Email string) string {
+func (j *jwtService) GenerateToken(email string) string {
 	claims := &jwtCustomClaim{
-		Email,
+		email,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().AddDate(0, 0, 2).Unix(),
 			Issuer:    j.issuer,

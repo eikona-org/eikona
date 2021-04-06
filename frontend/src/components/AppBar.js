@@ -60,7 +60,7 @@ export default function HeaderBar() {
                                             <GitHub fontSize="small" />
                                         </IconButton>
                                         <IconButton
-                                            onClick={() => window.open('https://www.buymeacoffee.com/', '_blank')}
+                                            onClick={() => window.open('https://ost.ch/', '_blank')}
                                             aria-label="Support"
                                             color="secondary"
                                         >
