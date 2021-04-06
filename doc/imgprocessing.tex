@@ -89,6 +89,39 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}{docker-compose}{3. Entwicklung}
+	\begin{itemize}
+		\item{Prod and Dev environment}
+		\item{Zugriff untereinander beschränkt}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Loadbalancer}{3. Entwicklung}
+    Traefik:
+	\begin{itemize}
+		\item{Docker Socket mounted:}
+		\begin{itemize}
+			\item{+ Autodiscover}
+			\item{- Security}
+		\end{itemize}
+		\item{HTTP -> HTTPS Middleware}
+        \item{Self-signed cert with \href{https://github.com/FiloSottile/mkcert}{mkcert} for development}
+        \item{Healthchecks}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Backend}{3. Entwicklung}
+
+\end{frame}
+
+\begin{frame}{Frontend}{3. Entwicklung}
+
+\end{frame}
+
+\begin{frame}{Storage}{3. Entwicklung}
+
+\end{frame}
+
 \begin{frame}{Demo}{}
 	\href{https://imgprocessing.pesc.xyz/}{https://imgprocessing.pesc.xyz}
 \end{frame}
