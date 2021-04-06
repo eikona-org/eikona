@@ -17,14 +17,16 @@ type AuthService interface {
 }
 
 type authService struct {
-	userRepository repositories.UserRepository
+	userRepository         repositories.UserRepository
 	organizationRepository repositories.OrganizationRepository
+	minioRepository        repositories.MinioRepository
 }
 
-func NewAuthService(userRep repositories.UserRepository, orgRep repositories.OrganizationRepository) AuthService {
+func NewAuthService(userRep repositories.UserRepository, orgRep repositories.OrganizationRepository, minioRep repositories.MinioRepository) AuthService {
 	return &authService{
-		userRepository: userRep,
+		userRepository:         userRep,
 		organizationRepository: orgRep,
+		minioRepository:        minioRep,
 	}
 }
 
@@ -42,6 +44,7 @@ func (service *authService) VerifyCredential(email string, password string) inte
 
 func (service *authService) CreateUser(user webmodels.RegisterInformation) datamodels.User {
 	organization := service.organizationRepository.CreateNew(user.Email)
+	service.minioRepository.CreateBucket(organization.MinioBucketName)
 	res, _ := service.userRepository.InsertOrUpdate(user.Email, []byte(user.Password), organization.OrganizationId)
 	return *res
 }

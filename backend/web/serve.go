@@ -3,6 +3,7 @@ package web
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/imgProcessing/backend/v2/controller"
+	"github.com/imgProcessing/backend/v2/data"
 	"github.com/imgProcessing/backend/v2/data/repositories"
 	"github.com/imgProcessing/backend/v2/middleware"
 	"github.com/imgProcessing/backend/v2/poc"
@@ -13,8 +14,10 @@ import (
 var (
 	userRepo       = repositories.UserRepository{}
 	orgRepo        = repositories.OrganizationRepository{}
+	minioClient    = data.InitMinioClient()
+	minioRepo      = repositories.NewMinioRepository(minioClient)
 	jwtService     = service.NewJWTService()
-	authService    = service.NewAuthService(userRepo, orgRepo)
+	authService    = service.NewAuthService(userRepo, orgRepo, minioRepo)
 	authController = controller.NewAuthController(authService, jwtService)
 )
 
@@ -38,6 +41,7 @@ func Serve() {
 		})
 	}
 	server.Run(":8080") //TODO: Make this configurable
+
 }
 
 func ping(c *gin.Context) {
