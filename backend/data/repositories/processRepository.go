@@ -16,13 +16,13 @@ func findProcess(id uuid.UUID) *datamodels.Process {
 	dbConnection := data.GetDbConnection()
 	defer dbConnection.Close()
 
-	var process datamodels.Process
-	err := dbConnection.Model(&datamodels.Process{
-		ProcessId: id,
-	}).Select(process)
+	process := &datamodels.Process{ProcessId: id}
+	err := dbConnection.Model(process).
+		WherePK().
+		Select()
+
 	if err != nil {
 		return nil
 	}
-
-	return &process
+	return process
 }

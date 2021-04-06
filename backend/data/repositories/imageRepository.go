@@ -16,14 +16,15 @@ func findImage(id uuid.UUID, orgId uuid.UUID) *datamodels.Image {
 	dbConnection := data.GetDbConnection()
 	defer dbConnection.Close()
 
-	var image datamodels.Image
-	err := dbConnection.Model(&datamodels.Image{
-		ImageId: id,
-		OwnerId: orgId,
-	}).Select(image)
+	image := &datamodels.Image{ImageId: id}
+	err := dbConnection.Model(image).
+		WherePK().
+		Where("owner_id = ?", orgId).
+		Select()
+
 	if err != nil {
 		return nil
 	}
 
-	return &image
+	return image
 }
