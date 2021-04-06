@@ -18,6 +18,7 @@ func findImage(id uuid.UUID, orgId uuid.UUID) *datamodels.Image {
 
 	image := &datamodels.Image{ImageId: id}
 	err := dbConnection.Model(image).
+		Relation("Owner").
 		WherePK().
 		Where("owner_id = ?", orgId).
 		Select()

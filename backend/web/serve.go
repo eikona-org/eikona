@@ -19,8 +19,9 @@ var (
 	storageClient    = storage.NewClient()
 	authService      = service.NewAuthService(userRepo, orgRepo, storageClient)
 	jwtService       = service.NewJWTService()
-	//renderService    = service.NewRenderService(imgRepo, procRepo)
+	renderService    = service.NewRenderService(imgRepo, procRepo, storageClient)
 	authController   = controller.NewAuthController(authService, jwtService)
+	renderController = controller.NewRenderController(renderService)
 )
 
 func Serve() {
@@ -31,6 +32,8 @@ func Serve() {
 	server.POST("/api/login", authController.Login)
 	// Register -> POST /api/register
 	server.POST("/api/register", authController.Register)
+	// Render -> GET /api/render/<org-id>/<img-id>/<proc-id>
+	server.GET("/api/render/:organization/:identifier/:process", renderController.Render)
 
 	// Auth Path
 	apiRoutes := server.Group("/api/auth", middleware.AuthorizeJWT(jwtService))
@@ -43,7 +46,6 @@ func Serve() {
 		})
 	}
 	server.Run(":8080") //TODO: Make this configurable
-
 }
 
 func ping(c *gin.Context) {

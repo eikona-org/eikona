@@ -10,6 +10,7 @@ import (
 type Client interface {
 	CreateBucket(bucketName string)
 	RemoveBucket(bucketName string)
+	GetObject(bucketName string, objectName string) *minio.Object
 }
 
 type client struct {
