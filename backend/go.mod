@@ -3,16 +3,16 @@ module github.com/imgProcessing/backend/v2
 go 1.16
 
 require (
-	github.com/badoux/checkmail v1.2.1 // indirect
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
+	github.com/badoux/checkmail v1.2.1
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/disintegration/gift v1.2.1
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-pg/pg/v10 v10.7.7
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
-	github.com/google/uuid v1.2.0 // indirect
+	github.com/google/uuid v1.2.0
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/minio/minio-go/v7 v7.0.10
-	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83 // indirect
+	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83
 	golang.org/x/sys v0.0.0-20210303074136-134d130e1a04 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
