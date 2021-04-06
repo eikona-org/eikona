@@ -3,34 +3,36 @@ package web
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/imgProcessing/backend/v2/controller"
-	"github.com/imgProcessing/backend/v2/data"
 	"github.com/imgProcessing/backend/v2/data/repositories"
 	"github.com/imgProcessing/backend/v2/middleware"
 	"github.com/imgProcessing/backend/v2/poc"
 	"github.com/imgProcessing/backend/v2/service"
+	"github.com/imgProcessing/backend/v2/storage"
 	"net/http"
 )
 
 var (
-	userRepo       = repositories.UserRepository{}
-	orgRepo        = repositories.OrganizationRepository{}
-	minioClient    = data.InitMinioClient()
-	minioRepo      = repositories.NewMinioRepository(minioClient)
-	jwtService     = service.NewJWTService()
-	authService    = service.NewAuthService(userRepo, orgRepo, minioRepo)
-	authController = controller.NewAuthController(authService, jwtService)
+	imgRepo          = repositories.ImageRepository{}
+	orgRepo          = repositories.OrganizationRepository{}
+	procRepo         = repositories.ProcessRepository{}
+	userRepo         = repositories.UserRepository{}
+	storageClient    = storage.NewClient()
+	authService      = service.NewAuthService(userRepo, orgRepo, storageClient)
+	jwtService       = service.NewJWTService()
+	renderService    = service.NewRenderService(imgRepo, procRepo)
+	authController   = controller.NewAuthController(authService, jwtService)
 )
 
 func Serve() {
 	server := gin.Default()
 	server.GET("/api/ping", ping)
 	server.GET("/api/poc", process)
-	//Login -> POST /api/login
+	// Login -> POST /api/login
 	server.POST("/api/login", authController.Login)
-	//Register -> POST /api/register
+	// Register -> POST /api/register
 	server.POST("/api/register", authController.Register)
 
-	//Auth Path
+	// Auth Path
 	apiRoutes := server.Group("/api/auth", middleware.AuthorizeJWT(jwtService))
 	{
 		// -> POST /api/auth/upload

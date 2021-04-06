@@ -1,4 +1,4 @@
-package data
+package storage
 
 import (
 	"github.com/minio/minio-go/v7"
@@ -7,14 +7,31 @@ import (
 	"os"
 )
 
-func InitMinioClient() *minio.Client {
+type Client interface {
+	CreateBucket(bucketName string)
+	RemoveBucket(bucketName string)
+}
+
+type client struct {
+	client *minio.Client
+}
+
+func NewClient() Client {
+	minioClient := initMinioClient()
+
+	return &client{
+		client: minioClient,
+	}
+}
+
+func initMinioClient() *minio.Client {
 	endpoint := os.Getenv("MINIO_HOST")
 	accessKeyID := os.Getenv("MINIO_USER")
 	secretAccessKey := os.Getenv("MINIO_PASSWORD")
 
 	minioClient, err := minio.New(endpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
-		Secure: false, // Only for dev
+		Secure: false, // TODO: This is currently only for dev
 	})
 
 	if err != nil {

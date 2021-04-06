@@ -4,6 +4,7 @@ import (
 	"github.com/badoux/checkmail"
 	datamodels "github.com/imgProcessing/backend/v2/data/models"
 	"github.com/imgProcessing/backend/v2/data/repositories"
+	"github.com/imgProcessing/backend/v2/storage"
 	webmodels "github.com/imgProcessing/backend/v2/web/models"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -19,14 +20,14 @@ type AuthService interface {
 type authService struct {
 	userRepository         repositories.UserRepository
 	organizationRepository repositories.OrganizationRepository
-	minioRepository        repositories.MinioRepository
+	storageClient          storage.Client
 }
 
-func NewAuthService(userRep repositories.UserRepository, orgRep repositories.OrganizationRepository, minioRep repositories.MinioRepository) AuthService {
+func NewAuthService(userRep repositories.UserRepository, orgRep repositories.OrganizationRepository, client storage.Client) AuthService {
 	return &authService{
 		userRepository:         userRep,
 		organizationRepository: orgRep,
-		minioRepository:        minioRep,
+		storageClient:          client,
 	}
 }
 
@@ -44,7 +45,7 @@ func (service *authService) VerifyCredential(email string, password string) inte
 
 func (service *authService) CreateUser(user webmodels.RegisterInformation) datamodels.User {
 	organization := service.organizationRepository.CreateNew(user.Email)
-	service.minioRepository.CreateBucket(organization.MinioBucketName)
+	service.storageClient.CreateBucket(organization.MinioBucketName)
 	res, _ := service.userRepository.InsertOrUpdate(user.Email, []byte(user.Password), organization.OrganizationId)
 	return *res
 }
