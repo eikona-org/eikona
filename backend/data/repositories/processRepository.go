@@ -18,6 +18,7 @@ func findProcess(id uuid.UUID) *datamodels.Process {
 
 	process := &datamodels.Process{ProcessId: id}
 	err := dbConnection.Model(process).
+		Relation("ProcessingSteps").
 		WherePK().
 		Select()
 
