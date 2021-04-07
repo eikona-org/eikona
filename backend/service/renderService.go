@@ -1,13 +1,11 @@
 package service
 
 import (
-	"github.com/disintegration/gift"
 	"github.com/google/uuid"
 	datamodels "github.com/imgProcessing/backend/v2/data/models"
 	"github.com/imgProcessing/backend/v2/data/repositories"
 	"github.com/imgProcessing/backend/v2/helper"
 	"github.com/imgProcessing/backend/v2/storage"
-	"image"
 )
 
 type RenderService interface {
@@ -29,26 +27,24 @@ func NewRenderService(imgRep repositories.ImageRepository, procRep repositories.
 }
 
 func (service *renderService) Render(imgUuid uuid.UUID, orgUuid uuid.UUID, procUuid uuid.UUID) *helper.ImageWrapper {
-	imageModel := service.getImage(imgUuid, orgUuid)
-	processModel := service.getProcess(procUuid)
+	image := service.getImage(imgUuid, orgUuid)
+	process := service.getProcess(procUuid)
 
-	if nil == imageModel || nil == processModel {
+	if nil == image || nil == process {
 		panic("Invalid parameters")
 	}
 
-	imgWrapper := service.loadImage(imageModel.Owner.MinioBucketName, imageModel.MinioObjectName)
+	imgWrapper := service.loadImage(image.Owner.MinioBucketName, image.MinioObjectName)
 
-	return service.encodeImage(service.processImage(imgWrapper))
+	return service.encodeImage(
+		service.processImage(imgWrapper, process.ProcessingSteps),
+	)
 }
 
-// TODO: Temporary, doesn't really do anything
-func (service *renderService) processImage(imgWrapper *helper.ImageWrapper) *helper.ImageWrapper {
-	pipeline := gift.New()
-	imgWrapper.ProcessedImage = image.NewRGBA(pipeline.Bounds(imgWrapper.Image.Bounds()))
+func (service *renderService) processImage(imgWrapper *helper.ImageWrapper, procSteps []datamodels.ProcessingStep) *helper.ImageWrapper {
+	pipelineService := NewPipelineService(imgWrapper, procSteps)
 
-	pipeline.Draw(imgWrapper.ProcessedImage, imgWrapper.Image)
-
-	return imgWrapper
+	return pipelineService.Process()
 }
 
 func (service *renderService) loadImage(bucketName string, objectName string) *helper.ImageWrapper {
