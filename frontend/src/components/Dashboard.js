@@ -1,5 +1,10 @@
 import React from 'react'
+import FAB from './SpeedDial'
 
 export default function Dashboard() {
-    return <h2>Dashboard</h2>
+    return (
+        <>
+        <FAB></FAB>
+        </>
+    );
 }

@@ -6,6 +6,7 @@ import AppBar from './components/AppBar'
 import Login from './components/Login'
 import Register from './components/Register'
 import Upload from './components/Upload'
+import Process from './components/Process'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import useToken from './components/useToken'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -45,8 +46,9 @@ export default function App() {
                 <CssBaseline />
                 <AppBar />
                 <Routes>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="*" element={<Upload />} />
+                    <Route path="/upload" element={<Upload />} />
+                    <Route path="/process" element={<Process />} />
+                    <Route path="/*" element={<Dashboard />} />
                 </Routes>
             </ThemeProvider>
         </BrowserRouter>

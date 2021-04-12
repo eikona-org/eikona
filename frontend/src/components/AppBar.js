@@ -8,7 +8,8 @@ import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Hidden from '@material-ui/core/Hidden'
-import { Favorite, GitHub, Equalizer } from '@material-ui/icons'
+import { Favorite, GitHub } from '@material-ui/icons'
+import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,7 +51,7 @@ export default function HeaderBar() {
                                             aria-label="Test"
                                             color="inherit"
                                         >
-                                            <Equalizer fontSize="small" />
+                                            <ImageSearchIcon fontSize="small" />
                                         </IconButton>
                                         <IconButton
                                             onClick={() => window.open('https://github.com/imgProcessing', '_blank')}
@@ -77,7 +78,7 @@ export default function HeaderBar() {
                                             aria-label="Test"
                                             color="inherit"
                                         >
-                                            <Equalizer fontSize="small" />
+                                            <ImageSearchIcon fontSize="small" />
                                         </IconButton>
                                         <IconButton
                                             onClick={() => window.open('https://github.com/imgProcessing', '_blank')}
