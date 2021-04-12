@@ -3,7 +3,7 @@ Welcome to the DS1 Challenge Project: ImageProcessing
 
 ## Infrastructure
 
-//TODO Image
+![Infrastructure overview](https://github.com/imgProcessing/backend/blob/main/doc/images/Infrastruktur.png)
 
 ## Usage Prod
 ## 1. Clone
