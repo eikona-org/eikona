@@ -21,17 +21,23 @@
 \end{frame}
 
 \begin{frame}{Goal}{1. Introduction}
-		
-	Problem: ...
-		
-	\begin{itemize}
-		\item{Responsive Websites}	
-		\item{Upload eines Profilbildes}
-		\includegraphics[scale=0.25]{vzug}
-	\end{itemize}
-		
-	Solution: Unser ImgProcessing CDN Service führt dies \textbf{on-the-fly} durch und bietet zugleich eine \textit{REST API}.
-		
+
+	\underline{Problem}: Often you need to resize, adjust quality, and convert on demand:
+	\vspace{1in}
+	\begin{columns}[onlytextwidth,T]
+		\begin{column}{.25\linewidth}
+			\begin{itemize}
+				\item{Responsive Websites}
+				\item{Upload of an image}
+			\end{itemize}
+		\end{column}
+		\begin{column}{.65\linewidth}
+			\includegraphics[scale=0.55]{vzug}
+		\end{column}
+	\end{columns}
+
+	\underline{Solution}: Our ImgProcessing service converts the image \textbf{on-the-fly} and provides a simple \textit{REST API}.
+
 \end{frame}
 
 \begin{frame}{Setup}{2. Technology}
@@ -53,7 +59,7 @@
 			\end{itemize}
 		\end{itemize}
 		\item{Loadbalancer}
-		       
+
 		\begin{itemize}
 			\item{\href{https://traefik.io/}{Traefik} (2.4.8)}
 		\end{itemize} 
@@ -67,7 +73,7 @@
 			\item{\href{https://github.com/ost-fh/Latex-Beamer-Theme}{LaTeX}}
 		\end{itemize}       
 	\end{itemize}
-		
+
 \end{frame}
 
 
@@ -78,7 +84,7 @@
 \end{frame}
 
 \begin{frame}{Data Model}{3. Development}
-	\includegraphics[scale=0.40]{db_model}	
+	\includegraphics[scale=0.45]{db_model}
 \end{frame}
 
 \begin{frame}{Github Actions}{3. Development}
@@ -88,7 +94,7 @@
 			\item{Frontend}
 			\item{Backend}
 		\end{itemize}
-        \item{Security by scanning for \href{https://github.com/marketplace/actions/container-image-scan/}{CVE}}
+		\item{Security by scanning for \href{https://github.com/marketplace/actions/container-image-scan/}{CVE}}
 		\includegraphics[scale=0.8]{action}
 	\end{itemize}
 \end{frame}
@@ -101,7 +107,7 @@
 \end{frame}
 
 \begin{frame}{Loadbalancer}{3. Development}
-    Traefik:
+	\underline{Traefik}:
 	\begin{itemize}
 		\item{Docker Socket mounted:}
 		\begin{itemize}
@@ -109,8 +115,8 @@
 			\item{- Security}
 		\end{itemize}
 		\item{HTTP -> HTTPS Middleware}
-        \item{Self-signed cert with \href{https://github.com/FiloSottile/mkcert}{mkcert} for development}
-        \item{Healthchecks}
+		\item{Self-signed cert with \href{https://github.com/FiloSottile/mkcert}{mkcert} for development}
+		\item{Healthchecks}
 	\end{itemize}
 \end{frame}
 
@@ -127,14 +133,14 @@
 \end{frame}
 
 \begin{frame}{Fulfillment of Requirements}{4. Legal}
-    \begin{itemize}
-        \item{Simple Frontend: \textcolor{deepgreen}{React Frontend}}
-        \item{Loadbalancer: \textcolor{deepgreen}{Treafik}}
-        \item{Two instances of a service: \textcolor{deepgreen}{Backend and Frontend}}
-        \item{One storage backend: \textcolor{deepgreen}{PostgreSQL and MinIO}}
-        \item{JWT Authentication: \textcolor{deepgreen}{Used}}
-        \item{FOSS Used: \textcolor{deepgreen}{Used}}
-    \end{itemize}
+	\begin{itemize}
+		\item{Simple Frontend: \textcolor{deepgreen}{React Frontend}}
+		\item{Loadbalancer: \textcolor{deepgreen}{Treafik}}
+		\item{Two instances of a service: \textcolor{deepgreen}{Backend and Frontend}}
+		\item{One storage backend: \textcolor{deepgreen}{PostgreSQL and MinIO}}
+		\item{JWT Authentication: \textcolor{deepgreen}{Used}}
+		\item{FOSS: \textcolor{deepgreen}{Used}}
+	\end{itemize}
 \end{frame}
 
 
