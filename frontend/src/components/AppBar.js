@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Hidden from '@material-ui/core/Hidden'
 import { Favorite, GitHub } from '@material-ui/icons'
-import ImageSearchIcon from '@material-ui/icons/ImageSearch';
+import ImageSearchIcon from '@material-ui/icons/ImageSearch'
 
 const useStyles = makeStyles((theme) => ({
     root: {
