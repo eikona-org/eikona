@@ -2,6 +2,9 @@
 
 \documentclass[aspectratio=169,20pt]{beamer}
 \usepackage{wrapfig}
+\usepackage{xcolor}
+\definecolor{applegreen}{rgb}{0.55, 0.71, 0.0}
+\definecolor{deepgreen}{rgb}{0.0, 0.5, 0.0}
 \graphicspath{ {./images/} }
 \usetheme{ost}
 
@@ -17,10 +20,9 @@
 	\titlepage
 \end{frame}
 
-\begin{frame}{Idee}{1. Einführung}
+\begin{frame}{Goal}{1. Introduction}
 		
-	Problem: Oft wird ein Bild in einer anderen Auflösung benötigt oder zugeschnitten.
-	Dies kann oft der Fall sein bei:
+	Problem: ...
 		
 	\begin{itemize}
 		\item{Responsive Websites}	
@@ -28,16 +30,13 @@
 		\includegraphics[scale=0.25]{vzug}
 	\end{itemize}
 		
-	Lösung: Unser ImgProcessing CDN Service führt dies \textbf{on-the-fly} durch und bietet zugleich eine \textit{REST API}.
+	Solution: Unser ImgProcessing CDN Service führt dies \textbf{on-the-fly} durch und bietet zugleich eine \textit{REST API}.
 		
 \end{frame}
 
-\begin{frame}{Setup}{2. Technologien}
+\begin{frame}{Setup}{2. Technology}
 	\begin{itemize}
 		\item{Backend}
-		\begin{wrapfigure}{r}{0.25\textwidth}
-\includegraphics[width=0.9\textwidth]{gin} 
-\end{wrapfigure}
 		\begin{itemize}
 			\item{\href{https://golang.org/}{go} (1.16.3)}
 			\begin{itemize}
@@ -74,33 +73,34 @@
 
 
 
-\begin{frame}{Infrastruktur}{2. Technologien}
+\begin{frame}{System Diagram}{2. Technology}
 	\includegraphics[scale=0.45]{Infrastruktur}	
 \end{frame}
 
-\begin{frame}{Datenmodell}{3. Entwicklung}
+\begin{frame}{Data Model}{3. Development}
 	\includegraphics[scale=0.40]{db_model}	
 \end{frame}
 
-\begin{frame}{Github Actions}{3. Entwicklung}
+\begin{frame}{Github Actions}{3. Development}
 	\begin{itemize}
 		\item{Docker Images - builded and versioned by Github Actions}
 		\begin{itemize}
 			\item{Frontend}
 			\item{Backend}
 		\end{itemize}
+        \item{Security by scanning for \href{https://github.com/marketplace/actions/container-image-scan/}{CVE}}
 		\includegraphics[scale=0.8]{action}
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{docker-compose}{3. Entwicklung}
+\begin{frame}{docker-compose}{3. Development}
 	\begin{itemize}
 		\item{Prod and Dev environment}
-		\item{Zugriff untereinander beschränkt}
+		\item{Restriced access on prod}
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Loadbalancer}{3. Entwicklung}
+\begin{frame}{Loadbalancer}{3. Development}
     Traefik:
 	\begin{itemize}
 		\item{Docker Socket mounted:}
@@ -114,17 +114,29 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Backend}{3. Entwicklung}
+\begin{frame}{Backend}{3. Development}
 
 \end{frame}
 
-\begin{frame}{Frontend}{3. Entwicklung}
+\begin{frame}{Frontend}{3. Development}
 
 \end{frame}
 
-\begin{frame}{Storage}{3. Entwicklung}
+\begin{frame}{Storage}{3. Development}
 
 \end{frame}
+
+\begin{frame}{Fulfillment of Requirements}{4. Legal}
+    \begin{itemize}
+        \item{Simple Frontend: \textcolor{deepgreen}{React Frontend}}
+        \item{Loadbalancer: \textcolor{deepgreen}{Treafik}}
+        \item{Two instances of a service: \textcolor{deepgreen}{Backend and Frontend}}
+        \item{One storage backend: \textcolor{deepgreen}{PostgreSQL and MinIO}}
+        \item{JWT Authentication: \textcolor{deepgreen}{Used}}
+        \item{FOSS Used: \textcolor{deepgreen}{Used}}
+    \end{itemize}
+\end{frame}
+
 
 \begin{frame}{Demo}{}
 	\href{https://imgprocessing.pesc.xyz/}{https://imgprocessing.pesc.xyz}
