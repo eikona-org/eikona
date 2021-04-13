@@ -9,7 +9,7 @@ import (
 )
 
 type RenderService interface {
-	Render(orgUuid uuid.UUID, imgUuid uuid.UUID, procUuid uuid.UUID) *helper.ImageWrapper
+	Render(imgUuid uuid.UUID, procUuid uuid.UUID) *helper.ImageWrapper
 }
 
 type renderService struct {
@@ -26,8 +26,8 @@ func NewRenderService(imgRep repositories.ImageRepository, procRep repositories.
 	}
 }
 
-func (service *renderService) Render(imgUuid uuid.UUID, orgUuid uuid.UUID, procUuid uuid.UUID) *helper.ImageWrapper {
-	image := service.getImage(imgUuid, orgUuid)
+func (service *renderService) Render(imgUuid uuid.UUID, procUuid uuid.UUID) *helper.ImageWrapper {
+	image := service.getImage(imgUuid)
 	process := service.getProcess(procUuid)
 
 	if nil == image || nil == process {
@@ -59,8 +59,8 @@ func (service *renderService) encodeImage(imgWrapper *helper.ImageWrapper) *help
 	return imgWrapper
 }
 
-func (service *renderService) getImage(imgUuid uuid.UUID, orgUuid uuid.UUID) *datamodels.Image {
-	return service.imageRepository.Find(imgUuid, orgUuid)
+func (service *renderService) getImage(imgUuid uuid.UUID) *datamodels.Image {
+	return service.imageRepository.Find(imgUuid)
 }
 
 // TODO: Refactor when process is linked to a org

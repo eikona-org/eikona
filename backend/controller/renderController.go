@@ -33,10 +33,9 @@ func (c *renderController) Render(ctx *gin.Context) {
 	}()
 
 	imgUuid := uuid.MustParse(ctx.Param("identifier"))
-	orgUuid := uuid.MustParse(ctx.Param("organization"))
 	procUuid := uuid.MustParse(ctx.Param("process"))
 
-	imgWrapper := c.renderService.Render(imgUuid, orgUuid, procUuid)
+	imgWrapper := c.renderService.Render(imgUuid, procUuid)
 
 	ctx.DataFromReader(
 		http.StatusOK,
