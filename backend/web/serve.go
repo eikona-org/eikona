@@ -85,22 +85,6 @@ func ping(c *gin.Context) {
 	})
 }
 
-func getimages(c *gin.Context) {
-	id := [5]string{"1", "2", "3", "4", "5"}
-	name := [5]string{"A", "B", "C", "D", "E"}
-
-	parseData := make([]map[string]interface{}, 0, 0)
-
-	for counter := range id {
-		var singleMap = make(map[string]interface{})
-		singleMap["img"] = "https://pascalchristen.ch/images/thumbs/6.jpg"
-		singleMap["id"] = id[counter]
-		singleMap["name"] = name[counter]
-		parseData = append(parseData, singleMap)
-	}
-	c.JSON(200, parseData)
-}
-
 func process(c *gin.Context) {
 	data := poc.Process(c.Request.URL.Query())
 

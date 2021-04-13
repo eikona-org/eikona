@@ -36,6 +36,9 @@ func (c *imageController) AllImages(context *gin.Context) {
 	authHeader := context.GetHeader("Authorization")
 	email := c.getEmailByToken(authHeader)
 	var images = c.imageService.AllImages(email)
+	if images == nil {
+		context.JSON(http.StatusNoContent, nil)
+	}
 	context.JSON(http.StatusOK, images)
 }
 

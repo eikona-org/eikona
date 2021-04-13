@@ -1,12 +1,12 @@
 package service
 
 import (
-	datamodels "github.com/imgProcessing/backend/v2/data/models"
 	"github.com/imgProcessing/backend/v2/data/repositories"
+	webmodels "github.com/imgProcessing/backend/v2/web/models"
 )
 
 type ImageService interface {
-	AllImages(email string) []datamodels.Image
+	AllImages(email string) []webmodels.Image
 }
 
 type imageService struct {
@@ -21,7 +21,7 @@ func NewImageService(imageRepo repositories.ImageRepository, userRepo repositori
 	}
 }
 
-func (service *imageService) AllImages(email string) []datamodels.Image {
+func (service *imageService) AllImages(email string) []webmodels.Image {
 	user := service.userRepository.FindByEmail(email)
 	return service.imageRepository.AllImages(user.OrganizationId)
 }
