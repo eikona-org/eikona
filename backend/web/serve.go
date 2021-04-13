@@ -20,10 +20,10 @@ var (
 	authService      = service.NewAuthService(userRepo, orgRepo, storageClient)
 	jwtService       = service.NewJWTService()
 	renderService    = service.NewRenderService(imgRepo, procRepo, storageClient)
-	imageService    = service.NewImageService(imgRepo, userRepo)
+	imageService     = service.NewImageService(imgRepo, userRepo)
 	authController   = controller.NewAuthController(authService, jwtService)
 	renderController = controller.NewRenderController(renderService)
-	imageController = controller.NewImageController(imageService, jwtService)
+	imageController  = controller.NewImageController(imageService, jwtService)
 )
 
 func Serve() {
@@ -86,12 +86,12 @@ func ping(c *gin.Context) {
 }
 
 func getimages(c *gin.Context) {
-	id := [5]string{"1","2","3","4","5"}
-	name := [5]string{"A","B","C","D","E"}
+	id := [5]string{"1", "2", "3", "4", "5"}
+	name := [5]string{"A", "B", "C", "D", "E"}
 
 	parseData := make([]map[string]interface{}, 0, 0)
 
-	for counter,_ := range id {
+	for counter := range id {
 		var singleMap = make(map[string]interface{})
 		singleMap["img"] = "https://pascalchristen.ch/images/thumbs/6.jpg"
 		singleMap["id"] = id[counter]

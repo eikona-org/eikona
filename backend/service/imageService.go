@@ -11,13 +11,13 @@ type ImageService interface {
 
 type imageService struct {
 	imageRepository repositories.ImageRepository
-	userRepository repositories.UserRepository
+	userRepository  repositories.UserRepository
 }
 
 func NewImageService(imageRepo repositories.ImageRepository, userRepo repositories.UserRepository) ImageService {
 	return &imageService{
 		imageRepository: imageRepo,
-		userRepository: userRepo,
+		userRepository:  userRepo,
 	}
 }
 

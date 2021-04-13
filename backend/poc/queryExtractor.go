@@ -24,7 +24,7 @@ func getSupportedArguments() []string {
 
 // TODO: More operations, written only for resize
 func applyQueryOperations(imageTransformer *gift.GIFT, queryArguments map[string][]string) {
-		imageTransformer.Add(createPipelineConfiguration(queryArguments)...)
+	imageTransformer.Add(createPipelineConfiguration(queryArguments)...)
 }
 
 // Query parameter can have the same name => []string , we take the last one provided

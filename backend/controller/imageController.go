@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
-	datamodels "github.com/imgProcessing/backend/v2/data/models"
 	"github.com/gin-gonic/gin"
 	"github.com/imgProcessing/backend/v2/service"
 )
@@ -23,20 +22,20 @@ type ImageController interface {
 
 type imageController struct {
 	imageService service.ImageService
-	jwtService  service.JWTService
+	jwtService   service.JWTService
 }
 
 func NewImageController(imgServ service.ImageService, jwtServ service.JWTService) ImageController {
 	return &imageController{
 		imageService: imgServ,
-		jwtService:  jwtServ,
+		jwtService:   jwtServ,
 	}
 }
 
 func (c *imageController) AllImages(context *gin.Context) {
 	authHeader := context.GetHeader("Authorization")
 	email := c.getEmailByToken(authHeader)
-	var images []datamodels.Image = c.imageService.AllImages(email)
+	var images = c.imageService.AllImages(email)
 	context.JSON(http.StatusOK, images)
 }
 

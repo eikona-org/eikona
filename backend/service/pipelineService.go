@@ -12,16 +12,16 @@ type PipelineService interface {
 }
 
 type pipelineService struct {
-	imageWrapper *helper.ImageWrapper
+	imageWrapper    *helper.ImageWrapper
 	processingSteps []data.ProcessingStep
-	pipeline     *gift.GIFT
+	pipeline        *gift.GIFT
 }
 
 func NewPipelineService(imgWrapper *helper.ImageWrapper, procSteps []data.ProcessingStep) PipelineService {
 	return &pipelineService{
-		imageWrapper: imgWrapper,
+		imageWrapper:    imgWrapper,
 		processingSteps: procSteps,
-		pipeline:     gift.New(),
+		pipeline:        gift.New(),
 	}
 }
 

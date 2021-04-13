@@ -47,4 +47,3 @@ func findImage(id uuid.UUID, orgId uuid.UUID) *datamodels.Image {
 
 	return image
 }
-
