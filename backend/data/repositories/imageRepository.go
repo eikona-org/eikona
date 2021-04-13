@@ -12,6 +12,24 @@ func (r ImageRepository) Find(id uuid.UUID, orgId uuid.UUID) *datamodels.Image {
 	return findImage(id, orgId)
 }
 
+func (r ImageRepository) AllImages(orgId uuid.UUID) []datamodels.Image {
+	return getAllImages(orgId)
+}
+
+func getAllImages(orgId uuid.UUID) []datamodels.Image {
+	dbConnection := data.GetDbConnection()
+	defer dbConnection.Close()
+
+	var image []datamodels.Image
+	err := dbConnection.Model(&image).
+		Where("owner_id = ?", orgId).
+		Select()
+	if err != nil {
+		return nil
+	}
+	return image
+}
+
 func findImage(id uuid.UUID, orgId uuid.UUID) *datamodels.Image {
 	dbConnection := data.GetDbConnection()
 	defer dbConnection.Close()
@@ -29,3 +47,4 @@ func findImage(id uuid.UUID, orgId uuid.UUID) *datamodels.Image {
 
 	return image
 }
+

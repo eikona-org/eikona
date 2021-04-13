@@ -20,8 +20,10 @@ var (
 	authService      = service.NewAuthService(userRepo, orgRepo, storageClient)
 	jwtService       = service.NewJWTService()
 	renderService    = service.NewRenderService(imgRepo, procRepo, storageClient)
+	imageService    = service.NewImageService(imgRepo, userRepo)
 	authController   = controller.NewAuthController(authService, jwtService)
 	renderController = controller.NewRenderController(renderService)
+	imageController = controller.NewImageController(imageService, jwtService)
 )
 
 func Serve() {
@@ -40,8 +42,8 @@ func Serve() {
 	// Auth Path
 	apiRoutes := server.Group("/api/auth", middleware.AuthorizeJWT(jwtService))
 	{
-		// -> GET /api/auth/getimages
-		apiRoutes.GET("/getAllImages", getimages)
+		// -> GET /api/auth/getAllImages
+		apiRoutes.GET("/getAllImages", imageController.AllImages)
 		// -> POST /api/auth/upload
 		apiRoutes.GET("/upload", func(ctx *gin.Context) {
 			ctx.JSON(200, gin.H{
