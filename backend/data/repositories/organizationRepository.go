@@ -26,13 +26,17 @@ func (r OrganizationRepository) CreateNew(name string) *datamodels.Organization 
 		Name:            name,
 		MinioBucketName: minioBucketName,
 	}).Insert()
+
 	if creationError != nil {
 		transaction.Rollback()
 		panic(creationError)
 	}
 
 	organization := &datamodels.Organization{}
-	findError := dbConnection.Model(organization).Where("minio_bucket_name = ?", minioBucketName).Select()
+	findError := dbConnection.Model(organization).
+		Where("minio_bucket_name = ?", minioBucketName).
+		Select()
+
 	if findError != nil {
 		transaction.Rollback()
 		panic(findError)
@@ -47,13 +51,13 @@ func findOrganization(id uuid.UUID) *datamodels.Organization {
 	dbConnection := data.GetDbConnection()
 	defer dbConnection.Close()
 
-	var organization datamodels.Organization
-	err := dbConnection.Model(&datamodels.Organization{
-		OrganizationId: id,
-	}).Select(organization)
+	organization := &datamodels.Organization{OrganizationId: id}
+	err := dbConnection.Model(organization).
+		Select(organization)
+
 	if err != nil {
 		return nil
 	}
 
-	return &organization
+	return organization
 }

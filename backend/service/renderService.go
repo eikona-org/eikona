@@ -28,7 +28,7 @@ func NewRenderService(imgRep repositories.ImageRepository, procRep repositories.
 
 func (service *renderService) Render(imgUuid uuid.UUID, procUuid uuid.UUID) *helper.ImageWrapper {
 	image := service.getImage(imgUuid)
-	process := service.getProcess(procUuid)
+	process := service.getProcess(procUuid, image.OwnerId)
 
 	if nil == image || nil == process {
 		panic("Invalid parameters")
@@ -60,10 +60,9 @@ func (service *renderService) encodeImage(imgWrapper *helper.ImageWrapper) *help
 }
 
 func (service *renderService) getImage(imgUuid uuid.UUID) *datamodels.Image {
-	return service.imageRepository.Find(imgUuid)
+	return service.imageRepository.FindWithOrganization(imgUuid)
 }
 
-// TODO: Refactor when process is linked to a org
-func (service *renderService) getProcess(procUuid uuid.UUID) *datamodels.Process {
-	return service.processRepository.Find(procUuid)
+func (service *renderService) getProcess(procUuid uuid.UUID, orgUuid uuid.UUID) *datamodels.Process {
+	return service.processRepository.FindByIdAndOrganizationId(procUuid, orgUuid)
 }
