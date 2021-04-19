@@ -36,14 +36,14 @@ func Serve() {
 	server.POST("/api/login", authController.Login)
 	// Register -> POST /api/register
 	server.POST("/api/register", authController.Register)
-	// Render -> GET /api/render/<org-id>/<img-id>/<proc-id>
-	server.GET("/api/render/:organization/:identifier/:process", renderController.Render)
+	// Render -> GET /api/render/<img-id>/<proc-id>
+	server.GET("/api/render/:identifier/:process", renderController.Render)
 
 	// Auth Path
 	apiRoutes := server.Group("/api/auth", middleware.AuthorizeJWT(jwtService))
 	{
 		// -> GET /api/auth/getAllImages
-		apiRoutes.GET("/getAllImages", imageController.AllImages)
+		//apiRoutes.GET("/getAllImages", imageController.AllImages)
 		// -> POST /api/auth/upload
 		apiRoutes.GET("/upload", func(ctx *gin.Context) {
 			ctx.JSON(200, gin.H{
@@ -63,7 +63,7 @@ func CORS(c *gin.Context) {
 	c.Header("Access-Control-Allow-Origin", "*")
 	c.Header("Access-Control-Allow-Methods", "*")
 	c.Header("Access-Control-Allow-Headers", "*")
-	c.Header("Content-Type", "application/json")
+	//c.Header("Content-Type", "application/json")
 
 	// Second, we handle the OPTIONS problem
 	if c.Request.Method != "OPTIONS" {
