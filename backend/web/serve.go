@@ -20,7 +20,7 @@ var (
 	authService      = service.NewAuthService(userRepo, orgRepo, storageClient)
 	jwtService       = service.NewJWTService()
 	renderService    = service.NewRenderService(imgRepo, procRepo, storageClient)
-	imageService     = service.NewImageService(imgRepo, userRepo)
+	imageService     = service.NewImageService(imgRepo, userRepo, storageClient)
 	processService     = service.NewProcessService(procRepo, userRepo)
 	authController   = controller.NewAuthController(authService, jwtService)
 	renderController = controller.NewRenderController(renderService)
@@ -48,11 +48,7 @@ func Serve() {
 		apiRoutes.GET("/getAllImages", imageController.AllImages)
 		apiRoutes.GET("/getAllProcesses", processController.AllProcesses)
 		// -> POST /api/auth/upload
-		apiRoutes.GET("/upload", func(ctx *gin.Context) {
-			ctx.JSON(200, gin.H{
-				"message": "Upload",
-			})
-		})
+		apiRoutes.POST("/upload", imageController.UploadImage)
 	}
 
 	server.Run(":8080") //TODO: Make this configurable

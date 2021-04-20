@@ -3,6 +3,7 @@ package storage
 import (
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
+	"io"
 	"log"
 	"os"
 )
@@ -10,6 +11,8 @@ import (
 type Client interface {
 	CreateBucket(bucketName string)
 	RemoveBucket(bucketName string)
+	CreateObject(bucketName string, objectName string, reader io.Reader, size int64)
+	RemoveObject(bucketName string, objectName string)
 	GetObject(bucketName string, objectName string) *minio.Object
 }
 
