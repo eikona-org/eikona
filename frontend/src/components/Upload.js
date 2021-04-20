@@ -59,10 +59,9 @@ export default function Upload(props) {
     const classes = useStyles()
     const onDrop = useCallback(
         (acceptedFiles) => {
-            //console.log(acceptedFiles);
             var formData = new FormData()
             formData.append('file', acceptedFiles[0])
-            fetch(`https://${window._env_.API_URL}/api/upload`, {
+            fetch(`https://${window._env_.API_URL}/api/auth/upload`, {
                 method: 'POST',
                 headers: {
                     Authorization: 'Bearer ' + token,

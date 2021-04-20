@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const SecondStep = ({ handleNext, handleBack, handleChange, values: { Blabla } }) => {
-    console.log('test')
     const classes = useStyles()
     return (
         <>

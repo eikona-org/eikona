@@ -21,9 +21,11 @@ var (
 	jwtService       = service.NewJWTService()
 	renderService    = service.NewRenderService(imgRepo, procRepo, storageClient)
 	imageService     = service.NewImageService(imgRepo, userRepo)
+	processService     = service.NewProcessService(procRepo, userRepo)
 	authController   = controller.NewAuthController(authService, jwtService)
 	renderController = controller.NewRenderController(renderService)
 	imageController  = controller.NewImageController(imageService, jwtService)
+	processController  = controller.NewProcessController(processService, jwtService)
 )
 
 func Serve() {
@@ -44,6 +46,7 @@ func Serve() {
 	{
 		// -> GET /api/auth/getAllImages
 		apiRoutes.GET("/getAllImages", imageController.AllImages)
+		apiRoutes.GET("/getAllProcesses", processController.AllProcesses)
 		// -> POST /api/auth/upload
 		apiRoutes.GET("/upload", func(ctx *gin.Context) {
 			ctx.JSON(200, gin.H{
