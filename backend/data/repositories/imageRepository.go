@@ -4,13 +4,12 @@ import (
 	"github.com/google/uuid"
 	"github.com/imgProcessing/backend/v2/data"
 	datamodels "github.com/imgProcessing/backend/v2/data/models"
-	webmodels "github.com/imgProcessing/backend/v2/web/models"
 	"time"
 )
 
 type ImageRepository struct{}
 
-func (r ImageRepository) AllImages(orgId uuid.UUID) []webmodels.Image {
+func (r ImageRepository) GetAll(orgId uuid.UUID) *[]datamodels.Image {
 	return getAllImages(orgId)
 }
 
@@ -62,6 +61,24 @@ func (r ImageRepository) Insert(name string, minioName string, userId uuid.UUID)
 	transaction.Commit()
 
 	return image
+}
+
+func getAllImages(orgId uuid.UUID) *[]datamodels.Image {
+	dbConnection := data.GetDbConnection()
+	defer dbConnection.Close()
+
+	images := new([]datamodels.Image)
+	err := dbConnection.Model(&datamodels.Image{}).
+		Column("image_id").
+		Column("name").
+		Column("uploaded").
+		Where("owner_id = ?", orgId).
+		Select(images)
+	if err != nil {
+		return nil
+	}
+
+	return images
 }
 
 func findImage(id uuid.UUID) *datamodels.Image {
@@ -125,21 +142,4 @@ func findImagesByUserId(id uuid.UUID) *[]datamodels.Image {
 	}
 
 	return images
-}
-
-func getAllImages(orgId uuid.UUID) []webmodels.Image {
-	dbConnection := data.GetDbConnection()
-	defer dbConnection.Close()
-
-	var apiImageModel []webmodels.Image
-	err := dbConnection.Model(&datamodels.Image{}).
-		Column("image_id").
-		Column("name").
-		Column("uploaded").
-		Where("owner_id = ?", orgId).
-		Select(&apiImageModel)
-	if err != nil {
-		return nil
-	}
-	return apiImageModel
 }

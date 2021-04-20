@@ -3,7 +3,7 @@ package service
 import (
 	"encoding/json"
 	"github.com/disintegration/gift"
-	data "github.com/imgProcessing/backend/v2/data/models"
+	datamodels "github.com/imgProcessing/backend/v2/data/models"
 	"github.com/imgProcessing/backend/v2/helper"
 	"image"
 )
@@ -14,11 +14,11 @@ type PipelineService interface {
 
 type pipelineService struct {
 	imageWrapper    *helper.ImageWrapper
-	processingSteps []data.ProcessingStep
+	processingSteps []datamodels.ProcessingStep
 	pipeline        *gift.GIFT
 }
 
-func NewPipelineService(imgWrapper *helper.ImageWrapper, procSteps []data.ProcessingStep) PipelineService {
+func NewPipelineService(imgWrapper *helper.ImageWrapper, procSteps []datamodels.ProcessingStep) PipelineService {
 	return &pipelineService{
 		imageWrapper:    imgWrapper,
 		processingSteps: procSteps,
@@ -43,15 +43,15 @@ func (service *pipelineService) applyProcessingSteps() {
 		}
 
 		// TODO: Refactor
-		if step.ProcessingStepType == data.Resize {
+		if step.ProcessingStepType == datamodels.Resize {
 			service.applyResizeOperation(step.ParameterJson)
 		}
 	}
 }
 
 // TODO: Refactor
-func isSupportedProcessingStepType(procStepType data.ProcessingStepType) bool {
-	return procStepType == data.Resize
+func isSupportedProcessingStepType(procStepType datamodels.ProcessingStepType) bool {
+	return procStepType == datamodels.Resize
 }
 
 // TODO: Refactor

@@ -10,25 +10,34 @@ import (
 )
 
 type ProcessController interface {
-	AllProcesses(context *gin.Context)
+	ListAllProcesses(context *gin.Context)
+	ListAllProcessingStepTypes(context *gin.Context)
 }
 
 type processController struct {
 	processService service.ProcessService
-	jwtService   service.JWTService
+	jwtService     service.JWTService
 }
 
 func NewProcessController(processServ service.ProcessService, jwtServ service.JWTService) ProcessController {
 	return &processController{
 		processService: processServ,
-		jwtService:   jwtServ,
+		jwtService:     jwtServ,
 	}
 }
 
-func (c *processController) AllProcesses(context *gin.Context) {
+func (c *processController) ListAllProcesses(context *gin.Context) {
 	authHeader := context.GetHeader("Authorization")
 	email := c.getEmailByToken(authHeader)
-	var processes = c.processService.AllProcesses(email)
+	var processes = c.processService.GetAllProcesses(email)
+	if processes == nil {
+		context.AbortWithStatus(http.StatusNoContent)
+	}
+	context.JSON(http.StatusOK, processes)
+}
+
+func (c *processController) ListAllProcessingStepTypes(context *gin.Context) {
+	var processes = c.processService.GetAllProcessingStepTypes()
 	if processes == nil {
 		context.AbortWithStatus(http.StatusNoContent)
 	}

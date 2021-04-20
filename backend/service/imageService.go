@@ -10,27 +10,39 @@ import (
 )
 
 type ImageService interface {
-	AllImages(email string) []webmodels.Image
+	GetAllImages(email string) []webmodels.Image
 	Insert(fileHeader *multipart.FileHeader, email string) error
 }
 
 type imageService struct {
 	imageRepository repositories.ImageRepository
 	userRepository  repositories.UserRepository
-	storageClient storage.Client
+	storageClient   storage.Client
 }
 
 func NewImageService(imageRepo repositories.ImageRepository, userRepo repositories.UserRepository, storage storage.Client) ImageService {
 	return &imageService{
 		imageRepository: imageRepo,
 		userRepository:  userRepo,
-		storageClient: storage,
+		storageClient:   storage,
 	}
 }
 
-func (service *imageService) AllImages(email string) []webmodels.Image {
+func (service *imageService) GetAllImages(email string) []webmodels.Image {
 	user := service.userRepository.FindByEmail(email)
-	return service.imageRepository.AllImages(user.OrganizationId)
+	images := service.imageRepository.GetAll(user.OrganizationId)
+
+	var apiImageModels []webmodels.Image
+
+	for _, image := range *images {
+		apiImageModels = append(apiImageModels, webmodels.Image{
+			ImageId:  image.ImageId,
+			Name:     image.Name,
+			Uploaded: image.Uploaded,
+		})
+	}
+
+	return apiImageModels
 }
 
 func (service *imageService) Insert(fileHeader *multipart.FileHeader, email string) error {
