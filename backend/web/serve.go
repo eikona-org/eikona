@@ -43,7 +43,7 @@ func Serve() {
 	apiRoutes := server.Group("/api/auth", middleware.AuthorizeJWT(jwtService))
 	{
 		// -> GET /api/auth/getAllImages
-		//apiRoutes.GET("/getAllImages", imageController.AllImages)
+		apiRoutes.GET("/getAllImages", imageController.AllImages)
 		// -> POST /api/auth/upload
 		apiRoutes.GET("/upload", func(ctx *gin.Context) {
 			ctx.JSON(200, gin.H{
