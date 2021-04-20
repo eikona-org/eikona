@@ -2,11 +2,10 @@ package controller
 
 import (
 	"fmt"
-	"net/http"
-
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/imgProcessing/backend/v2/service"
+	"net/http"
 )
 
 type ImageController interface {
