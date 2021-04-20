@@ -81,10 +81,7 @@ func findUser(id uuid.UUID) *datamodels.User {
 	defer dbConnection.Close()
 
 	user := &datamodels.User{UserId: id}
-	err := dbConnection.Model(user).
-		Relation("Organization").
-		WherePK().
-		Select()
+	err := dbConnection.Model(user).WherePK().Select()
 	if err != nil {
 		return nil
 	}
@@ -97,10 +94,7 @@ func findUserByEmail(email string) *datamodels.User {
 	defer dbConnection.Close()
 
 	user := &datamodels.User{}
-	err := dbConnection.Model(user).
-		Relation("Organization").
-		WherePK().
-		Where("email = ?", email).Select()
+	err := dbConnection.Model(user).Where("email = ?", email).Select()
 	if err != nil {
 		return nil
 	}
@@ -112,11 +106,7 @@ func findUserByOrganizationId(id uuid.UUID) *[]datamodels.User {
 	defer dbConnection.Close()
 
 	var users []datamodels.User
-	err := dbConnection.Model(&users).
-		Relation("Organization").
-		WherePK().
-		Where("organization_id = ?", id).
-		Select()
+	err := dbConnection.Model(&users).Where("organization_id = ?", id).Select()
 	if err != nil {
 		return nil
 	}
