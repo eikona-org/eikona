@@ -36,7 +36,7 @@ export default function Dashboard() {
     const [items, setItems] = useState([])
     const [process, setProcess] = useState([])
     useEffect(() => {
-        fetch(`https://${window._env_.API_URL}/api/auth/getAllImages`, {
+        fetch(`https://${window._env_.API_URL}/api/auth/images`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ export default function Dashboard() {
             )
     }, [token])
     useEffect(() => {
-        fetch(`https://${window._env_.API_URL}/api/auth/getAllProcesses`, {
+        fetch(`https://${window._env_.API_URL}/api/auth/processes`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
