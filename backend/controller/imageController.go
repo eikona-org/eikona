@@ -45,7 +45,7 @@ func (c *imageController) AllImages(context *gin.Context) {
 func (c *imageController) UploadImage(context *gin.Context) {
 	authHeader := context.GetHeader("Authorization")
 	email := c.getEmailByToken(authHeader)
-	file, uploadError := context.FormFile("uploadImage") //TODO: Make sure frontend sets the same field name
+	file, uploadError := context.FormFile("file") //TODO: Make sure frontend sets the same field name
 	if uploadError != nil {
 		context.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"message": "An error occured while uploading the image",
