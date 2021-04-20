@@ -59,6 +59,7 @@ func (c *imageController) UploadImage(context *gin.Context) {
 			"message": "An error occured while saving the image",
 			"error":   insertError.Error(),
 		})
+		return
 	}
 
 	context.Status(http.StatusOK)
