@@ -29,8 +29,10 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard() {
     const classes = useStyles()
     const { token } = useToken()
-    const [error, setError] = useState(null)
-    const [isLoading, setIsLoading] = useState(false)
+    const [errorProcess, setErrorProcess] = useState(null)
+    const [isLoadingProcess, setIsLoadingProcess] = useState(false)
+    const [errorImage, setErrorImage] = useState(null)
+    const [isLoadingImage, setIsLoadingImage] = useState(false)
     const [items, setItems] = useState([])
     const [process, setProcess] = useState([])
     useEffect(() => {
@@ -43,18 +45,18 @@ export default function Dashboard() {
         })
             .then((res) => res.json())
             .then(
-                (result) => {
-                    setIsLoading(false)
-                    setItems(result)
+                (resultImage) => {
+                    setIsLoadingImage(false)
+                    setItems(resultImage)
                 },
-                (error) => {
-                    setIsLoading(false)
-                    setError(error)
+                (errorImage) => {
+                    setIsLoadingImage(false)
+                    setErrorImage(errorImage)
                 }
             )
     }, [token])
     useEffect(() => {
-        fetch(`https://${window._env_.API_URL}/api/auth/getAllProcess`, {
+        fetch(`https://${window._env_.API_URL}/api/auth/getAllProcesses`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -63,13 +65,13 @@ export default function Dashboard() {
         })
             .then((res) => res.json())
             .then(
-                (result) => {
-                    setIsLoading(false)
-                    setProcess(result)
+                (resultProcess) => {
+                    setIsLoadingProcess(false)
+                    setProcess(resultProcess)
                 },
-                (error) => {
-                    setIsLoading(false)
-                    setError(error)
+                (errorProcess) => {
+                    setIsLoadingProcess(false)
+                    setErrorProcess(errorProcess)
                 }
             )
     }, [token])
@@ -82,8 +84,8 @@ export default function Dashboard() {
                         <ListSubheader component="div">Images</ListSubheader>
                     </GridListTile>
                     <Hidden>
-                        {isLoading ||
-                            (error && (
+                        {isLoadingImage ||
+                            (errorImage && (
                                 <GridListTile key="1">
                                     <img src="https://pascalchristen.ch/images/thumbs/7.jpg" alt="Placeholder" />
                                     <GridListTileBar
@@ -133,8 +135,8 @@ export default function Dashboard() {
                         <ListSubheader component="div">Processes</ListSubheader>
                     </GridListTile>
                     <Hidden>
-                        {isLoading ||
-                            (error && (
+                        {isLoadingProcess ||
+                            (errorProcess && (
                                 <GridListTile key="1">
                                     <img src="https://pascalchristen.ch/images/thumbs/6.jpg" alt="Placeholder" />
                                     <GridListTileBar
@@ -156,18 +158,18 @@ export default function Dashboard() {
                             ))}
                     </Hidden>
                     {process.map((tile) => (
-                        <GridListTile key={tile.ImageId}>
+                        <GridListTile key={tile.processId}>
                             {/*TODO: Use real API path*/}
-                            <img src={tile.ImageId} alt={tile.Name} />
+                            <img src={tile.ProcessId} alt={tile.Name} />
                             <GridListTileBar
-                                title={tile.ImageId}
+                                title={tile.ProcessId}
                                 subtitle={tile.Name}
                                 actionIcon={
                                     <IconButton
-                                        aria-label={`Copy to clipboard ${tile.ImageId}`}
+                                        aria-label={`Copy to clipboard ${tile.ProcessId}`}
                                         className={classes.icon}
                                         onClick={() => {
-                                            navigator.clipboard.writeText(tile.ImageId)
+                                            navigator.clipboard.writeText(tile.ProcessId)
                                         }}
                                     >
                                         <FileCopyIcon />

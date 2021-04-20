@@ -9,7 +9,6 @@ const Confirm = ({ handleNext, handleBack, values }) => {
     const { name, process } = values
 
     const handleSubmit = () => {
-        console.log(values)
         handleNext()
     }
 

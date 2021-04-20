@@ -48,7 +48,6 @@ const StepForm = () => {
     const handleBack = () => setActiveStep((prev) => prev - 1)
 
     const handleChange = (e) => {
-        console.log(formValues)
         const { name, value } = e.target
 
         setFormValues((prev) => ({

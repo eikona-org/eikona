@@ -10,3 +10,8 @@ type Image struct {
 	Name     string
 	Uploaded time.Time
 }
+
+type Process struct {
+	ProcessId  uuid.UUID
+	Name     string
+}
