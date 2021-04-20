@@ -131,15 +131,15 @@ func getAllImages(orgId uuid.UUID) []webmodels.Image {
 	dbConnection := data.GetDbConnection()
 	defer dbConnection.Close()
 
-	var imageTest []webmodels.Image
+	var apiImageModel []webmodels.Image
 	err := dbConnection.Model(&datamodels.Image{}).
 		Column("image_id").
 		Column("name").
 		Column("uploaded").
 		Where("owner_id = ?", orgId).
-		Select(&imageTest)
+		Select(&apiImageModel)
 	if err != nil {
 		return nil
 	}
-	return imageTest
+	return apiImageModel
 }
