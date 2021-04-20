@@ -1,6 +1,8 @@
 package web
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/imgProcessing/backend/v2/controller"
 	"github.com/imgProcessing/backend/v2/data/repositories"
@@ -8,7 +10,6 @@ import (
 	"github.com/imgProcessing/backend/v2/poc"
 	"github.com/imgProcessing/backend/v2/service"
 	"github.com/imgProcessing/backend/v2/storage"
-	"net/http"
 )
 
 var (
@@ -20,7 +21,7 @@ var (
 	authService       = service.NewAuthService(userRepo, orgRepo, storageClient)
 	jwtService        = service.NewJWTService()
 	renderService     = service.NewRenderService(imgRepo, procRepo, storageClient)
-	imageService      = service.NewImageService(imgRepo, userRepo)
+	imageService      = service.NewImageService(imgRepo, userRepo, storageClient)
 	processService    = service.NewProcessService(procRepo, userRepo)
 	authController    = controller.NewAuthController(authService, jwtService)
 	renderController  = controller.NewRenderController(renderService)
@@ -54,11 +55,7 @@ func Serve() {
 		// -> GET /api/auth/processingsteptypes
 		protectedEndpoints.GET("/processingsteptypes", processController.ListAllProcessingStepTypes)
 		// -> POST /api/auth/upload
-		protectedEndpoints.GET("/upload", func(ctx *gin.Context) {
-			ctx.JSON(200, gin.H{
-				"message": "Upload",
-			})
-		})
+		protectedEndpoints.POST("/upload", imageController.UploadImage)
 	}
 
 	server.Run(":8080") //TODO: Make this configurable
