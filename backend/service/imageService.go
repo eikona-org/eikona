@@ -6,7 +6,7 @@ import (
 )
 
 type ImageService interface {
-	AllImages(email string) []webmodels.Image
+	GetAllImages(email string) []webmodels.Image
 }
 
 type imageService struct {
@@ -21,7 +21,19 @@ func NewImageService(imageRepo repositories.ImageRepository, userRepo repositori
 	}
 }
 
-func (service *imageService) AllImages(email string) []webmodels.Image {
+func (service *imageService) GetAllImages(email string) []webmodels.Image {
 	user := service.userRepository.FindByEmail(email)
-	return service.imageRepository.AllImages(user.OrganizationId)
+	images := service.imageRepository.GetAll(user.OrganizationId)
+
+	var apiImageModels []webmodels.Image
+
+	for _, image := range *images {
+		apiImageModels = append(apiImageModels, webmodels.Image{
+			ImageId:  image.ImageId,
+			Name:     image.Name,
+			Uploaded: image.Uploaded,
+		})
+	}
+
+	return apiImageModels
 }

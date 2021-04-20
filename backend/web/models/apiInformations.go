@@ -12,6 +12,12 @@ type Image struct {
 }
 
 type Process struct {
-	ProcessId  uuid.UUID
-	Name     string
+	ProcessId uuid.UUID
+	Name      string
+}
+
+type ProcessingStepType struct {
+	Id      int
+	Name    string
+	Options []string
 }

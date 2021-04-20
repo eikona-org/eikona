@@ -12,45 +12,49 @@ import (
 )
 
 var (
-	imgRepo          = repositories.ImageRepository{}
-	orgRepo          = repositories.OrganizationRepository{}
-	procRepo         = repositories.ProcessRepository{}
-	userRepo         = repositories.UserRepository{}
-	storageClient    = storage.NewClient()
-	authService      = service.NewAuthService(userRepo, orgRepo, storageClient)
-	jwtService       = service.NewJWTService()
-	renderService    = service.NewRenderService(imgRepo, procRepo, storageClient)
-	imageService     = service.NewImageService(imgRepo, userRepo)
-	processService     = service.NewProcessService(procRepo, userRepo)
-	authController   = controller.NewAuthController(authService, jwtService)
-	renderController = controller.NewRenderController(renderService)
-	imageController  = controller.NewImageController(imageService, jwtService)
-	processController  = controller.NewProcessController(processService, jwtService)
+	imgRepo           = repositories.ImageRepository{}
+	orgRepo           = repositories.OrganizationRepository{}
+	procRepo          = repositories.ProcessRepository{}
+	userRepo          = repositories.UserRepository{}
+	storageClient     = storage.NewClient()
+	authService       = service.NewAuthService(userRepo, orgRepo, storageClient)
+	jwtService        = service.NewJWTService()
+	renderService     = service.NewRenderService(imgRepo, procRepo, storageClient)
+	imageService      = service.NewImageService(imgRepo, userRepo)
+	processService    = service.NewProcessService(procRepo, userRepo)
+	authController    = controller.NewAuthController(authService, jwtService)
+	renderController  = controller.NewRenderController(renderService)
+	imageController   = controller.NewImageController(imageService, jwtService)
+	processController = controller.NewProcessController(processService, jwtService)
 )
 
 func Serve() {
 	server := gin.Default()
 	// Used for simpler developing - can be removed later or adjusted only for public api route
 	server.Use(CORS)
-	// TODO: Remove when not needed
-	server.GET("/api/ping", ping)
-	server.GET("/api/poc", process)
-	// Login -> POST /api/login
-	server.POST("/api/login", authController.Login)
-	// Register -> POST /api/register
-	server.POST("/api/register", authController.Register)
-	// Render -> GET /api/render/<img-id>/<proc-id>
-	server.GET("/api/render/:identifier/:process", renderController.Render)
 
-	// Auth Path
-	apiRoutes := server.Group("/api/auth", middleware.AuthorizeJWT(jwtService))
+	publicEndpoints := server.Group("/api")
 	{
-		// -> GET /api/auth/getAllImages
-		apiRoutes.GET("/getAllImages", imageController.AllImages)
-		// -> GET /api/auth/getAllProcesses
-		apiRoutes.GET("/getAllProcesses", processController.AllProcesses)
+		// TODO: Remove when not needed
+		server.GET("/api/poc", process)
+		// Login -> POST /api/login
+		server.POST("/api/login", authController.Login)
+		// Register -> POST /api/register
+		server.POST("/api/register", authController.Register)
+		// Render -> GET /api/render/<img-id>/<proc-id>
+		server.GET("/api/render/:identifier/:process", renderController.Render)
+	}
+
+	protectedEndpoints := publicEndpoints.Group("/auth", middleware.AuthorizeJWT(jwtService))
+	{
+		// -> GET /api/auth/images
+		protectedEndpoints.GET("/images", imageController.ListAllImages)
+		// -> GET /api/auth/processes
+		protectedEndpoints.GET("/processes", processController.ListAllProcesses)
+		// -> GET /api/auth/processingsteptypes
+		protectedEndpoints.GET("/processingsteptypes", processController.ListAllProcessingStepTypes)
 		// -> POST /api/auth/upload
-		apiRoutes.GET("/upload", func(ctx *gin.Context) {
+		protectedEndpoints.GET("/upload", func(ctx *gin.Context) {
 			ctx.JSON(200, gin.H{
 				"message": "Upload",
 			})
@@ -83,13 +87,6 @@ func CORS(c *gin.Context) {
 		// request using any other method than OPTIONS
 		c.AbortWithStatus(http.StatusOK)
 	}
-}
-
-// TODO: Remove after release
-func ping(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "pong",
-	})
 }
 
 // TODO: Remove after poc is redundant

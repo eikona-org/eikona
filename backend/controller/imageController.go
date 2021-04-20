@@ -2,15 +2,14 @@ package controller
 
 import (
 	"fmt"
-	"net/http"
-
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/imgProcessing/backend/v2/service"
+	"net/http"
 )
 
 type ImageController interface {
-	AllImages(context *gin.Context)
+	ListAllImages(context *gin.Context)
 	//AllProcess(context *gin.Context)
 	//UploadImage(context *gin.Context)
 	//UpdateImage(context *gin.Context)
@@ -32,10 +31,10 @@ func NewImageController(imgServ service.ImageService, jwtServ service.JWTService
 	}
 }
 
-func (c *imageController) AllImages(context *gin.Context) {
+func (c *imageController) ListAllImages(context *gin.Context) {
 	authHeader := context.GetHeader("Authorization")
 	email := c.getEmailByToken(authHeader)
-	var images = c.imageService.AllImages(email)
+	var images = c.imageService.GetAllImages(email)
 	if images == nil {
 		context.AbortWithStatus(http.StatusNoContent)
 	}
