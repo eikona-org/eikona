@@ -32,6 +32,7 @@ func Serve() {
 	server := gin.Default()
 	// Used for simpler developing - can be removed later or adjusted only for public api route
 	server.Use(CORS)
+	// TODO: Remove when not needed
 	server.GET("/api/ping", ping)
 	server.GET("/api/poc", process)
 	// Login -> POST /api/login
@@ -46,6 +47,7 @@ func Serve() {
 	{
 		// -> GET /api/auth/getAllImages
 		apiRoutes.GET("/getAllImages", imageController.AllImages)
+		// -> GET /api/auth/getAllProcesses
 		apiRoutes.GET("/getAllProcesses", processController.AllProcesses)
 		// -> POST /api/auth/upload
 		apiRoutes.GET("/upload", func(ctx *gin.Context) {
@@ -82,12 +84,15 @@ func CORS(c *gin.Context) {
 		c.AbortWithStatus(http.StatusOK)
 	}
 }
+
+// TODO: Remove after release
 func ping(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "pong",
 	})
 }
 
+// TODO: Remove after poc is redundant
 func process(c *gin.Context) {
 	data := poc.Process(c.Request.URL.Query())
 
