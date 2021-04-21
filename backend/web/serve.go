@@ -1,8 +1,6 @@
 package web
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/imgProcessing/backend/v2/controller"
 	"github.com/imgProcessing/backend/v2/data/repositories"
@@ -10,6 +8,7 @@ import (
 	"github.com/imgProcessing/backend/v2/poc"
 	"github.com/imgProcessing/backend/v2/service"
 	"github.com/imgProcessing/backend/v2/storage"
+	"net/http"
 )
 
 var (
@@ -36,14 +35,14 @@ func Serve() {
 
 	publicEndpoints := server.Group("/api")
 	{
-		// TODO: Remove when not needed
-		server.GET("/api/poc", process)
 		// Login -> POST /api/login
-		server.POST("/api/login", authController.Login)
+		publicEndpoints.POST("/login", authController.Login)
 		// Register -> POST /api/register
-		server.POST("/api/register", authController.Register)
-		// Render -> GET /api/render/<img-id>/<proc-id>
-		server.GET("/api/render/:identifier/:process", renderController.Render)
+		publicEndpoints.POST("/register", authController.Register)
+		// Dynamic render -> GET /api/render/dynamic/<img-id>?<params>
+		publicEndpoints.GET("/render/dynamic/:identifier", renderController.DynamicRender)
+		// Pipeline render -> GET /api/render/pipeline/<img-id>/<proc-id>
+		publicEndpoints.GET("/render/pipeline/:identifier/:process", renderController.PipelineRender)
 	}
 
 	protectedEndpoints := publicEndpoints.Group("/auth", middleware.AuthorizeJWT(jwtService))

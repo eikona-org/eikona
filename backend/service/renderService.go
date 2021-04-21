@@ -9,7 +9,8 @@ import (
 )
 
 type RenderService interface {
-	Render(imgUuid uuid.UUID, procUuid uuid.UUID) *helper.ImageWrapper
+	DynamicRender(imgUuid uuid.UUID, procSteps []datamodels.ProcessingStep) *helper.ImageWrapper
+	PipelineRender(imgUuid uuid.UUID, procUuid uuid.UUID) *helper.ImageWrapper
 }
 
 type renderService struct {
@@ -26,7 +27,21 @@ func NewRenderService(imgRep repositories.ImageRepository, procRep repositories.
 	}
 }
 
-func (service *renderService) Render(imgUuid uuid.UUID, procUuid uuid.UUID) *helper.ImageWrapper {
+func (service *renderService) DynamicRender(imgUuid uuid.UUID, procSteps []datamodels.ProcessingStep) *helper.ImageWrapper {
+	image := service.getImage(imgUuid)
+
+	if nil == image {
+		panic("Invalid parameters")
+	}
+
+	imgWrapper := service.loadImage(image.Owner.MinioBucketName, image.MinioObjectName)
+
+	return service.encodeImage(
+		service.processImage(imgWrapper, procSteps),
+	)
+}
+
+func (service *renderService) PipelineRender(imgUuid uuid.UUID, procUuid uuid.UUID) *helper.ImageWrapper {
 	image := service.getImage(imgUuid)
 	process := service.getProcess(procUuid, image.OwnerId)
 
