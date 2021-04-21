@@ -41,16 +41,37 @@ func (service *processService) GetAllProcesses(email string) []webmodels.Process
 }
 
 func (service *processService) GetAllProcessingStepTypes() []webmodels.ProcessingStepType {
+	// TODO: Maybe also move these into pipelineOperations
 	return []webmodels.ProcessingStepType{
+		{
+			Id:      datamodels.Blur,
+			Name:    "Blur",
+			Options: []string{"sigma"},
+		},
+		{
+			Id:      datamodels.Contrast,
+			Name:    "Contrast",
+			Options: []string{"percentage"},
+		},
+		{
+			Id:      datamodels.Grayscale,
+			Name:    "Grayscale",
+			Options: []string{},
+		},
+		{
+			Id:      datamodels.Invert,
+			Name:    "Invert",
+			Options: []string{},
+		},
 		{
 			Id:      datamodels.Resize,
 			Name:    "Resizing",
 			Options: []string{"width", "height"},
 		},
 		{
-			Id:      datamodels.Grayscale,
-			Name:    "Grayscale",
-			Options: []string{},
+			Id:      datamodels.Sharpen,
+			Name:    "Sharpen",
+			Options: []string{"sigma", "amount", "threshold"},
 		},
 	}
 }

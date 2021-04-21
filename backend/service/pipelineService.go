@@ -44,11 +44,23 @@ func (service *pipelineService) applyProcessingSteps() {
 
 func (service *pipelineService) applyOperation(procStep datamodels.ProcessingStep) {
 	switch procStep.ProcessingStepType {
-	case datamodels.Resize:
-		pipelineOperations.ApplyResizeOperation(service.pipeline, procStep.ParameterJson)
+	case datamodels.Blur:
+		pipelineOperations.ApplyBlurOperation(service.pipeline, procStep.ParameterJson)
+		break
+	case datamodels.Contrast:
+		pipelineOperations.ApplyContrastOperation(service.pipeline, procStep.ParameterJson)
 		break
 	case datamodels.Grayscale:
 		pipelineOperations.ApplyGrayscaleOperation(service.pipeline)
+		break
+	case datamodels.Invert:
+		pipelineOperations.ApplyInvertOperation(service.pipeline)
+		break
+	case datamodels.Resize:
+		pipelineOperations.ApplyResizeOperation(service.pipeline, procStep.ParameterJson)
+		break
+	case datamodels.Sharpen:
+		pipelineOperations.ApplySharpenOperation(service.pipeline, procStep.ParameterJson)
 		break
 	}
 }
