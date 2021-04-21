@@ -1,10 +1,10 @@
 package service
 
 import (
-	"encoding/json"
 	"github.com/disintegration/gift"
 	datamodels "github.com/imgProcessing/backend/v2/data/models"
 	"github.com/imgProcessing/backend/v2/helper"
+	"github.com/imgProcessing/backend/v2/pipelineOperations"
 	"image"
 )
 
@@ -38,43 +38,17 @@ func (service *pipelineService) Process() *helper.ImageWrapper {
 
 func (service *pipelineService) applyProcessingSteps() {
 	for _, step := range service.processingSteps {
-		if !isSupportedProcessingStepType(step.ProcessingStepType) {
-			continue
-		}
-
-		// TODO: Refactor
-		if step.ProcessingStepType == datamodels.Resize {
-			service.applyResizeOperation(step.ParameterJson)
-		}
+		service.applyOperation(step)
 	}
 }
 
-// TODO: Refactor
-func isSupportedProcessingStepType(procStepType datamodels.ProcessingStepType) bool {
-	return procStepType == datamodels.Resize
-}
-
-// TODO: Refactor
-type resizeParameters struct {
-	Width  int
-	Height int
-}
-
-// TODO: Refactor
-func (service *pipelineService) applyResizeOperation(params string) {
-	b := []byte(params)
-	var parameters resizeParameters
-	err := json.Unmarshal(b, &parameters)
-
-	if err != nil {
-		return
+func (service *pipelineService) applyOperation(procStep datamodels.ProcessingStep) {
+	switch procStep.ProcessingStepType {
+	case datamodels.Resize:
+		pipelineOperations.ApplyResizeOperation(service.pipeline, procStep.ParameterJson)
+		break
+	case datamodels.Grayscale:
+		pipelineOperations.ApplyGrayscaleOperation(service.pipeline)
+		break
 	}
-
-	service.pipeline.Add(
-		gift.Resize(
-			parameters.Height,
-			parameters.Width,
-			gift.LanczosResampling,
-		),
-	)
 }
