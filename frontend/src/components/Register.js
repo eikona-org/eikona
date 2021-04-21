@@ -13,16 +13,8 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Copyright from './Copyright'
-
-async function registerUser(data) {
-    return fetch(`https://${window._env_.API_URL}/api/register`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    }).then((data) => data.json())
-}
+import Alert from '@material-ui/lab/Alert'
+import Hidden from '@material-ui/core/Hidden'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -45,10 +37,33 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function SignUp() {
+    const [error, setError] = useState(null)
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const [name, setName] = useState()
     const classes = useStyles()
+
+    async function registerUser(data) {
+        return fetch(`https://${window._env_.API_URL}/api/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Something went wrong')
+                }
+            })
+            .then(() => {
+                //Quick and dirty hack to do it...better to do it with react router -> but keep the "simple"
+                window.location.href = '/login'
+            })
+            .catch((error) => {
+                setError(error)
+            })
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -68,6 +83,7 @@ export default function SignUp() {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
+                <Hidden>{error && <Alert severity="error">Upps, something went wrong!</Alert>}</Hidden>
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>

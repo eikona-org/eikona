@@ -15,14 +15,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const SecondStep = ({ handleNext, handleBack, handleChange, values: { Blabla } }) => {
+const SecondStep = ({ handleNext, handleBack, handleChange, values: { selected } }) => {
     const classes = useStyles()
     return (
         <>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <div className={classes.root}>
-                        <CustomChip></CustomChip>
+                        <CustomChip values={selected} ></CustomChip>
                     </div>
                 </Grid>
             </Grid>

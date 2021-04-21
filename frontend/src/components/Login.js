@@ -12,16 +12,8 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Copyright from './Copyright'
-
-async function loginUser(credentials) {
-    return fetch(`https://${window._env_.API_URL}/api/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-    }).then((data) => data.json())
-}
+import Alert from '@material-ui/lab/Alert'
+import Hidden from '@material-ui/core/Hidden'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -44,9 +36,29 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function LogIn({ setToken }) {
+    const [error, setError] = useState(null)
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const classes = useStyles()
+
+    async function loginUser(credentials) {
+        return fetch(`https://${window._env_.API_URL}/api/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(credentials),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw response
+                }
+                return response.json() //we only get here if there is no error
+            })
+            .catch((error) => {
+                setError(error)
+            })
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -54,7 +66,9 @@ export default function LogIn({ setToken }) {
             email,
             password,
         })
-        setToken(token)
+        if (token) {
+            setToken(token)
+        }
     }
 
     return (
@@ -67,6 +81,7 @@ export default function LogIn({ setToken }) {
                 <Typography component="h1" variant="h5">
                     Login
                 </Typography>
+                <Hidden>{error && <Alert severity="error">Upps, something went wrong!</Alert>}</Hidden>
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>

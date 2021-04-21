@@ -86,7 +86,7 @@ export default function Dashboard() {
                     <Hidden>
                         {isLoadingImage ||
                             (errorImage && (
-                                <GridListTile key="1">
+                                <GridListTile key="Tile">
                                     <img src="https://pascalchristen.ch/images/thumbs/7.jpg" alt="Placeholder" />
                                     <GridListTileBar
                                         title="No Images for you 😢 ...but here's one"
@@ -107,16 +107,18 @@ export default function Dashboard() {
                             ))}
                     </Hidden>
                     {items.map((tile) => (
-                        <GridListTile key={tile.ImageId}>
+                        <GridListTile key={`Tile-${tile.ImageId}`}>
                             {/*TODO: Use real API path*/}
-                            <img src={tile.ImageId} alt={tile.Name} />
+                            <img key={`Img-${tile.ImageId}`} src={tile.ImageId} alt={tile.Name} />
                             <GridListTileBar
                                 title={tile.ImageId}
+                                key={`Bar-${tile.ImageId}`}
                                 subtitle={tile.Name}
                                 actionIcon={
                                     <IconButton
                                         aria-label={`Copy to clipboard ${tile.ImageId}`}
                                         className={classes.icon}
+                                        key={`Button-${tile.ImageId}`}
                                         onClick={() => {
                                             navigator.clipboard.writeText(tile.ImageId)
                                         }}
@@ -137,7 +139,7 @@ export default function Dashboard() {
                     <Hidden>
                         {isLoadingProcess ||
                             (errorProcess && (
-                                <GridListTile key="1">
+                                <GridListTile key="Tile">
                                     <img src="https://pascalchristen.ch/images/thumbs/6.jpg" alt="Placeholder" />
                                     <GridListTileBar
                                         title="No Process for you 😢 ...but here's one"
@@ -158,16 +160,18 @@ export default function Dashboard() {
                             ))}
                     </Hidden>
                     {process.map((tile) => (
-                        <GridListTile key={tile.processId}>
+                        <GridListTile key={`Tile-${tile.ProcessId}`}>
                             {/*TODO: Use real API path*/}
-                            <img src={tile.ProcessId} alt={tile.Name} />
+                            <img key={`Img-${tile.ProcessId}`} src={tile.ProcessId} alt={tile.Name} />
                             <GridListTileBar
                                 title={tile.ProcessId}
+                                key={`Bar-${tile.ProcessId}`}
                                 subtitle={tile.Name}
                                 actionIcon={
                                     <IconButton
                                         aria-label={`Copy to clipboard ${tile.ProcessId}`}
                                         className={classes.icon}
+                                        key={`Button-${tile.ProcessId}`}
                                         onClick={() => {
                                             navigator.clipboard.writeText(tile.ProcessId)
                                         }}

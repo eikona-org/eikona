@@ -8,7 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import useToken from './useToken'
 
-export default function CustomChip2() {
+const CustomChip = () => {
     const { token } = useToken()
     const [data, setData] = useState([])
     const [selected, setSelected] = useState([])
@@ -171,3 +171,5 @@ export default function CustomChip2() {
         </>
     )
 }
+
+export default CustomChip
