@@ -5,7 +5,6 @@ import (
 	"github.com/imgProcessing/backend/v2/controller"
 	"github.com/imgProcessing/backend/v2/data/repositories"
 	"github.com/imgProcessing/backend/v2/middleware"
-	"github.com/imgProcessing/backend/v2/poc"
 	"github.com/imgProcessing/backend/v2/service"
 	"github.com/imgProcessing/backend/v2/storage"
 	"net/http"
@@ -83,17 +82,4 @@ func CORS(c *gin.Context) {
 		// request using any other method than OPTIONS
 		c.AbortWithStatus(http.StatusOK)
 	}
-}
-
-// TODO: Remove after poc is redundant
-func process(c *gin.Context) {
-	data := poc.Process(c.Request.URL.Query())
-
-	c.DataFromReader(
-		http.StatusOK,
-		int64(len(data.Bytes())),
-		"image/png",
-		data,
-		nil,
-	)
 }
