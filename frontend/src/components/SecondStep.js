@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import CustomChip from './CustomChip'
@@ -15,14 +15,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const SecondStep = ({ handleNext, handleBack, handleChange, values: { selected } }) => {
+const SecondStep = ({ handleNext, handleBack, handleChange, updateSelected }) => {
     const classes = useStyles()
     return (
         <>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <div className={classes.root}>
-                        <CustomChip values={selected} ></CustomChip>
+                        <CustomChip updateSelected={updateSelected}></CustomChip>
                     </div>
                 </Grid>
             </Grid>

@@ -5,10 +5,13 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 
-const Confirm = ({ handleNext, handleBack, values }) => {
-    const { name, process } = values
+const Confirm = ({ handleNext, handleBack, values, selected }) => {
+    const { name } = values
 
     const handleSubmit = () => {
+        //TODO Push to API after Endpoints are done...
+        console.log(name)
+        console.log(selected)
         handleNext()
     }
 
@@ -19,11 +22,20 @@ const Confirm = ({ handleNext, handleBack, values }) => {
                     <ListItemText primary="Name" secondary={name} />
                 </ListItem>
 
-                <Divider />
-
-                <ListItem>
-                    <ListItemText primary="Process Steps" secondary={process} />
-                </ListItem>
+                {selected.map((selectedValues, index) => (
+                    <div key={index}>
+                        <Divider />
+                        <ListItem>
+                            {/* //TODO better handling of values and display options */}
+                            <ListItemText
+                                primary={selectedValues.Name}
+                                secondary={
+                                    'Position: ' + selectedValues.sequence + ' Options: ' + selectedValues.optionsFilled
+                                }
+                            />
+                        </ListItem>
+                    </div>
+                ))}
 
                 <Divider />
             </List>

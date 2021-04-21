@@ -43,6 +43,7 @@ const StepForm = () => {
     const classes = useStyles()
     const [activeStep, setActiveStep] = useState(0)
     const [formValues, setFormValues] = useState(initialValues)
+    const [selected, setSelected] = useState([])
 
     const handleNext = () => setActiveStep((prev) => prev + 1)
     const handleBack = () => setActiveStep((prev) => prev - 1)
@@ -66,11 +67,13 @@ const StepForm = () => {
                         handleNext={handleNext}
                         handleBack={handleBack}
                         handleChange={handleChange}
-                        values={formValues}
+                        updateSelected={(s) => setSelected(s)}
                     />
                 )
             case 2:
-                return <Confirm handleNext={handleNext} handleBack={handleBack} values={formValues} />
+                return (
+                    <Confirm handleNext={handleNext} handleBack={handleBack} values={formValues} selected={selected} />
+                )
             default:
                 break
         }

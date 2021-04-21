@@ -8,12 +8,11 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import useToken from './useToken'
 
-const CustomChip = () => {
+const CustomChip = ({ updateSelected }) => {
     const { token } = useToken()
     const [data, setData] = useState([])
     const [selected, setSelected] = useState([])
     const [errorSteps, setErrorSteps] = useState(null)
-    const [isLoadingSteps, setIsLoadingSteps] = useState(null)
 
     useEffect(() => {
         fetch(`https://${window._env_.API_URL}/api/auth/processingsteptypes`, {
@@ -35,10 +34,8 @@ const CustomChip = () => {
                         resultSteps[i].optionsFilled = Array(length).fill('')
                     })
                     setData(resultSteps)
-                    setIsLoadingSteps(false)
                 },
                 (errorSteps) => {
-                    setIsLoadingSteps(false)
                     setErrorSteps(errorSteps)
                 }
             )
@@ -56,28 +53,18 @@ const CustomChip = () => {
         updateItem(dataindex, 'isOpen', false)
     }
 
-    const updateItemArray = (id, whichvalue, optionindex, newvalue) => {
+    const updateItemArray = (index, whichvalue, optionindex, newvalue) => {
         //https://stackoverflow.com/questions/37662708/react-updating-state-when-state-is-an-array-of-objects
-        let index = id
-        if (index !== -1) {
-            let temporaryarray = data.slice()
-            temporaryarray[index][whichvalue][optionindex] = newvalue
-            setData(temporaryarray)
-        } else {
-            console.log('no match')
-        }
+        let temporaryarray = data.slice()
+        temporaryarray[index][whichvalue][optionindex] = newvalue
+        setData(temporaryarray)
     }
 
-    const updateItem = (id, whichvalue, newvalue) => {
+    const updateItem = (index, whichvalue, newvalue) => {
         //https://stackoverflow.com/questions/37662708/react-updating-state-when-state-is-an-array-of-objects
-        let index = id
-        if (index !== -1) {
-            let temporaryarray = data.slice()
-            temporaryarray[index][whichvalue] = newvalue
-            setData(temporaryarray)
-        } else {
-            console.log('no match')
-        }
+        let temporaryarray = data.slice()
+        temporaryarray[index][whichvalue] = newvalue
+        setData(temporaryarray)
     }
 
     const handleSubmit = (e, id, index) => {
@@ -88,17 +75,19 @@ const CustomChip = () => {
         updateItem(index, 'color', 'primary')
         updateItem(index, 'selected', true)
         updateItem(index, 'isOpen', false)
+        updateSelected(selectedHistory)
     }
 
     const handleChipClick = (e, index) => {
-        console.log(index)
         updateItem(index, 'isOpen', true)
     }
 
-    const handleChipDelete = (index) => {
+    const handleChipDelete = (index, id) => {
         updateItem(index, 'color', 'default')
         updateItem(index, 'selected', false)
-        console.log('TODO: Remove from array')
+        const selectedDelete = selected.filter((item) => item.Id !== id)
+        setSelected(selectedDelete)
+        updateSelected(selectedDelete)
     }
 
     return (
@@ -106,7 +95,7 @@ const CustomChip = () => {
             {!errorSteps && (
                 <>
                     {data.map((step, index) => (
-                        <>
+                        <div key={index}>
                             {step.selected ? (
                                 <Chip
                                     label={step.Name}
@@ -115,7 +104,7 @@ const CustomChip = () => {
                                     clickable
                                     onClick={(e) => handleChipClick(e, index)}
                                     color={step.color}
-                                    onDelete={(e) => handleChipDelete(index)}
+                                    onDelete={(e) => handleChipDelete(index, step.Id)}
                                 />
                             ) : (
                                 <Chip
@@ -164,7 +153,7 @@ const CustomChip = () => {
                                     </Button>
                                 </DialogActions>
                             </Dialog>
-                        </>
+                        </div>
                     ))}
                 </>
             )}
