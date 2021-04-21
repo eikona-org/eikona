@@ -47,5 +47,10 @@ func (service *processService) GetAllProcessingStepTypes() []webmodels.Processin
 			Name:    "Resizing",
 			Options: []string{"width", "height"},
 		},
+		{
+			Id:      datamodels.Grayscale,
+			Name:    "Grayscale",
+			Options: []string{},
+		},
 	}
 }
