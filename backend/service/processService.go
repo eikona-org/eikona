@@ -64,6 +64,16 @@ func (service *processService) GetAllProcessingStepTypes() []webmodels.Processin
 			Options: []string{"midpoint", "factor"},
 		},
 		{
+			Id:      datamodels.FlipH,
+			Name:    "Flip horizontally",
+			Options: []string{},
+		},
+		{
+			Id:      datamodels.FlipV,
+			Name:    "Flip vertically",
+			Options: []string{},
+		},
+		{
 			Id:      datamodels.Gamma,
 			Name:    "Gamma",
 			Options: []string{"gamma"},

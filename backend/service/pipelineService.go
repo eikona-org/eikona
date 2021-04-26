@@ -56,6 +56,12 @@ func (service *pipelineService) applyOperation(procStep datamodels.ProcessingSte
 	case datamodels.ContrastSigmoid:
 		pipelineOperations.ApplyContrastSigmoidOperation(service.pipeline, procStep.ParameterJson)
 		break
+	case datamodels.FlipH:
+		pipelineOperations.ApplyFlipHorizontalOperation(service.pipeline)
+		break
+	case datamodels.FlipV:
+		pipelineOperations.ApplyFlipVerticalOperation(service.pipeline)
+		break
 	case datamodels.Gamma:
 		pipelineOperations.ApplyGammaOperation(service.pipeline, procStep.ParameterJson)
 		break
