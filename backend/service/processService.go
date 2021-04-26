@@ -59,6 +59,16 @@ func (service *processService) GetAllProcessingStepTypes() []webmodels.Processin
 			Options: []string{"percentage"},
 		},
 		{
+			Id:      datamodels.Crop,
+			Name:    "Crop (top left)",
+			Options: []string{"width", "height"},
+		},
+		{
+			Id:      datamodels.CropCenter,
+			Name:    "Crop (center)",
+			Options: []string{"width", "height"},
+		},
+		{
 			Id:      datamodels.Fill,
 			Name:    "Fill",
 			Options: []string{"width", "height"},

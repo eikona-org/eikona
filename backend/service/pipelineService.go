@@ -56,6 +56,12 @@ func (service *pipelineService) applyOperation(procStep datamodels.ProcessingSte
 	case datamodels.ContrastSigmoid:
 		pipelineOperations.ApplyContrastSigmoidOperation(service.pipeline, procStep.ParameterJson)
 		break
+	case datamodels.Crop:
+		pipelineOperations.ApplyCropOperation(service.pipeline, procStep.ParameterJson)
+		break
+	case datamodels.CropCenter:
+		pipelineOperations.ApplyCropOperation(service.pipeline, procStep.ParameterJson)
+		break
 	case datamodels.Fill:
 		pipelineOperations.ApplyFillOperation(service.pipeline, procStep.ParameterJson)
 		break

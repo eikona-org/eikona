@@ -7,7 +7,6 @@ const (
 	Fit             = 11
 	Fill            = 12
 	Crop            = 13
-	CropAnchor      = 14
 	CropCenter      = 15
 	Thumbnail       = 16
 	Blur            = 20
