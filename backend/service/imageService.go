@@ -17,6 +17,7 @@ type ImageService interface {
 type imageService struct {
 	imageRepository repositories.ImageRepository
 	userRepository  repositories.UserRepository
+	orgRepository repositories.OrganizationRepository
 	storageClient   storage.Client
 }
 
@@ -50,15 +51,19 @@ func (service *imageService) Insert(fileHeader *multipart.FileHeader, email stri
 	if user == nil {
 		return errors.New("user not found")
 	}
+	org := service.orgRepository.Find(user.OrganizationId)
+	if org == nil {
+		return errors.New("organization not found")
+	}
 
 	minioName := uuid.NewString()
 	file, error := fileHeader.Open()
 	if error != nil {
 		return error
 	}
-	service.storageClient.CreateObject(user.Organization.MinioBucketName, minioName, file, fileHeader.Size)
+	service.storageClient.CreateObject(org.MinioBucketName, minioName, file, fileHeader.Size)
 
-	image := service.imageRepository.Insert(fileHeader.Filename, minioName, user.UserId)
+	image := service.imageRepository.Insert(fileHeader.Filename, minioName, org.OrganizationId)
 	if image == nil {
 		service.storageClient.RemoveObject(user.Organization.MinioBucketName, minioName)
 		return errors.New("error while saving image to database")

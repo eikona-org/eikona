@@ -52,7 +52,7 @@ func findOrganization(id uuid.UUID) *datamodels.Organization {
 	defer dbConnection.Close()
 
 	organization := &datamodels.Organization{OrganizationId: id}
-	err := dbConnection.Model(organization).
+	err := dbConnection.Model(organization).WherePK().
 		Select(organization)
 
 	if err != nil {
