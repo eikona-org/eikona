@@ -59,6 +59,11 @@ func (service *processService) GetAllProcessingStepTypes() []webmodels.Processin
 			Options: []string{"percentage"},
 		},
 		{
+			Id:      datamodels.ContrastSigmoid,
+			Name:    "Sigmoid Contrast",
+			Options: []string{"midpoint", "factor"},
+		},
+		{
 			Id:      datamodels.Gamma,
 			Name:    "Gamma",
 			Options: []string{"gamma"},
@@ -82,6 +87,11 @@ func (service *processService) GetAllProcessingStepTypes() []webmodels.Processin
 			Id:      datamodels.Resize,
 			Name:    "Resizing",
 			Options: []string{"width", "height"},
+		},
+		{
+			Id:      datamodels.Saturation,
+			Name:    "Saturation",
+			Options: []string{"percentage"},
 		},
 		{
 			Id:      datamodels.Sharpen,

@@ -53,6 +53,9 @@ func (service *pipelineService) applyOperation(procStep datamodels.ProcessingSte
 	case datamodels.Contrast:
 		pipelineOperations.ApplyContrastOperation(service.pipeline, procStep.ParameterJson)
 		break
+	case datamodels.ContrastSigmoid:
+		pipelineOperations.ApplyContrastSigmoidOperation(service.pipeline, procStep.ParameterJson)
+		break
 	case datamodels.Gamma:
 		pipelineOperations.ApplyGammaOperation(service.pipeline, procStep.ParameterJson)
 		break
@@ -67,6 +70,9 @@ func (service *pipelineService) applyOperation(procStep datamodels.ProcessingSte
 		break
 	case datamodels.Resize:
 		pipelineOperations.ApplyResizeOperation(service.pipeline, procStep.ParameterJson)
+		break
+	case datamodels.Saturation:
+		pipelineOperations.ApplySaturationOperation(service.pipeline, procStep.ParameterJson)
 		break
 	case datamodels.Sharpen:
 		pipelineOperations.ApplySharpenOperation(service.pipeline, procStep.ParameterJson)

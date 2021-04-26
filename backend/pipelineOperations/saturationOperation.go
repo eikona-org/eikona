@@ -5,13 +5,13 @@ import (
 	"github.com/disintegration/gift"
 )
 
-type gammaParameters struct {
-	Gamma float32
+type saturationParameters struct {
+	Percentage float32
 }
 
-func ApplyGammaOperation(pipeline *gift.GIFT, params string) {
+func ApplySaturationOperation(pipeline *gift.GIFT, params string) {
 	b := []byte(params)
-	var parameters gammaParameters
+	var parameters saturationParameters
 	err := json.Unmarshal(b, &parameters)
 
 	if err != nil {
@@ -19,6 +19,6 @@ func ApplyGammaOperation(pipeline *gift.GIFT, params string) {
 	}
 
 	pipeline.Add(
-		gift.Gamma(parameters.Gamma),
+		gift.Saturation(parameters.Percentage),
 	)
 }
