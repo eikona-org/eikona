@@ -1,6 +1,7 @@
 package web
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/imgProcessing/backend/v2/controller"
 	"github.com/imgProcessing/backend/v2/data/repositories"
@@ -29,7 +30,7 @@ var (
 func Serve() {
 	server := gin.Default()
 	// Used for simpler developing - can be removed later or adjusted only for public api route
-	server.Use(CORS())
+	server.Use(CORS(), RequestCancelRecover())
 
 	publicEndpoints := server.Group("/api")
 	{
@@ -72,6 +73,18 @@ func CORS() gin.HandlerFunc {
 			return
 		}
 
+		c.Next()
+	}
+}
+
+func RequestCancelRecover() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		defer func() {
+			if err := recover(); err != nil {
+				fmt.Println("client cancelled the request")
+				c.Request.Context().Done()
+			}
+		}()
 		c.Next()
 	}
 }
