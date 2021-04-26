@@ -26,6 +26,15 @@ func NewAuthController(authService service.AuthService, jwtService service.JWTSe
 	}
 }
 
+// Login godoc
+// @Tags Authorization
+// @Summary Generate JWT
+// @Description Verify User Credentials returning a JSON Web Token
+// @Accept  json
+// @Produce  json
+// @Param user body webmodels.LoginCredentials true "User Data"
+// @Success 200 {body} string
+// @Router /login [post]
 func (c *authController) Login(ctx *gin.Context) {
 	var loginDTO webmodels.LoginCredentials
 	errDTO := ctx.ShouldBind(&loginDTO)
@@ -46,6 +55,15 @@ func (c *authController) Login(ctx *gin.Context) {
 	ctx.AbortWithStatusJSON(http.StatusUnauthorized, response)
 }
 
+// Register godoc
+// @Tags Authorization
+// @Summary Register
+// @Description Register a User with an name, email, password
+// @Accept  json
+// @Produce  json
+// @Param user body webmodels.RegisterInformation true "User Data"
+// @Success 201 {test} string
+// @Router /register [post]
 func (c *authController) Register(ctx *gin.Context) {
 	var registerDTO webmodels.RegisterInformation
 	errDTO := ctx.ShouldBind(&registerDTO)

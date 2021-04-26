@@ -1,0 +1,179 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Convert images on the fly",
+        "title": "Image Procsessing API",
+        "termsOfService": "https://github.com/imgProcessing/backend/blob/main/LICENSE",
+        "contact": {
+            "name": "API Support",
+            "url": "https://github.com/imgProcessing/backend/issues"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://github.com/imgProcessing/backend/blob/main/LICENSE"
+        },
+        "version": "1.0"
+    },
+    "host": "imgprocessing.pesc.xyz",
+    "basePath": "/api",
+    "paths": {
+        "/auth/images": {
+            "get": {
+                "security": [
+                    {
+                        "jwtAuth": []
+                    }
+                ],
+                "description": "List all the images of an organization",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Images"
+                ],
+                "summary": "List all organization images",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Image"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "description": "Verify User Credentials returning a JSON Web Token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Generate JWT",
+                "parameters": [
+                    {
+                        "description": "User Data",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.LoginCredentials"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "body"
+                        }
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "description": "Register a User with an name, email, password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Register",
+                "parameters": [
+                    {
+                        "description": "User Data",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RegisterInformation"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "test"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Image": {
+            "type": "object",
+            "properties": {
+                "imageId": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uploaded": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.LoginCredentials": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "test@testit.example"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "Secure4Life!;)"
+                }
+            }
+        },
+        "models.RegisterInformation": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "test@testit.example"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Max Mustermann"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "Secure4Life!;)"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "jwtAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}
