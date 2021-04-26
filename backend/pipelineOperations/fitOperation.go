@@ -5,14 +5,14 @@ import (
 	"github.com/disintegration/gift"
 )
 
-type resizeParameters struct {
+type fitParameters struct {
 	Width  int
 	Height int
 }
 
-func ApplyResizeOperation(pipeline *gift.GIFT, params string) {
+func ApplyFitOperation(pipeline *gift.GIFT, params string) {
 	b := []byte(params)
-	var parameters resizeParameters
+	var parameters fitParameters
 	err := json.Unmarshal(b, &parameters)
 
 	if err != nil {
@@ -20,7 +20,7 @@ func ApplyResizeOperation(pipeline *gift.GIFT, params string) {
 	}
 
 	pipeline.Add(
-		gift.Resize(
+		gift.ResizeToFit(
 			parameters.Width,
 			parameters.Height,
 			gift.LanczosResampling,

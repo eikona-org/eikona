@@ -59,6 +59,11 @@ func (service *processService) GetAllProcessingStepTypes() []webmodels.Processin
 			Options: []string{"percentage"},
 		},
 		{
+			Id:      datamodels.Fit,
+			Name:    "Fit",
+			Options: []string{"width", "height"},
+		},
+		{
 			Id:      datamodels.ContrastSigmoid,
 			Name:    "Sigmoid Contrast",
 			Options: []string{"midpoint", "factor"},
