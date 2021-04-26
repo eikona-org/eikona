@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import useToken from './useToken'
 import { useDropzone } from 'react-dropzone'
 import Avatar from '@material-ui/core/Avatar'
@@ -7,6 +7,8 @@ import BackupIcon from '@material-ui/icons/Backup'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
+import Alert from '@material-ui/lab/Alert'
+import Hidden from '@material-ui/core/Hidden'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -55,6 +57,7 @@ const rejectStyle = {
 }
 
 export default function Upload(props) {
+    const [error, setError] = useState(null)
     const { token } = useToken()
     const classes = useStyles()
     const onDrop = useCallback(
@@ -68,6 +71,18 @@ export default function Upload(props) {
                 },
                 body: formData,
             })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Something went wrong')
+                    }
+                })
+                .then(() => {
+                    //Quick and dirty hack to do it...better to do it with react router -> but keep the "simple"
+                    window.location.href = '/'
+                })
+                .catch((error) => {
+                    setError(error)
+                })
         },
         [token]
     )
@@ -91,6 +106,7 @@ export default function Upload(props) {
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
+                <Hidden>{error && <Alert severity="error">Upps, something went wrong!</Alert>}</Hidden>
                 <Avatar className={classes.avatar}>
                     <BackupIcon />
                 </Avatar>

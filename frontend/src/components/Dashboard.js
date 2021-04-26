@@ -10,6 +10,8 @@ import GridListTileBar from '@material-ui/core/GridListTileBar'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import Hidden from '@material-ui/core/Hidden'
 import Grid from '@material-ui/core/Grid'
+import SettingsIcon from '@material-ui/icons/Settings'
+import Divider from '@material-ui/core/Divider'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
         flexWrap: 'wrap',
         justifyContent: 'center',
         overflow: 'hidden',
+        marginBottom: '20px',
     },
     gridList: {
         width: 1000,
@@ -82,6 +85,7 @@ export default function Dashboard() {
                 <GridList cellHeight={220} className={classes.gridList}>
                     <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
                         <ListSubheader component="div">Images</ListSubheader>
+                        <Divider />
                     </GridListTile>
                     <Hidden>
                         {isLoadingImage ||
@@ -109,7 +113,11 @@ export default function Dashboard() {
                     {items.map((tile) => (
                         <GridListTile key={`Tile-${tile.ImageId}`}>
                             {/*TODO: Use real API path*/}
-                            <img key={`Img-${tile.ImageId}`} src={tile.ImageId} alt={tile.Name} />
+                            <img
+                                key={`Img-${tile.ImageId}`}
+                                src={'https://' + window._env_.API_URL + '/api/render/dynamic/' + tile.ImageId}
+                                alt={tile.Name}
+                            />
                             <GridListTileBar
                                 title={tile.ImageId}
                                 key={`Bar-${tile.ImageId}`}
@@ -135,12 +143,13 @@ export default function Dashboard() {
                 <GridList cellHeight={220} className={classes.gridList}>
                     <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
                         <ListSubheader component="div">Processes</ListSubheader>
+                        <Divider />
                     </GridListTile>
                     <Hidden>
                         {isLoadingProcess ||
                             (errorProcess && (
                                 <GridListTile key="Tile">
-                                    <img src="https://pascalchristen.ch/images/thumbs/6.jpg" alt="Placeholder" />
+                                    <SettingsIcon></SettingsIcon>
                                     <GridListTileBar
                                         title="No Process for you 😢 ...but here's one"
                                         subtitle="Start creating your process"
@@ -162,7 +171,7 @@ export default function Dashboard() {
                     {process.map((tile) => (
                         <GridListTile key={`Tile-${tile.ProcessId}`}>
                             {/*TODO: Use real API path*/}
-                            <img key={`Img-${tile.ProcessId}`} src={tile.ProcessId} alt={tile.Name} />
+                            <SettingsIcon></SettingsIcon>
                             <GridListTileBar
                                 title={tile.ProcessId}
                                 key={`Bar-${tile.ProcessId}`}
