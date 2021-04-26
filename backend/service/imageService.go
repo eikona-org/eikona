@@ -29,6 +29,15 @@ func NewImageService(imageRepo repositories.ImageRepository, userRepo repositori
 	}
 }
 
+// Login godoc
+// @Tags Images
+// @Summary List all organization images
+// @Description List all the images of an organization
+// @Security jwtAuth
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} webmodels.Image
+// @Router /auth/images [get]
 func (service *imageService) GetAllImages(email string) []webmodels.Image {
 	user := service.userRepository.FindByEmail(email)
 	images := service.imageRepository.GetAll(user.OrganizationId)
