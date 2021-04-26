@@ -7,7 +7,7 @@ import (
 
 type contrastSigmoidParameters struct {
 	Midpoint float32
-	Factor float32
+	Factor   float32
 }
 
 func ApplyContrastSigmoidOperation(pipeline *gift.GIFT, params string) {

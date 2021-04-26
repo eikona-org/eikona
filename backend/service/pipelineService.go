@@ -71,6 +71,15 @@ func (service *pipelineService) applyOperation(procStep datamodels.ProcessingSte
 	case datamodels.Resize:
 		pipelineOperations.ApplyResizeOperation(service.pipeline, procStep.ParameterJson)
 		break
+	case datamodels.Rotate90:
+		pipelineOperations.ApplyRotate90Operation(service.pipeline)
+		break
+	case datamodels.Rotate180:
+		pipelineOperations.ApplyRotate180Operation(service.pipeline)
+		break
+	case datamodels.Rotate270:
+		pipelineOperations.ApplyRotate270Operation(service.pipeline)
+		break
 	case datamodels.Saturation:
 		pipelineOperations.ApplySaturationOperation(service.pipeline, procStep.ParameterJson)
 		break
