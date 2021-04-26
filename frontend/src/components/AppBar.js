@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid'
 import Hidden from '@material-ui/core/Hidden'
 import { Favorite, GitHub } from '@material-ui/icons'
 import ImageSearchIcon from '@material-ui/icons/ImageSearch'
+import CodeIcon from '@material-ui/icons/Code'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,6 +55,15 @@ export default function HeaderBar() {
                                             <ImageSearchIcon fontSize="small" />
                                         </IconButton>
                                         <IconButton
+                                            onClick={() =>
+                                                window.open('https://github.com/imgProcessing/api/', '_blank')
+                                            }
+                                            aria-label="Test"
+                                            color="inherit"
+                                        >
+                                            <CodeIcon fontSize="small" />
+                                        </IconButton>
+                                        <IconButton
                                             onClick={() => window.open('https://github.com/imgProcessing', '_blank')}
                                             aria-label="Source Code"
                                             color="inherit"
@@ -79,6 +89,15 @@ export default function HeaderBar() {
                                             color="inherit"
                                         >
                                             <ImageSearchIcon fontSize="small" />
+                                        </IconButton>
+                                        <IconButton
+                                            onClick={() =>
+                                                window.open('https://github.com/imgProcessing/api/', '_blank')
+                                            }
+                                            aria-label="Test"
+                                            color="inherit"
+                                        >
+                                            <CodeIcon fontSize="small" />
                                         </IconButton>
                                         <IconButton
                                             onClick={() => window.open('https://github.com/imgProcessing', '_blank')}

@@ -9,11 +9,9 @@ import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     speedDial: {
-        position: 'absolute',
-        '&.MuiSpeedDial-directionUp, &.MuiSpeedDial-directionLeft': {
-            bottom: theme.spacing(8),
-            right: theme.spacing(8),
-        },
+        position: 'fixed',
+        bottom: theme.spacing(8),
+        right: theme.spacing(8),
     },
 }))
 
