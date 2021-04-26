@@ -49,16 +49,16 @@ export default function HeaderBar() {
                                     <Grid item>
                                         <IconButton
                                             onClick={() => navigate('/dashboard')}
-                                            aria-label="Test"
+                                            aria-label="Dashboard"
                                             color="inherit"
                                         >
                                             <ImageSearchIcon fontSize="small" />
                                         </IconButton>
                                         <IconButton
                                             onClick={() =>
-                                                window.open('https://github.com/imgProcessing/api/', '_blank')
+                                                window.open(`https://${window._env_.API_URL}/api/doc/index.html`, '_blank')
                                             }
-                                            aria-label="Test"
+                                            aria-label="API"
                                             color="inherit"
                                         >
                                             <CodeIcon fontSize="small" />
@@ -85,16 +85,16 @@ export default function HeaderBar() {
                                     <Grid item>
                                         <IconButton
                                             onClick={() => navigate('/dashboard')}
-                                            aria-label="Test"
+                                            aria-label="Dashboard"
                                             color="inherit"
                                         >
                                             <ImageSearchIcon fontSize="small" />
                                         </IconButton>
                                         <IconButton
                                             onClick={() =>
-                                                window.open('https://github.com/imgProcessing/api/', '_blank')
+                                                window.open(`https://${window._env_.API_URL}/api/doc/index.html`, '_blank')
                                             }
-                                            aria-label="Test"
+                                            aria-label="API"
                                             color="inherit"
                                         >
                                             <CodeIcon fontSize="small" />
