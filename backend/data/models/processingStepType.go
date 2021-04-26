@@ -19,8 +19,6 @@ const (
 	Hue             = 35
 	Grayscale       = 36
 	Invert          = 37
-	Convolve3x3     = 40
-	Convolve5x5     = 41
 	FlipH           = 50
 	FlipV           = 51
 	Rotate          = 52
@@ -29,8 +27,4 @@ const (
 	Rotate270       = 55
 	Transpose       = 56
 	Transverse      = 57
-	Overlay         = 60
-	OverlayCenter   = 61
-	Paste           = 62
-	PasteCenter     = 63
 )
