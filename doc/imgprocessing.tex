@@ -21,7 +21,6 @@
 \end{frame}
 
 \begin{frame}{Goal}{1. Introduction}
-
 	\underline{Problem}: Often you need to resize, adjust quality, and convert on demand:
 	\vspace{1in}
 	\begin{columns}[onlytextwidth,T]
@@ -35,9 +34,7 @@
 			\includegraphics[scale=0.55]{vzug}
 		\end{column}
 	\end{columns}
-
 	\underline{Solution}: Our ImgProcessing service converts the image \textbf{on-the-fly} and provides a simple \textit{REST API}.
-
 \end{frame}
 
 \begin{frame}{Setup}{2. Technology}
@@ -46,7 +43,7 @@
 		\begin{itemize}
 			\item{\href{https://golang.org/}{go} (1.16.3)}
 			\begin{itemize}
-				\item{\href{https://gin-gonic.com/}{gin} (1.6.2)}
+				\item{\href{https://gin-gonic.com/}{gin} (1.7.1)}
 				\item{JWT}
 			\end{itemize}
 		\end{itemize}
@@ -55,11 +52,10 @@
 			\item{\href{https://reactjs.org/versions/}{ReactJS} (17.0.2)}
 			\begin{itemize}
 				\item{Material-UI}
-				\item{Served by \href{https://nginx.org/}{Nginx} (1.19.9)}
+				\item{Served by \href{https://nginx.org/}{Nginx} (1.20.0)}
 			\end{itemize}
 		\end{itemize}
 		\item{Loadbalancer}
-
 		\begin{itemize}
 			\item{\href{https://traefik.io/}{Traefik} (2.4.8)}
 		\end{itemize} 
@@ -73,11 +69,7 @@
 			\item{\href{https://github.com/ost-fh/Latex-Beamer-Theme}{LaTeX}}
 		\end{itemize}       
 	\end{itemize}
-
 \end{frame}
-
-
-
 
 \begin{frame}{System Diagram}{2. Technology}
 	\includegraphics[scale=0.45]{Infrastruktur}	
@@ -121,32 +113,45 @@
 \end{frame}
 
 \begin{frame}{Backend}{3. Development}
-
 \end{frame}
 
 \begin{frame}{Frontend}{3. Development}
-	\underline{ReactJS with Material-UI}:
-	\vspace{1in}
 	\begin{columns}[onlytextwidth,T]
-		\begin{column}{.25\linewidth}
+		\begin{column}{.40\linewidth}
+			\underline{ReactJS with Material-UI}:
+			\vspace{1in}
 			\begin{itemize}
-				\item{Basic functions}
 				\item{Responsive design}
 				\item{Simple error handling}
+				\item{Functions:}
+				\begin{itemize}
+					\item{Dashboard}
+					\item{Upload Image}
+					\item{Create Process}
+					\item{API Overview}
+				\end{itemize}
 			\end{itemize}
 		\end{column}	
-		\begin{column}{.65\linewidth}
-			\includegraphics[scale=0.25]{frontend}
+		\begin{column}{.60\linewidth}
+			\includegraphics[scale=0.30]{frontend}
 		\end{column}
 	\end{columns}
 \end{frame}
 
 \begin{frame}{Storage}{3. Development}
-	\underline{MinIO}:
-	\begin{itemize}
-		\item{High Performance, Kubernetes Native Object Storage}
-		\item{Compatible with Amazon S3}
-	\end{itemize}
+	\begin{columns}[onlytextwidth,T]
+		\begin{column}{.40\linewidth}
+			\underline{MinIO}:
+			\vspace{1in}
+			\begin{itemize}
+				\item{High Performance, Kubernetes Native Object Storage}
+				\item{Compatible with Amazon S3}
+			\end{itemize}
+		\end{column}
+		\begin{column}{.60\linewidth}
+			\includegraphics[scale=0.30]{minio}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 \begin{frame}{Fulfillment of Requirements}{4. Legal}
@@ -158,7 +163,6 @@
 		\item{Latest FOSS: \textcolor{deepgreen}{Used}}
 	\end{itemize}
 \end{frame}
-
 
 \begin{frame}{Demo}{}
 	\href{https://imgprocessing.pesc.xyz/}{https://imgprocessing.pesc.xyz}
