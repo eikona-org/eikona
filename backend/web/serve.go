@@ -7,7 +7,6 @@ import (
 	"github.com/imgProcessing/backend/v2/middleware"
 	"github.com/imgProcessing/backend/v2/service"
 	"github.com/imgProcessing/backend/v2/storage"
-	"net/http"
 )
 
 var (
@@ -30,7 +29,7 @@ var (
 func Serve() {
 	server := gin.Default()
 	// Used for simpler developing - can be removed later or adjusted only for public api route
-	server.Use(CORS)
+	server.Use(CORS())
 
 	publicEndpoints := server.Group("/api")
 	{
@@ -60,26 +59,19 @@ func Serve() {
 }
 
 // Used for simpler developing - can be removed later or adjusted only for public api route
-func CORS(c *gin.Context) {
+// https://github.com/gin-contrib/cors/issues/29
+func CORS() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
 
-	// First, we add the headers with need to enable CORS
-	// Make sure to adjust these headers to your needs
-	c.Header("Access-Control-Allow-Origin", "*")
-	c.Header("Access-Control-Allow-Methods", "*")
-	c.Header("Access-Control-Allow-Headers", "*")
-	//c.Header("Content-Type", "application/json")
-
-	// Second, we handle the OPTIONS problem
-	if c.Request.Method != "OPTIONS" {
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
 
 		c.Next()
-
-	} else {
-
-		// Everytime we receive an OPTIONS request,
-		// we just return an HTTP 200 Status Code
-		// Like this, Angular can now do the real
-		// request using any other method than OPTIONS
-		c.AbortWithStatus(http.StatusOK)
 	}
 }
