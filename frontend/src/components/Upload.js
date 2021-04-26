@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Alert from '@material-ui/lab/Alert'
 import Hidden from '@material-ui/core/Hidden'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -58,10 +59,12 @@ const rejectStyle = {
 
 export default function Upload(props) {
     const [error, setError] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
     const { token } = useToken()
     const classes = useStyles()
     const onDrop = useCallback(
         (acceptedFiles) => {
+            setIsLoading(true)
             var formData = new FormData()
             formData.append('file', acceptedFiles[0])
             fetch(`https://${window._env_.API_URL}/api/auth/upload`, {
@@ -73,6 +76,7 @@ export default function Upload(props) {
             })
                 .then((response) => {
                     if (!response.ok) {
+                        setIsLoading(false)
                         throw new Error('Something went wrong')
                     }
                 })
@@ -81,6 +85,7 @@ export default function Upload(props) {
                     window.location.href = '/'
                 })
                 .catch((error) => {
+                    setIsLoading(false)
                     setError(error)
                 })
         },
@@ -113,11 +118,11 @@ export default function Upload(props) {
                 <Typography component="h1" variant="h5">
                     Upload
                 </Typography>
-
                 <div {...getRootProps({ style })}>
                     <input {...getInputProps()} />
                     <div>Drag and drop your images here.</div>
                 </div>
+                <Hidden>{isLoading && <CircularProgress />}</Hidden>
             </div>
         </Container>
     )
