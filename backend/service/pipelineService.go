@@ -107,6 +107,9 @@ func (service *pipelineService) applyOperation(procStep datamodels.ProcessingSte
 	case datamodels.Sharpen:
 		pipelineOperations.ApplySharpenOperation(service.pipeline, procStep.ParameterJson)
 		break
+	case datamodels.Thumbnail:
+		pipelineOperations.ApplyThumbnailOperation(service.pipeline)
+		break
 	case datamodels.Transpose:
 		pipelineOperations.ApplyTransposeOperation(service.pipeline)
 		break

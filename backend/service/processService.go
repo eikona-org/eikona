@@ -149,6 +149,11 @@ func (service *processService) GetAllProcessingStepTypes() []webmodels.Processin
 			Options: []string{"sigma", "amount", "threshold"},
 		},
 		{
+			Id:      datamodels.Thumbnail,
+			Name:    "Thumbnail",
+			Options: []string{},
+		},
+		{
 			Id:      datamodels.Transpose,
 			Name:    "Transpose",
 			Options: []string{},
