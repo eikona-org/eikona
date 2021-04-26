@@ -119,6 +119,11 @@ func (service *processService) GetAllProcessingStepTypes() []webmodels.Processin
 			Options: []string{"width", "height"},
 		},
 		{
+			Id:      datamodels.Rotate,
+			Name:    "Rotate",
+			Options: []string{"angle"},
+		},
+		{
 			Id:      datamodels.Rotate90,
 			Name:    "Rotate 90 degrees",
 			Options: []string{},
