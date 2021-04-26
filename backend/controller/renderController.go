@@ -30,6 +30,7 @@ func (c *renderController) DynamicRender(ctx *gin.Context) {
 			fmt.Printf("An error has occured while rendering: %s\n", r)
 			response := helper.BuildErrorResponse("Failed to process request", "An error occurred", helper.EmptyObj{})
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, response)
+			return
 		}
 	}()
 
@@ -53,6 +54,7 @@ func (c *renderController) PipelineRender(ctx *gin.Context) {
 			fmt.Printf("An error has occured while rendering: %s\n", r)
 			response := helper.BuildErrorResponse("Failed to process request", "An error occurred", helper.EmptyObj{})
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, response)
+			return
 		}
 	}()
 
