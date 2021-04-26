@@ -32,6 +32,7 @@ func (c *processController) ListAllProcesses(context *gin.Context) {
 	var processes = c.processService.GetAllProcesses(email)
 	if processes == nil {
 		context.AbortWithStatus(http.StatusNoContent)
+		return
 	}
 	context.JSON(http.StatusOK, processes)
 }

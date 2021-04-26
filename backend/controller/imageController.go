@@ -37,6 +37,7 @@ func (c *imageController) ListAllImages(context *gin.Context) {
 	var images = c.imageService.GetAllImages(email)
 	if images == nil {
 		context.AbortWithStatus(http.StatusNoContent)
+		return
 	}
 	context.JSON(http.StatusOK, images)
 }
