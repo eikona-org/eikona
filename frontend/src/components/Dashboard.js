@@ -115,7 +115,7 @@ export default function Dashboard() {
                             {/*TODO: Use real API path*/}
                             <img
                                 key={`Img-${tile.ImageId}`}
-                                src={'https://' + window._env_.API_URL + '/api/render/dynamic/' + tile.ImageId}
+                                src={'https://' + window._env_.API_URL + '/api/render/dynamic/' + tile.ImageId + '?resize-w=300'}
                                 alt={tile.Name}
                             />
                             <GridListTileBar
