@@ -69,6 +69,11 @@ func (service *processService) GetAllProcessingStepTypes() []webmodels.Processin
 			Options: []string{},
 		},
 		{
+			Id:      datamodels.Hue,
+			Name:    "Hue",
+			Options: []string{"shift"},
+		},
+		{
 			Id:      datamodels.Invert,
 			Name:    "Invert",
 			Options: []string{},

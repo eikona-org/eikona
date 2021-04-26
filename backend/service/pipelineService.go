@@ -59,6 +59,9 @@ func (service *pipelineService) applyOperation(procStep datamodels.ProcessingSte
 	case datamodels.Grayscale:
 		pipelineOperations.ApplyGrayscaleOperation(service.pipeline)
 		break
+	case datamodels.Hue:
+		pipelineOperations.ApplyHueOperation(service.pipeline, procStep.ParameterJson)
+		break
 	case datamodels.Invert:
 		pipelineOperations.ApplyInvertOperation(service.pipeline)
 		break
