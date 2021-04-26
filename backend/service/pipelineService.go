@@ -104,5 +104,11 @@ func (service *pipelineService) applyOperation(procStep datamodels.ProcessingSte
 	case datamodels.Sharpen:
 		pipelineOperations.ApplySharpenOperation(service.pipeline, procStep.ParameterJson)
 		break
+	case datamodels.Transpose:
+		pipelineOperations.ApplyTransposeOperation(service.pipeline)
+		break
+	case datamodels.Transverse:
+		pipelineOperations.ApplyTransverseOperation(service.pipeline)
+		break
 	}
 }

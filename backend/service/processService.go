@@ -143,5 +143,15 @@ func (service *processService) GetAllProcessingStepTypes() []webmodels.Processin
 			Name:    "Sharpen",
 			Options: []string{"sigma", "amount", "threshold"},
 		},
+		{
+			Id:      datamodels.Transpose,
+			Name:    "Transpose",
+			Options: []string{},
+		},
+		{
+			Id:      datamodels.Transverse,
+			Name:    "Transverse",
+			Options: []string{},
+		},
 	}
 }
