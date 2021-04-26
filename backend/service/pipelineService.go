@@ -47,8 +47,14 @@ func (service *pipelineService) applyOperation(procStep datamodels.ProcessingSte
 	case datamodels.Blur:
 		pipelineOperations.ApplyBlurOperation(service.pipeline, procStep.ParameterJson)
 		break
+	case datamodels.Brightness:
+		pipelineOperations.ApplyBrightnessOperation(service.pipeline, procStep.ParameterJson)
+		break
 	case datamodels.Contrast:
 		pipelineOperations.ApplyContrastOperation(service.pipeline, procStep.ParameterJson)
+		break
+	case datamodels.Gamma:
+		pipelineOperations.ApplyGammaOperation(service.pipeline, procStep.ParameterJson)
 		break
 	case datamodels.Grayscale:
 		pipelineOperations.ApplyGrayscaleOperation(service.pipeline)

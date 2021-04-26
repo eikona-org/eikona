@@ -49,9 +49,19 @@ func (service *processService) GetAllProcessingStepTypes() []webmodels.Processin
 			Options: []string{"sigma"},
 		},
 		{
+			Id:      datamodels.Brightness,
+			Name:    "Brightness",
+			Options: []string{"percentage"},
+		},
+		{
 			Id:      datamodels.Contrast,
 			Name:    "Contrast",
 			Options: []string{"percentage"},
+		},
+		{
+			Id:      datamodels.Gamma,
+			Name:    "Gamma",
+			Options: []string{"gamma"},
 		},
 		{
 			Id:      datamodels.Grayscale,
