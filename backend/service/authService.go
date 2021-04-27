@@ -5,7 +5,7 @@ import (
 	datamodels "github.com/imgProcessing/backend/v2/data/datamodels"
 	"github.com/imgProcessing/backend/v2/data/repositories"
 	"github.com/imgProcessing/backend/v2/storage"
-	webmodels "github.com/imgProcessing/backend/v2/web/webmodels"
+	"github.com/imgProcessing/backend/v2/web/webmodels"
 	"golang.org/x/crypto/bcrypt"
 )
 

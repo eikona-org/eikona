@@ -5,7 +5,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/imgProcessing/backend/v2/data/repositories"
 	"github.com/imgProcessing/backend/v2/storage"
-	webmodels "github.com/imgProcessing/backend/v2/web/webmodels"
+	"github.com/imgProcessing/backend/v2/web/webmodels"
 	"mime/multipart"
 )
 

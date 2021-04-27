@@ -5,7 +5,7 @@ import (
 	datamodels "github.com/imgProcessing/backend/v2/data/datamodels"
 	"github.com/imgProcessing/backend/v2/helper"
 	"github.com/imgProcessing/backend/v2/service"
-	webmodels "github.com/imgProcessing/backend/v2/web/webmodels"
+	"github.com/imgProcessing/backend/v2/web/webmodels"
 	"net/http"
 )
 
