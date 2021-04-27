@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/imgProcessing/backend/v2/helper"
-	"github.com/imgProcessing/backend/v2/service"
+	"github.com/eikona-org/eikona/v2/helper"
+	"github.com/eikona-org/eikona/v2/service"
 	"net/http"
 )
 

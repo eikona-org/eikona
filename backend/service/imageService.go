@@ -3,9 +3,9 @@ package service
 import (
 	"errors"
 	"github.com/google/uuid"
-	"github.com/imgProcessing/backend/v2/data/repositories"
-	"github.com/imgProcessing/backend/v2/storage"
-	"github.com/imgProcessing/backend/v2/web/webmodels"
+	"github.com/eikona-org/eikona/v2/data/repositories"
+	"github.com/eikona-org/eikona/v2/storage"
+	"github.com/eikona-org/eikona/v2/web/webmodels"
 	"mime/multipart"
 )
 

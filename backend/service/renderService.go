@@ -2,10 +2,10 @@ package service
 
 import (
 	"github.com/google/uuid"
-	datamodels "github.com/imgProcessing/backend/v2/data/datamodels"
-	"github.com/imgProcessing/backend/v2/data/repositories"
-	"github.com/imgProcessing/backend/v2/helper"
-	"github.com/imgProcessing/backend/v2/storage"
+	datamodels "github.com/eikona-org/eikona/v2/data/datamodels"
+	"github.com/eikona-org/eikona/v2/data/repositories"
+	"github.com/eikona-org/eikona/v2/helper"
+	"github.com/eikona-org/eikona/v2/storage"
 )
 
 type RenderService interface {

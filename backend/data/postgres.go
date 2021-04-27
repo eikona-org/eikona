@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/go-pg/pg/v10"
 	"github.com/go-pg/pg/v10/orm"
-	"github.com/imgProcessing/backend/v2/data/datamodels"
+	"github.com/eikona-org/eikona/v2/data/datamodels"
 	"os"
 )
 

@@ -2,10 +2,10 @@ package service
 
 import (
 	"github.com/badoux/checkmail"
-	datamodels "github.com/imgProcessing/backend/v2/data/datamodels"
-	"github.com/imgProcessing/backend/v2/data/repositories"
-	"github.com/imgProcessing/backend/v2/storage"
-	"github.com/imgProcessing/backend/v2/web/webmodels"
+	datamodels "github.com/eikona-org/eikona/v2/data/datamodels"
+	"github.com/eikona-org/eikona/v2/data/repositories"
+	"github.com/eikona-org/eikona/v2/storage"
+	"github.com/eikona-org/eikona/v2/web/webmodels"
 	"golang.org/x/crypto/bcrypt"
 )
 

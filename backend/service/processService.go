@@ -1,9 +1,9 @@
 package service
 
 import (
-	datamodels "github.com/imgProcessing/backend/v2/data/datamodels"
-	"github.com/imgProcessing/backend/v2/data/repositories"
-	"github.com/imgProcessing/backend/v2/web/webmodels"
+	datamodels "github.com/eikona-org/eikona/v2/data/datamodels"
+	"github.com/eikona-org/eikona/v2/data/repositories"
+	"github.com/eikona-org/eikona/v2/web/webmodels"
 )
 
 type ProcessService interface {

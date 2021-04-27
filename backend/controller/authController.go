@@ -2,10 +2,10 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	datamodels "github.com/imgProcessing/backend/v2/data/datamodels"
-	"github.com/imgProcessing/backend/v2/helper"
-	"github.com/imgProcessing/backend/v2/service"
-	"github.com/imgProcessing/backend/v2/web/webmodels"
+	datamodels "github.com/eikona-org/eikona/v2/data/datamodels"
+	"github.com/eikona-org/eikona/v2/helper"
+	"github.com/eikona-org/eikona/v2/service"
+	"github.com/eikona-org/eikona/v2/web/webmodels"
 	"net/http"
 )
 

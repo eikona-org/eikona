@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/imgProcessing/backend/v2/helper"
-	"github.com/imgProcessing/backend/v2/service"
-	"github.com/imgProcessing/backend/v2/web/webmodels"
+	"github.com/eikona-org/eikona/v2/helper"
+	"github.com/eikona-org/eikona/v2/service"
+	"github.com/eikona-org/eikona/v2/web/webmodels"
 	"net/http"
 )
 
