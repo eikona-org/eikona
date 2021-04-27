@@ -19,7 +19,6 @@ import (
 // @license.name Apache 2.0
 // @license.url https://github.com/imgProcessing/backend/blob/main/LICENSE
 
-// @host imgprocessing.pesc.xyz
 // @BasePath /api
 func main() {
 	err := data.Init()
