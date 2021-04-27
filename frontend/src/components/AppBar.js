@@ -56,7 +56,10 @@ export default function HeaderBar() {
                                         </IconButton>
                                         <IconButton
                                             onClick={() =>
-                                                window.open(`https://${window._env_.API_URL}/api/doc/index.html`, '_blank')
+                                                window.open(
+                                                    `https://${window._env_.API_URL}/api/doc/index.html`,
+                                                    '_blank'
+                                                )
                                             }
                                             aria-label="API"
                                             color="inherit"
@@ -92,7 +95,10 @@ export default function HeaderBar() {
                                         </IconButton>
                                         <IconButton
                                             onClick={() =>
-                                                window.open(`https://${window._env_.API_URL}/api/doc/index.html`, '_blank')
+                                                window.open(
+                                                    `https://${window._env_.API_URL}/api/doc/index.html`,
+                                                    '_blank'
+                                                )
                                             }
                                             aria-label="API"
                                             color="inherit"

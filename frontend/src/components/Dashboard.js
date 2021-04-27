@@ -13,6 +13,9 @@ import Grid from '@material-ui/core/Grid'
 import SettingsIcon from '@material-ui/icons/Settings'
 import Divider from '@material-ui/core/Divider'
 
+import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
+
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -26,6 +29,12 @@ const useStyles = makeStyles((theme) => ({
     },
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
+    },
+    box: {
+        padding: theme.spacing(3),
+    },
+    title: {
+        marginTop: 30,
     },
 }))
 
@@ -90,24 +99,11 @@ export default function Dashboard() {
                     <Hidden>
                         {isLoadingImage ||
                             (errorImage && (
-                                <GridListTile key="Tile">
-                                    <img src="https://pascalchristen.ch/images/thumbs/7.jpg" alt="Placeholder" />
-                                    <GridListTileBar
-                                        title="No Images for you 😢 ...but here's one"
-                                        subtitle="Start uploading a new image"
-                                        actionIcon={
-                                            <IconButton
-                                                aria-label={`Copy to clipboard`}
-                                                className={classes.icon}
-                                                onClick={() => {
-                                                    navigator.clipboard.writeText('Upload your own image first')
-                                                }}
-                                            >
-                                                <FileCopyIcon />
-                                            </IconButton>
-                                        }
-                                    />
-                                </GridListTile>
+                                <Box className={classes.box}>
+                                    <Typography variant="h2" align="center">
+                                        So far you haven't uploaded any pictures 😭
+                                    </Typography>
+                                </Box>
                             ))}
                     </Hidden>
                     {items.map((tile) => (
@@ -154,24 +150,11 @@ export default function Dashboard() {
                     <Hidden>
                         {isLoadingProcess ||
                             (errorProcess && (
-                                <GridListTile key="Tile">
-                                    <SettingsIcon></SettingsIcon>
-                                    <GridListTileBar
-                                        title="No Process for you 😢 ...but here's one"
-                                        subtitle="Start creating your process"
-                                        actionIcon={
-                                            <IconButton
-                                                aria-label={`Copy to clipboard`}
-                                                className={classes.icon}
-                                                onClick={() => {
-                                                    navigator.clipboard.writeText('Create your process first')
-                                                }}
-                                            >
-                                                <FileCopyIcon />
-                                            </IconButton>
-                                        }
-                                    />
-                                </GridListTile>
+                                <Box className={classes.box}>
+                                    <Typography variant="h2" align="center">
+                                        So far you haven't created any processes 😭
+                                    </Typography>
+                                </Box>
                             ))}
                     </Hidden>
                     {process.map((tile) => (
