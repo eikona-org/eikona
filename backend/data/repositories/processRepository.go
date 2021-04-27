@@ -46,6 +46,18 @@ func createProcess(name string, orgId uuid.UUID) *datamodels.Process {
 	return process
 }
 
+func (r ProcessRepository) GetAll(orgId uuid.UUID) *[]datamodels.Process {
+	return getAllProcesses(orgId)
+}
+
+func (r ProcessRepository) Find(id uuid.UUID) *datamodels.Process {
+	return findProcess(id)
+}
+
+func (r ProcessRepository) FindByIdAndOrganizationId(id uuid.UUID, orgId uuid.UUID) *datamodels.Process {
+	return findProcessByIdAndOrganizationId(id, orgId)
+}
+
 func getAllProcesses(orgId uuid.UUID) *[]datamodels.Process {
 	dbConnection := data.GetDbConnection()
 	defer dbConnection.Close()

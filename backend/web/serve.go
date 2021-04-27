@@ -17,13 +17,14 @@ var (
 	imgRepo           = repositories.ImageRepository{}
 	orgRepo           = repositories.OrganizationRepository{}
 	procRepo          = repositories.ProcessRepository{}
+	procStepRepo	  = repositories.ProcessingStepRepository{}
 	userRepo          = repositories.UserRepository{}
 	storageClient     = storage.NewClient()
 	authService       = service.NewAuthService(userRepo, orgRepo, storageClient)
 	jwtService        = service.NewJWTService()
 	renderService     = service.NewRenderService(imgRepo, procRepo, storageClient)
 	imageService      = service.NewImageService(imgRepo, userRepo, storageClient)
-	processService    = service.NewProcessService(procRepo, userRepo)
+	processService    = service.NewProcessService(procRepo, procStepRepo, userRepo)
 	authController    = controller.NewAuthController(authService, jwtService)
 	renderController  = controller.NewRenderController(renderService)
 	imageController   = controller.NewImageController(imageService, jwtService)
@@ -57,10 +58,12 @@ func Serve() {
 		protectedEndpoints.GET("/processes", processController.ListAllProcesses)
 		// -> GET /api/auth/processingsteptypes
 		protectedEndpoints.GET("/processingsteptypes", processController.ListAllProcessingStepTypes)
-		// -> POST /api/auth/upload
-		protectedEndpoints.POST("/upload", imageController.UploadImage)
 		// -> POST /api/auth/process
 		protectedEndpoints.POST("/process", processController.CreateProcess)
+		// -> POST /api/auth/processingstep
+		protectedEndpoints.POST("/processingstep", processController.AttachStepToProcess)
+		// -> POST /api/auth/upload
+		protectedEndpoints.POST("/upload", imageController.UploadImage)
 	}
 
 	server.Run(":8080") //TODO: Make this configurable

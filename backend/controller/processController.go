@@ -2,6 +2,10 @@ package controller
 
 import (
 	"fmt"
+	"github.com/google/uuid"
+	data "github.com/eikona-org/eikona/v2/data/datamodels"
+	"net/http"
+	"strconv"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/eikona-org/eikona/v2/helper"
@@ -11,6 +15,7 @@ import (
 )
 
 type ProcessController interface {
+	AttachStepToProcess(context *gin.Context)
 	ListAllProcesses(context *gin.Context)
 	ListAllProcessingStepTypes(context *gin.Context)
 	CreateProcess(context *gin.Context)

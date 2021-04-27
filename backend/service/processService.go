@@ -1,12 +1,15 @@
 package service
 
 import (
+	"errors"
+	"github.com/google/uuid"
 	datamodels "github.com/eikona-org/eikona/v2/data/datamodels"
 	"github.com/eikona-org/eikona/v2/data/repositories"
 	"github.com/eikona-org/eikona/v2/web/webmodels"
 )
 
 type ProcessService interface {
+	AddProcessingStep(processId uuid.UUID, stepType datamodels.ProcessingStepType, parameters string, executionPosition int64) error
 	GetAllProcesses(email string) []webmodels.Process
 	GetAllProcessingStepTypes() []webmodels.ProcessingStepType
 	CreateProcess(dto webmodels.CreateProcess, email string) webmodels.Process
@@ -14,19 +17,41 @@ type ProcessService interface {
 
 type processService struct {
 	processRepository repositories.ProcessRepository
+	processingStepRepository repositories.ProcessingStepRepository
 	userRepository    repositories.UserRepository
 	orgRepository     repositories.OrganizationRepository
 }
 
-func NewProcessService(processRepo repositories.ProcessRepository, userRepo repositories.UserRepository) ProcessService {
+func NewProcessService(processRepo repositories.ProcessRepository, processingStepRepo repositories.ProcessingStepRepository, userRepo repositories.UserRepository) ProcessService {
 	return &processService{
 		processRepository: processRepo,
+		processingStepRepository: processingStepRepo,
 		userRepository:    userRepo,
 	}
 }
 
-func (service *processService) GetAllProcesses(email string) []webmodels.Process {
 
+func (service *processService) AddProcessingStep(processId uuid.UUID, stepType datamodels.ProcessingStepType, parameters string, executionPosition int64) error {
+	error := service.processingStepRepository.AddToProcess(processId, stepType, parameters, executionPosition)
+	if error != nil {
+		return error
+	}
+
+	return nil
+}
+
+// Login godoc
+// @Tags Processes
+// @Summary List all organization processes
+// @Description List all the processes of an organization
+// @Security jwtAuth
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} webmodels.Process
+// @Failure 400 {string} string "Bad Request"
+// @Failure 401 {string} string "Unauthorized"
+// @Router /auth/processes [get]
+func (service *processService) GetAllProcesses(email string) []webmodels.Process {
 	user := service.userRepository.FindByEmail(email)
 	processes := service.processRepository.GetAll(user.OrganizationId)
 
