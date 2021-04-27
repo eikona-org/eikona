@@ -20,7 +20,7 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          GHCR_IMAGE=ghcr.io/imgprocessing/backend
+          GHCR_IMAGE=ghcr.io/eikona-org/backend
           VERSION=latest
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             TAG=${GITHUB_REF#refs/tags/}
@@ -81,7 +81,7 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          GHCR_IMAGE=ghcr.io/imgprocessing/frontend
+          GHCR_IMAGE=ghcr.io/eikona-org/frontend
           VERSION=latest
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             TAG=${GITHUB_REF#refs/tags/}
