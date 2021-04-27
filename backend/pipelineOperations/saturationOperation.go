@@ -18,6 +18,12 @@ func ApplySaturationOperation(pipeline *gift.GIFT, params string) {
 		return
 	}
 
+	if parameters.Percentage > 500 {
+		parameters.Percentage = 500
+	} else if parameters.Percentage < -100 {
+		parameters.Percentage = -100
+	}
+
 	pipeline.Add(
 		gift.Saturation(parameters.Percentage),
 	)

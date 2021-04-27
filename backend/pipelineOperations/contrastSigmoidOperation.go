@@ -19,6 +19,18 @@ func ApplyContrastSigmoidOperation(pipeline *gift.GIFT, params string) {
 		return
 	}
 
+	if parameters.Midpoint > 1 {
+		parameters.Midpoint = 1
+	} else if parameters.Midpoint < 0 {
+		parameters.Midpoint = 0
+	}
+
+	if parameters.Factor > 100 {
+		parameters.Factor = 100
+	} else if parameters.Factor < -100 {
+		parameters.Factor = -100
+	}
+
 	pipeline.Add(
 		gift.Sigmoid(parameters.Midpoint, parameters.Factor),
 	)
