@@ -1,17 +1,36 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
+import useToken from './useToken'
 
 const Confirm = ({ handleNext, handleBack, values, selected }) => {
     const { name } = values
+    const { token } = useToken()
+    const [error, setError] = useState(null)
+    const [processId, setProcessId] = useState(null)
 
-    const handleSubmit = () => {
-        //TODO Push to API after Endpoints are done...
-        console.log(name)
-        console.log(selected)
+    const handleSubmit = async () => {
+        const process = await fetch(`https://${window._env_.API_URL}/api/auth/process`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token,
+            },
+            body: JSON.stringify({ name }),
+        }).then((res) => res.json())
+        setProcessId(process['ProcessId'])
+        console.log(processId)
+        const steps = await fetch(`https://${window._env_.API_URL}/api/auth/processsteps`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token,
+            },
+            body: JSON.stringify({ processId, selected }),
+        }).then((res) => res.json())
         handleNext()
     }
 

@@ -37,9 +37,9 @@ export default function HeaderBar() {
                 <Toolbar className={classes.toolbar}>
                     <Grid container direction="row" justify="space-between" alignItems="center">
                         <Grid item xs={12} md={4}>
-                            <Button onClick={() => navigate('/')} aria-label="Image Processing'" color="inherit">
+                            <Button onClick={() => navigate('/')} aria-label="eikona'" color="inherit">
                                 <Typography variant="h6" className={classes.title}>
-                                    Image Processing
+                                    eikona
                                 </Typography>
                             </Button>
                         </Grid>
