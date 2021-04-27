@@ -11,7 +11,7 @@ services:
       - database
 
   frontend:
-    image: 'ghcr.io/imgprocessing/frontend:latest'
+    image: 'ghcr.io/eikona-org/frontend:latest'
     restart: always
     labels:
       - traefik.enable=true
@@ -36,7 +36,7 @@ services:
       - frontend.env
 
   backend:
-    image: 'ghcr.io/imgprocessing/backend:latest'
+    image: 'ghcr.io/eikona-org/backend:latest'
     restart: always
     labels:
       - traefik.enable=true
