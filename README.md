@@ -1,14 +1,14 @@
-# ImgProcessing
-Welcome to the DS1 Challenge Project: ImageProcessing
+# eikona
+Welcome to the DS1 Challenge Project: eikona
 
 ## Infrastructure
 
-![Infrastructure overview](https://github.com/imgProcessing/backend/blob/main/doc/images/Infrastruktur.png)
+![Infrastructure overview](https://github.com/eikona-org/eikona/blob/main/doc/images/Infrastruktur.png)
 
 ## Usage Prod
 ## 1. Clone
 ```bash
-git clone https://github.com/imgProcessing/backend
+git clone https://github.com/eikona-org/eikona
 ```
 ## 2. copy cert - TODO: Let's encrypt
 ```bash
@@ -32,7 +32,7 @@ LB: https://[domain]/
 
 ## 1. Clone
 ```bash
-git clone https://github.com/imgProcessing/backend
+git clone https://github.com/eikona-org/eikona
 ```
 ## 2. mkcert
 Follow the instructions to get mkcert: https://github.com/FiloSottile/mkcert
