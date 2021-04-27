@@ -2,6 +2,8 @@ package controller
 
 import (
 	"fmt"
+	"github.com/imgProcessing/backend/v2/helper"
+	webmodels "github.com/imgProcessing/backend/v2/web/models"
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
@@ -12,6 +14,7 @@ import (
 type ProcessController interface {
 	ListAllProcesses(context *gin.Context)
 	ListAllProcessingStepTypes(context *gin.Context)
+	CreateProcess(context *gin.Context)
 }
 
 type processController struct {
@@ -43,6 +46,37 @@ func (c *processController) ListAllProcessingStepTypes(context *gin.Context) {
 		context.AbortWithStatus(http.StatusNoContent)
 	}
 	context.JSON(http.StatusOK, processes)
+}
+
+// CreateProcess godoc
+// @Tags Processes
+// @Summary Create Process
+// @Description Create a process
+// @Security jwtAuth
+// @Accept  json
+// @Produce  json
+// @Param name body webmodels.CreateProcess true "Name"
+// @Success 200 {object} webmodels.Process
+// @Failure 400 {string} string "Bad Request"
+// @Failure 401 {string} string "Unauthorized"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /auth/process [post]
+func (c *processController) CreateProcess(context *gin.Context) {
+	var createProzessDTO webmodels.CreateProcess
+	errDTO := context.ShouldBind(&createProzessDTO)
+	if errDTO != nil {
+		response := helper.BuildErrorResponse("Failed to process request", errDTO.Error(), helper.EmptyObj{})
+		context.AbortWithStatusJSON(http.StatusBadRequest, response)
+		return
+	}
+	authHeader := context.GetHeader("Authorization")
+	email := c.getEmailByToken(authHeader)
+
+	var process = c.processService.CreateProcess(createProzessDTO, email)
+	if process == (webmodels.Process{}) {
+		context.AbortWithStatus(http.StatusNoContent)
+	}
+	context.JSON(http.StatusOK, process)
 }
 
 func (c *processController) getEmailByToken(token string) string {

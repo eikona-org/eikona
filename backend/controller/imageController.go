@@ -31,7 +31,6 @@ func NewImageController(imgServ service.ImageService, jwtServ service.JWTService
 	}
 }
 
-
 func (c *imageController) ListAllImages(context *gin.Context) {
 	authHeader := context.GetHeader("Authorization")
 	email := c.getEmailByToken(authHeader)

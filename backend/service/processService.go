@@ -9,11 +9,13 @@ import (
 type ProcessService interface {
 	GetAllProcesses(email string) []webmodels.Process
 	GetAllProcessingStepTypes() []webmodels.ProcessingStepType
+	CreateProcess(dto webmodels.CreateProcess, email string) webmodels.Process
 }
 
 type processService struct {
 	processRepository repositories.ProcessRepository
 	userRepository    repositories.UserRepository
+	orgRepository     repositories.OrganizationRepository
 }
 
 func NewProcessService(processRepo repositories.ProcessRepository, userRepo repositories.UserRepository) ProcessService {
@@ -49,6 +51,18 @@ func (service *processService) GetAllProcesses(email string) []webmodels.Process
 	}
 
 	return apiProcessModels
+}
+
+func (service *processService) CreateProcess(dto webmodels.CreateProcess, email string) webmodels.Process {
+	user := service.userRepository.FindByEmail(email)
+	org := service.orgRepository.Find(user.OrganizationId)
+
+	process := service.processRepository.Create(dto.Name, org.OrganizationId)
+	apiProcessModel := webmodels.Process{
+		ProcessId: process.ProcessId,
+		Name:      process.Name,
+	}
+	return apiProcessModel
 }
 
 // Processsteps godoc

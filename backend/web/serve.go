@@ -59,6 +59,8 @@ func Serve() {
 		protectedEndpoints.GET("/processingsteptypes", processController.ListAllProcessingStepTypes)
 		// -> POST /api/auth/upload
 		protectedEndpoints.POST("/upload", imageController.UploadImage)
+		// -> POST /api/auth/process
+		protectedEndpoints.POST("/process", processController.CreateProcess)
 	}
 
 	server.Run(":8080") //TODO: Make this configurable

@@ -20,6 +20,32 @@ func (r ProcessRepository) FindByIdAndOrganizationId(id uuid.UUID, orgId uuid.UU
 	return findProcessByIdAndOrganizationId(id, orgId)
 }
 
+func (r ProcessRepository) Create(name string, orgId uuid.UUID) *datamodels.Process {
+	return createProcess(name, orgId)
+}
+
+func createProcess(name string, orgId uuid.UUID) *datamodels.Process {
+	dbConnection := data.GetDbConnection()
+	defer dbConnection.Close()
+
+	transaction, transactionError := dbConnection.Begin()
+	if transactionError != nil {
+		panic(transactionError)
+	}
+	process := &datamodels.Process{
+		Name:    name,
+		OwnerId: orgId,
+	}
+	_, creationError := dbConnection.Model(process).Insert()
+	if creationError != nil {
+		transaction.Rollback()
+		panic(creationError)
+	}
+	transaction.Commit()
+
+	return process
+}
+
 func getAllProcesses(orgId uuid.UUID) *[]datamodels.Process {
 	dbConnection := data.GetDbConnection()
 	defer dbConnection.Close()
