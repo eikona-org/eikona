@@ -26,6 +26,7 @@ RUN go mod download
 COPY . .
 
 # Build the docs
+RUN go get -u github.com/swaggo/swag/cmd/swag
 RUN swag init
 
 # Build the Go app
