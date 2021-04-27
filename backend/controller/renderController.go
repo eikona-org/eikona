@@ -24,6 +24,18 @@ func NewRenderController(renderService service.RenderService) RenderController {
 	}
 }
 
+// DynamicRender godoc
+// @Tags Render
+// @Summary Render image dynamically
+// @Description Render an image dynamically based on the query parameters
+// @Produce image/jpeg,image/png
+// @Success 200 {string} string "OK"
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Param image-id path string true "Id of the image that should be rendered"
+// @Param resize-w query int false "Resize width parameter"
+// @Param resize-h query int false "Resize height parameter"
+// @Router /render/dynamic/{image-id} [get]
 func (c *renderController) DynamicRender(ctx *gin.Context) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -48,6 +60,17 @@ func (c *renderController) DynamicRender(ctx *gin.Context) {
 	)
 }
 
+// PipelineRender godoc
+// @Tags Render
+// @Summary Render image based on pipeline
+// @Description Render an image based on a previously defined pipeline
+// @Produce image/jpeg,image/png
+// @Success 200 {string} string "OK"
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Param image-id path string true "Id of the image that should be rendered"
+// @Param pipeline-id path string true "Id of the pipeline that should be used for rendering"
+// @Router /render/pipeline/{image-id}/{pipeline-id} [get]
 func (c *renderController) PipelineRender(ctx *gin.Context) {
 	defer func() {
 		if r := recover(); r != nil {
