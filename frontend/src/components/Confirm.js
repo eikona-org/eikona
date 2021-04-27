@@ -23,6 +23,7 @@ const Confirm = ({ handleNext, handleBack, values, selected }) => {
         }).then((res) => res.json())
         setProcessId(process['ProcessId'])
         console.log(processId)
+        console.log(selected)
         const steps = await fetch(`https://${window._env_.API_URL}/api/auth/processsteps`, {
             method: 'POST',
             headers: {
