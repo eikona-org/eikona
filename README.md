@@ -53,8 +53,10 @@ Rename the *.env.sample files to *.env and edit them.
 ```bash
 docker-compose up
 ```
+## 5. Generate docs
+Run `go get -u github.com/swaggo/swag/cmd/swag` in the `backend` folder and then `swag init`
 
-## 5. Access
+## 6. Access
 
 LB: https://docker.localhost/
 
