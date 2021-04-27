@@ -67,7 +67,7 @@ export default function HeaderBar() {
                                             <CodeIcon fontSize="small" />
                                         </IconButton>
                                         <IconButton
-                                            onClick={() => window.open('https://github.com/imgProcessing', '_blank')}
+                                            onClick={() => window.open('https://github.com/eikona-org', '_blank')}
                                             aria-label="Source Code"
                                             color="inherit"
                                         >
@@ -106,7 +106,7 @@ export default function HeaderBar() {
                                             <CodeIcon fontSize="small" />
                                         </IconButton>
                                         <IconButton
-                                            onClick={() => window.open('https://github.com/imgProcessing', '_blank')}
+                                            onClick={() => window.open('https://github.com/eikona-org', '_blank')}
                                             aria-label="Source Code"
                                             color="inherit"
                                         >

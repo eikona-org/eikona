@@ -40,7 +40,7 @@ export default function FAB() {
     return (
         <div className={classes.root}>
             <SpeedDial
-                ariaLabel="ImgProcessing Actions"
+                ariaLabel="Eikona Actions"
                 className={classes.speedDial}
                 icon={<SpeedDialIcon />}
                 onClose={handleClose}
