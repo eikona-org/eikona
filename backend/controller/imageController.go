@@ -5,6 +5,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/imgProcessing/backend/v2/service"
+	_ "github.com/imgProcessing/backend/v2/web/webmodels"
 	"net/http"
 )
 
@@ -31,7 +32,17 @@ func NewImageController(imgServ service.ImageService, jwtServ service.JWTService
 	}
 }
 
-
+// ListAllImages godoc
+// @Tags Images
+// @Summary List all organization images
+// @Description List all the images of an organization
+// @Security jwtAuth
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} []webmodels.Image
+// @Failure 400 {string} string "Bad Request"
+// @Failure 401 {string} string "Unauthorized"
+// @Router /auth/images [get]
 func (c *imageController) ListAllImages(context *gin.Context) {
 	authHeader := context.GetHeader("Authorization")
 	email := c.getEmailByToken(authHeader)
@@ -43,7 +54,7 @@ func (c *imageController) ListAllImages(context *gin.Context) {
 	context.JSON(http.StatusOK, images)
 }
 
-// Upload godoc
+// UploadImage godoc
 // @Tags Images
 // @Summary Upload an image
 // @Description Upload an image

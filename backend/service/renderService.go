@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/google/uuid"
-	datamodels "github.com/imgProcessing/backend/v2/data/models"
+	datamodels "github.com/imgProcessing/backend/v2/data/datamodels"
 	"github.com/imgProcessing/backend/v2/data/repositories"
 	"github.com/imgProcessing/backend/v2/helper"
 	"github.com/imgProcessing/backend/v2/storage"

@@ -5,7 +5,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/imgProcessing/backend/v2/data/repositories"
 	"github.com/imgProcessing/backend/v2/storage"
-	webmodels "github.com/imgProcessing/backend/v2/web/models"
+	webmodels "github.com/imgProcessing/backend/v2/web/webmodels"
 	"mime/multipart"
 )
 
@@ -29,17 +29,6 @@ func NewImageService(imageRepo repositories.ImageRepository, userRepo repositori
 	}
 }
 
-// Login godoc
-// @Tags Images
-// @Summary List all organization images
-// @Description List all the images of an organization
-// @Security jwtAuth
-// @Accept  json
-// @Produce  json
-// @Success 200 {object} webmodels.Image
-// @Failure 400 {string} string "Bad Request"
-// @Failure 401 {string} string "Unauthorized"
-// @Router /auth/images [get]
 func (service *imageService) GetAllImages(email string) []webmodels.Image {
 	user := service.userRepository.FindByEmail(email)
 	images := service.imageRepository.GetAll(user.OrganizationId)
@@ -68,9 +57,9 @@ func (service *imageService) Insert(fileHeader *multipart.FileHeader, email stri
 	}
 
 	minioName := uuid.NewString()
-	file, error := fileHeader.Open()
-	if error != nil {
-		return error
+	file, err := fileHeader.Open()
+	if err != nil {
+		return err
 	}
 	service.storageClient.CreateObject(org.MinioBucketName, minioName, file, fileHeader.Size)
 

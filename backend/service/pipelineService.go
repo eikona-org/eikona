@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/disintegration/gift"
-	datamodels "github.com/imgProcessing/backend/v2/data/models"
+	datamodels "github.com/imgProcessing/backend/v2/data/datamodels"
 	"github.com/imgProcessing/backend/v2/helper"
 	"github.com/imgProcessing/backend/v2/pipelineOperations"
 	"image"

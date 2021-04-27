@@ -3,7 +3,7 @@ package repositories
 import (
 	"github.com/google/uuid"
 	"github.com/imgProcessing/backend/v2/data"
-	datamodels "github.com/imgProcessing/backend/v2/data/models"
+	datamodels "github.com/imgProcessing/backend/v2/data/datamodels"
 )
 
 type OrganizationRepository struct{}

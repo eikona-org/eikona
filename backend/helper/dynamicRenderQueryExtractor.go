@@ -2,7 +2,7 @@ package helper
 
 import (
 	"fmt"
-	datamodels "github.com/imgProcessing/backend/v2/data/models"
+	datamodels "github.com/imgProcessing/backend/v2/data/datamodels"
 	"strconv"
 )
 

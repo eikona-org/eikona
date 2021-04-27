@@ -1,4 +1,4 @@
-package models
+package webmodels
 
 type RegisterInformation struct {
 	Name     string `json:"name" form:"name" binding:"required" example:"Max Mustermann"`

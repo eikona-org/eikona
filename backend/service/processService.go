@@ -1,9 +1,9 @@
 package service
 
 import (
-	datamodels "github.com/imgProcessing/backend/v2/data/models"
+	datamodels "github.com/imgProcessing/backend/v2/data/datamodels"
 	"github.com/imgProcessing/backend/v2/data/repositories"
-	webmodels "github.com/imgProcessing/backend/v2/web/models"
+	webmodels "github.com/imgProcessing/backend/v2/web/webmodels"
 )
 
 type ProcessService interface {
