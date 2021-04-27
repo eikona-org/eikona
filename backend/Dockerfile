@@ -25,6 +25,9 @@ RUN go mod download
 
 COPY . .
 
+# Build the docs
+RUN swag init
+
 # Build the Go app
 RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -a -installsuffix cgo -o main .
 
