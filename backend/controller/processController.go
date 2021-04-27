@@ -28,6 +28,17 @@ func NewProcessController(processServ service.ProcessService, jwtServ service.JW
 	}
 }
 
+// ListAllProcesses godoc
+// @Tags Processes
+// @Summary List all organization processes
+// @Description List all the processes of an organization
+// @Security jwtAuth
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} []webmodels.Process
+// @Failure 400 {string} string "Bad Request"
+// @Failure 401 {string} string "Unauthorized"
+// @Router /auth/processes [get]
 func (c *processController) ListAllProcesses(context *gin.Context) {
 	authHeader := context.GetHeader("Authorization")
 	email := c.getEmailByToken(authHeader)
@@ -39,6 +50,17 @@ func (c *processController) ListAllProcesses(context *gin.Context) {
 	context.JSON(http.StatusOK, processes)
 }
 
+// ListAllProcessingStepTypes godoc
+// @Tags Processes
+// @Summary List all processing steps
+// @Description List all the avaialable processing steps
+// @Security jwtAuth
+// @Accept json
+// @Produce json
+// @Success 200 {object} []webmodels.ProcessingStepType
+// @Failure 400 {string} string "Bad Request"
+// @Failure 401 {string} string "Unauthorized"
+// @Router /auth/processingsteptypes [get]
 func (c *processController) ListAllProcessingStepTypes(context *gin.Context) {
 	var processes = c.processService.GetAllProcessingStepTypes()
 	if processes == nil {
@@ -52,8 +74,8 @@ func (c *processController) ListAllProcessingStepTypes(context *gin.Context) {
 // @Summary Create Process
 // @Description Create a process
 // @Security jwtAuth
-// @Accept  json
-// @Produce  json
+// @Accept json
+// @Produce json
 // @Param name body webmodels.CreateProcess true "Name"
 // @Success 200 {object} webmodels.Process
 // @Failure 400 {string} string "Bad Request"

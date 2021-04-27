@@ -12,12 +12,6 @@ import (
 type ImageController interface {
 	ListAllImages(context *gin.Context)
 	UploadImage(context *gin.Context)
-	//AllProcess(context *gin.Context)
-	//UpdateImage(context *gin.Context)
-	//DeleteImage(context *gin.Context)
-	//CreateProcess(context *gin.Context)
-	//UpdateProcess(context *gin.Context)
-	//DeleteProcess(context *gin.Context)
 }
 
 type imageController struct {
@@ -37,8 +31,8 @@ func NewImageController(imgServ service.ImageService, jwtServ service.JWTService
 // @Summary List all organization images
 // @Description List all the images of an organization
 // @Security jwtAuth
-// @Accept  json
-// @Produce  json
+// @Accept json
+// @Produce json
 // @Success 200 {object} []webmodels.Image
 // @Failure 400 {string} string "Bad Request"
 // @Failure 401 {string} string "Unauthorized"
@@ -59,8 +53,8 @@ func (c *imageController) ListAllImages(context *gin.Context) {
 // @Summary Upload an image
 // @Description Upload an image
 // @Security jwtAuth
-// @Accept  json
-// @Produce  json
+// @Accept json
+// @Produce json
 // @Success 200 {string} string "OK"
 // @Failure 400 {string} string "Bad Request"
 // @Failure 401 {string} string "Unauthorized"

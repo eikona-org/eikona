@@ -30,8 +30,8 @@ func NewAuthController(authService service.AuthService, jwtService service.JWTSe
 // @Tags Authorization
 // @Summary Login
 // @Description Verify User Credentials returning a JSON Web Token
-// @Accept  json
-// @Produce  json
+// @Accept json
+// @Produce json
 // @Param user body webmodels.LoginCredentials true "User Data"
 // @Success 200 {string} string "Token"
 // @Failure 400 {string} string "Bad Request"
@@ -61,8 +61,8 @@ func (c *authController) Login(ctx *gin.Context) {
 // @Tags Authorization
 // @Summary Register
 // @Description Register a User with an name, email, password
-// @Accept  json
-// @Produce  json
+// @Accept json
+// @Produce json
 // @Param user body webmodels.RegisterInformation true "User Data"
 // @Success 201 {string} string "ok"
 // @Failure 400,409 {string} string "error"
