@@ -18,6 +18,12 @@ func ApplyHueOperation(pipeline *gift.GIFT, params string) {
 		return
 	}
 
+	if parameters.Shift > 180 {
+		parameters.Shift = 180
+	} else if parameters.Shift < -180 {
+		parameters.Shift = -180
+	}
+
 	pipeline.Add(
 		gift.Hue(parameters.Shift),
 	)

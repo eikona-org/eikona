@@ -19,6 +19,18 @@ func ApplyFillOperation(pipeline *gift.GIFT, params string) {
 		return
 	}
 
+	if parameters.Width > 5000 {
+		parameters.Width = 5000
+	} else if parameters.Width < 0 {
+		parameters.Width = 0
+	}
+
+	if parameters.Height > 5000 {
+		parameters.Height = 5000
+	} else if parameters.Height < 0 {
+		parameters.Height = 0
+	}
+
 	pipeline.Add(
 		gift.ResizeToFill(
 			parameters.Width,

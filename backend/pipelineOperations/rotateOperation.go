@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/disintegration/gift"
 	"image/color"
+	"math"
 )
 
 type rotateParameters struct {
@@ -17,6 +18,12 @@ func ApplyRotateOperation(pipeline *gift.GIFT, params string) {
 
 	if err != nil {
 		return
+	}
+
+	if parameters.Angle > 360 {
+		parameters.Angle = float32(math.Mod(float64(parameters.Angle), 360))
+	} else if parameters.Angle < -360 {
+		parameters.Angle = float32(math.Mod(float64(parameters.Angle), -360))
 	}
 
 	pipeline.Add(

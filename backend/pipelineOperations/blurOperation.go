@@ -18,6 +18,12 @@ func ApplyBlurOperation(pipeline *gift.GIFT, params string) {
 		return
 	}
 
+	if parameters.Sigma > 100 {
+		parameters.Sigma = 100
+	} else if parameters.Sigma < 0 {
+		parameters.Sigma = 0
+	}
+
 	pipeline.Add(
 		gift.GaussianBlur(parameters.Sigma),
 	)
