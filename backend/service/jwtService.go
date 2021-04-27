@@ -25,7 +25,7 @@ type jwtService struct {
 
 func NewJWTService() JWTService {
 	return &jwtService{
-		issuer:    "ImgProcessingService",
+		issuer:    "eikonaService",
 		secretKey: getSecretKey(),
 	}
 }

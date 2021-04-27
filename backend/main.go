@@ -4,7 +4,7 @@ import (
 	"github.com/eikona-org/eikona/v2/data"
 	"github.com/eikona-org/eikona/v2/web"
 )
-// @title Image Procsessing API
+// @title eikona API
 // @version 1.0
 // @description Convert images on the fly
 // @termsOfService https://github.com/eikona-org/eikona/blob/main/LICENSE
