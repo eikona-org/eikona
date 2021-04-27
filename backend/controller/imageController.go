@@ -43,6 +43,18 @@ func (c *imageController) ListAllImages(context *gin.Context) {
 	context.JSON(http.StatusOK, images)
 }
 
+// Upload godoc
+// @Tags Images
+// @Summary Upload an image
+// @Description Upload an image
+// @Security jwtAuth
+// @Accept  json
+// @Produce  json
+// @Success 200 {string} string "OK"
+// @Failure 400 {string} string "Bad Request"
+// @Failure 401 {string} string "Unauthorized"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /auth/upload [post]
 func (c *imageController) UploadImage(context *gin.Context) {
 	authHeader := context.GetHeader("Authorization")
 	email := c.getEmailByToken(authHeader)

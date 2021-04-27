@@ -23,6 +23,17 @@ func NewProcessService(processRepo repositories.ProcessRepository, userRepo repo
 	}
 }
 
+// Login godoc
+// @Tags Processes
+// @Summary List all organization processes
+// @Description List all the processes of an organization
+// @Security jwtAuth
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} webmodels.Process
+// @Failure 400 {string} string "Bad Request"
+// @Failure 401 {string} string "Unauthorized"
+// @Router /auth/processes [get]
 func (service *processService) GetAllProcesses(email string) []webmodels.Process {
 
 	user := service.userRepository.FindByEmail(email)
@@ -40,6 +51,17 @@ func (service *processService) GetAllProcesses(email string) []webmodels.Process
 	return apiProcessModels
 }
 
+// Processsteps godoc
+// @Tags Processes
+// @Summary List all processing steps
+// @Description List all the avaialable processing steps
+// @Security jwtAuth
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} webmodels.ProcessingStepType
+// @Failure 400 {string} string "Bad Request"
+// @Failure 401 {string} string "Unauthorized"
+// @Router /auth/processingsteptypes [get]
 func (service *processService) GetAllProcessingStepTypes() []webmodels.ProcessingStepType {
 	// TODO: Maybe also move these into pipelineOperations
 	return []webmodels.ProcessingStepType{

@@ -37,6 +37,8 @@ func NewImageService(imageRepo repositories.ImageRepository, userRepo repositori
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} webmodels.Image
+// @Failure 400 {string} string "Bad Request"
+// @Failure 401 {string} string "Unauthorized"
 // @Router /auth/images [get]
 func (service *imageService) GetAllImages(email string) []webmodels.Image {
 	user := service.userRepository.FindByEmail(email)
