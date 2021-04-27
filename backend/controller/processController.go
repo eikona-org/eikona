@@ -101,6 +101,19 @@ func (c *processController) CreateProcess(context *gin.Context) {
 	context.JSON(http.StatusOK, process)
 }
 
+// AttachStepToProcess godoc
+// @Tags Processes
+// @Summary Attach Step To Process
+// @Description Attaches a ProcessingStep to the chosen Process
+// @Security jwtAuth
+// @Accept json
+// @Produce json
+// @Param name body webmodels.ProcessStepAttachment true "Name"
+// @Success 200
+// @Failure 400 {string} string "Bad Request"
+// @Failure 401 {string} string "Unauthorized"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /auth/processingstep [post]
 func (c *processController) AttachStepToProcess(context *gin.Context) {
 	var attachStepDTO webmodels.ProcessStepAttachment
 	errDTO := context.ShouldBind(&attachStepDTO)
