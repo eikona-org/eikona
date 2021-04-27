@@ -1,15 +1,13 @@
 package service
 
 import (
-	"errors"
-	"github.com/google/uuid"
 	datamodels "github.com/eikona-org/eikona/v2/data/datamodels"
 	"github.com/eikona-org/eikona/v2/data/repositories"
 	"github.com/eikona-org/eikona/v2/web/webmodels"
 )
 
 type ProcessService interface {
-	AddProcessingStep(processId uuid.UUID, stepType datamodels.ProcessingStepType, parameters string, executionPosition int64) error
+	AddProcessingStep(model webmodels.ProcessStepAttachment) error
 	GetAllProcesses(email string) []webmodels.Process
 	GetAllProcessingStepTypes() []webmodels.ProcessingStepType
 	CreateProcess(dto webmodels.CreateProcess, email string) webmodels.Process
@@ -31,8 +29,8 @@ func NewProcessService(processRepo repositories.ProcessRepository, processingSte
 }
 
 
-func (service *processService) AddProcessingStep(processId uuid.UUID, stepType datamodels.ProcessingStepType, parameters string, executionPosition int64) error {
-	error := service.processingStepRepository.AddToProcess(processId, stepType, parameters, executionPosition)
+func (service *processService) AddProcessingStep(model webmodels.ProcessStepAttachment) error {
+	error := service.processingStepRepository.AddToProcess(model.ProcessId, model.ProcessingStepType, model.ParameterJson, model.ExecutionPosition)
 	if error != nil {
 		return error
 	}

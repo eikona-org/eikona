@@ -2,15 +2,11 @@ package controller
 
 import (
 	"fmt"
-	"github.com/google/uuid"
-	data "github.com/eikona-org/eikona/v2/data/datamodels"
-	"net/http"
-	"strconv"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
 	"github.com/eikona-org/eikona/v2/helper"
 	"github.com/eikona-org/eikona/v2/service"
 	"github.com/eikona-org/eikona/v2/web/webmodels"
+	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
@@ -103,6 +99,25 @@ func (c *processController) CreateProcess(context *gin.Context) {
 		context.AbortWithStatus(http.StatusNoContent)
 	}
 	context.JSON(http.StatusOK, process)
+}
+
+func (c *processController) AttachStepToProcess(context *gin.Context) {
+	var attachStepDTO webmodels.ProcessStepAttachment
+	errDTO := context.ShouldBind(&attachStepDTO)
+	if errDTO != nil {
+		response := helper.BuildErrorResponse("Failed to process request", errDTO.Error(), helper.EmptyObj{})
+		context.AbortWithStatusJSON(http.StatusBadRequest, response)
+		return
+	}
+
+	errAtt := c.processService.AddProcessingStep(attachStepDTO)
+	if errAtt != nil {
+		response := helper.BuildErrorResponse("Failed to insert ProcessingStep", errAtt.Error(), helper.EmptyObj{})
+		context.AbortWithStatusJSON(http.StatusInternalServerError, response)
+		return
+	}
+
+	context.Status(http.StatusOK)
 }
 
 func (c *processController) getEmailByToken(token string) string {
