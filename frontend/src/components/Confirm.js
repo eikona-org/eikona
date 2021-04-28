@@ -23,8 +23,8 @@ const Confirm = ({ handleNext, handleBack, values, selected }) => {
             body: JSON.stringify(process),
         })
         if (!response.ok) {
-            const message = `An error has occured: ${response.status}`;
-            throw new Error(message);
+            const message = `An error has occured: ${response.status}`
+            throw new Error(message)
         }
     }
 
@@ -49,11 +49,13 @@ const Confirm = ({ handleNext, handleBack, values, selected }) => {
     }
     const handleSubmit = () => {
         const process = buildStepsArray()
-        createProcess(process).then(function(){
-            handleNext()
-        }).catch(error => {
-            setError(error)
-        });
+        createProcess(process)
+            .then(function () {
+                handleNext()
+            })
+            .catch((error) => {
+                setError(error)
+            })
     }
 
     return (
