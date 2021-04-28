@@ -17,18 +17,19 @@ var (
 	imgRepo           = repositories.ImageRepository{}
 	orgRepo           = repositories.OrganizationRepository{}
 	procRepo          = repositories.ProcessRepository{}
-	procStepRepo	  = repositories.ProcessingStepRepository{}
+	procStepRepo      = repositories.ProcessingStepRepository{}
 	userRepo          = repositories.UserRepository{}
 	storageClient     = storage.NewClient()
 	authService       = service.NewAuthService(userRepo, orgRepo, storageClient)
+	cacheService      = service.NewCacheService()
+	imageService      = service.NewImageService(imgRepo, userRepo, storageClient)
 	jwtService        = service.NewJWTService()
 	renderService     = service.NewRenderService(imgRepo, procRepo, storageClient)
-	imageService      = service.NewImageService(imgRepo, userRepo, storageClient)
 	processService    = service.NewProcessService(procRepo, procStepRepo, userRepo)
 	authController    = controller.NewAuthController(authService, jwtService)
-	renderController  = controller.NewRenderController(renderService)
 	imageController   = controller.NewImageController(imageService, jwtService)
 	processController = controller.NewProcessController(processService, jwtService)
+	renderController  = controller.NewRenderController(renderService, cacheService)
 )
 
 func Serve() {
@@ -93,7 +94,7 @@ func RequestCancelRecover() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		defer func() {
 			if err := recover(); err != nil {
-				fmt.Println("client cancelled the request")
+				fmt.Println("A problem occured")
 				c.Request.Context().Done()
 			}
 		}()

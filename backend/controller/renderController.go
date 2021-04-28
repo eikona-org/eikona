@@ -2,10 +2,10 @@ package controller
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	"github.com/eikona-org/eikona/v2/helper"
 	"github.com/eikona-org/eikona/v2/service"
+	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"net/http"
 )
 
@@ -16,11 +16,13 @@ type RenderController interface {
 
 type renderController struct {
 	renderService service.RenderService
+	cacheService  service.CacheService
 }
 
-func NewRenderController(renderService service.RenderService) RenderController {
+func NewRenderController(renderService service.RenderService, cacheService service.CacheService) RenderController {
 	return &renderController{
 		renderService: renderService,
+		cacheService:  cacheService,
 	}
 }
 
@@ -49,7 +51,17 @@ func (c *renderController) DynamicRender(ctx *gin.Context) {
 	imgUuid := uuid.MustParse(ctx.Param("identifier"))
 	queryParameters := ctx.Request.URL.Query()
 
-	imgWrapper := c.renderService.DynamicRender(imgUuid, helper.ExtractProcessingSteps(queryParameters))
+	cacheKey := fmt.Sprintf("%s/%s", imgUuid.String(), queryParameters.Encode())
+
+	cacheValue, cacheHit := c.cacheService.CheckCache(cacheKey)
+
+	var imgWrapper *helper.ImageWrapper
+	if cacheHit {
+		imgWrapper = &helper.ImageWrapper{ImageType: cacheValue.ImageType, EncodedImage: &cacheValue.EncodedImage}
+	} else {
+		imgWrapper = c.renderService.DynamicRender(imgUuid, helper.ExtractProcessingSteps(queryParameters))
+		c.cacheService.AddToCache(cacheKey, imgWrapper)
+	}
 
 	ctx.DataFromReader(
 		http.StatusOK,
@@ -84,7 +96,17 @@ func (c *renderController) PipelineRender(ctx *gin.Context) {
 	imgUuid := uuid.MustParse(ctx.Param("identifier"))
 	procUuid := uuid.MustParse(ctx.Param("process"))
 
-	imgWrapper := c.renderService.PipelineRender(imgUuid, procUuid)
+	cacheKey := fmt.Sprintf("%s/%s", imgUuid.String(), procUuid.String())
+
+	cacheValue, cacheHit := c.cacheService.CheckCache(cacheKey)
+
+	var imgWrapper *helper.ImageWrapper
+	if cacheHit {
+		imgWrapper = &helper.ImageWrapper{ImageType: cacheValue.ImageType, EncodedImage: &cacheValue.EncodedImage}
+	} else {
+		imgWrapper := c.renderService.PipelineRender(imgUuid, procUuid)
+		c.cacheService.AddToCache(cacheKey, imgWrapper)
+	}
 
 	ctx.DataFromReader(
 		http.StatusOK,
