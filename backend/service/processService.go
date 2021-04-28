@@ -54,17 +54,6 @@ func (service *processService) AddProcessingSteps(model webmodels.ProcessStepsAt
 	return nil
 }
 
-// Login godoc
-// @Tags Processes
-// @Summary List all organization processes
-// @Description List all the processes of an organization
-// @Security jwtAuth
-// @Accept  json
-// @Produce  json
-// @Success 200 {object} webmodels.Process
-// @Failure 400 {string} string "Bad Request"
-// @Failure 401 {string} string "Unauthorized"
-// @Router /auth/processes [get]
 func (service *processService) GetAllProcesses(email string) []webmodels.Process {
 	user := service.userRepository.FindByEmail(email)
 	processes := service.processRepository.GetAll(user.OrganizationId)
