@@ -7,6 +7,8 @@ import (
 )
 
 type ProcessService interface {
+	AddProcessingStep(model webmodels.ProcessStepAttachment) error
+	AddProcessingSteps(model webmodels.ProcessStepsAttachment) error
 	GetAllProcesses(email string) []webmodels.Process
 	GetAllProcessingStepTypes() []webmodels.ProcessingStepType
 	CreateProcess(dto webmodels.CreateProcess, email string) webmodels.Process
@@ -27,6 +29,29 @@ func NewProcessService(processRepo repositories.ProcessRepository, processingSte
 	}
 }
 
+func (service *processService) AddProcessingStep(model webmodels.ProcessStepAttachment) error {
+	error := service.processingStepRepository.AddToProcess(model.ProcessId, model.ProcessingStepType, model.ParameterJson, model.ExecutionPosition)
+	if error != nil {
+		return error
+	}
+
+	return nil
+}
+
+func (service *processService) AddProcessingSteps(model webmodels.ProcessStepsAttachment) error {
+	for i := 0; i < len(model.ProcessingSteps); i++ {
+		error := service.processingStepRepository.AddToProcess(
+			model.ProcessingSteps[i].ProcessId,
+			model.ProcessingSteps[i].ProcessingStepType,
+			model.ProcessingSteps[i].ParameterJson,
+			model.ProcessingSteps[i].ExecutionPosition)
+		if error != nil {
+			return error
+		}
+	}
+
+	return nil
+}
 
 func (service *processService) GetAllProcesses(email string) []webmodels.Process {
 	user := service.userRepository.FindByEmail(email)

@@ -11,6 +11,8 @@ import (
 )
 
 type ProcessController interface {
+	AttachStepsToProcess(context *gin.Context)
+	AttachStepToProcess(context *gin.Context)
 	ListAllProcesses(context *gin.Context)
 	ListAllProcessingStepTypes(context *gin.Context)
 	CreateProcess(context *gin.Context)
@@ -98,6 +100,70 @@ func (c *processController) CreateProcess(context *gin.Context) {
 		context.AbortWithStatus(http.StatusNoContent)
 	}
 	context.JSON(http.StatusOK, process)
+}
+
+// AttachStepToProcess godoc
+// @Tags Processes
+// @Summary Attach Step To Process
+// @Description Attaches a ProcessingStep to the chosen Process
+// @Security jwtAuth
+// @Accept json
+// @Produce json
+// @Param name body webmodels.ProcessStepAttachment true "Name"
+// @Success 200
+// @Failure 400 {string} string "Bad Request"
+// @Failure 401 {string} string "Unauthorized"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /auth/processingstep [post]
+func (c *processController) AttachStepToProcess(context *gin.Context) {
+	var attachStepDTO webmodels.ProcessStepAttachment
+	errDTO := context.ShouldBind(&attachStepDTO)
+	if errDTO != nil {
+		response := helper.BuildErrorResponse("Failed to process request", errDTO.Error(), helper.EmptyObj{})
+		context.AbortWithStatusJSON(http.StatusBadRequest, response)
+		return
+	}
+
+	errAtt := c.processService.AddProcessingStep(attachStepDTO)
+	if errAtt != nil {
+		response := helper.BuildErrorResponse("Failed to insert ProcessingStep", errAtt.Error(), helper.EmptyObj{})
+		context.AbortWithStatusJSON(http.StatusInternalServerError, response)
+		return
+	}
+
+	context.Status(http.StatusOK)
+}
+
+// AttachStepsToProcess godoc
+// @Tags Processes
+// @Summary Attach Multiple Steps To Process
+// @Description Attaches multiple ProcessingSteps to the chosen Process
+// @Security jwtAuth
+// @Accept json
+// @Produce json
+// @Param name body webmodels.ProcessStepsAttachment true "Name"
+// @Success 200
+// @Failure 400 {string} string "Bad Request"
+// @Failure 401 {string} string "Unauthorized"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /auth/processingsteps [post]
+func (c *processController) AttachStepsToProcess(context *gin.Context) {
+	var attachStepsDTO webmodels.ProcessStepsAttachment
+	errDTO := context.ShouldBind(&attachStepsDTO)
+	if errDTO != nil {
+		response := helper.BuildErrorResponse("Failed to process request", errDTO.Error(), helper.EmptyObj{})
+		context.AbortWithStatusJSON(http.StatusBadRequest, response)
+		return
+	}
+
+	errAtt := c.processService.AddProcessingSteps(attachStepsDTO)
+	if errAtt != nil {
+		response := helper.BuildErrorResponse("Failed to insert ProcessingStep", errAtt.Error(), helper.EmptyObj{})
+		context.AbortWithStatusJSON(http.StatusInternalServerError, response)
+		return
+	}
+
+	context.Status(http.StatusOK)
 }
 
 func (c *processController) getEmailByToken(token string) string {
