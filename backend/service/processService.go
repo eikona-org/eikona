@@ -8,6 +8,7 @@ import (
 
 type ProcessService interface {
 	AddProcessingStep(model webmodels.ProcessStepAttachment) error
+	AddProcessingSteps(model webmodels.ProcessStepsAttachment) error
 	GetAllProcesses(email string) []webmodels.Process
 	GetAllProcessingStepTypes() []webmodels.ProcessingStepType
 	CreateProcess(dto webmodels.CreateProcess, email string) webmodels.Process
@@ -38,17 +39,21 @@ func (service *processService) AddProcessingStep(model webmodels.ProcessStepAtta
 	return nil
 }
 
-// Login godoc
-// @Tags Processes
-// @Summary List all organization processes
-// @Description List all the processes of an organization
-// @Security jwtAuth
-// @Accept  json
-// @Produce  json
-// @Success 200 {object} webmodels.Process
-// @Failure 400 {string} string "Bad Request"
-// @Failure 401 {string} string "Unauthorized"
-// @Router /auth/processes [get]
+func (service *processService) AddProcessingSteps(model webmodels.ProcessStepsAttachment) error {
+	for i := 0; i < len(model.ProcessingSteps); i++ {
+		error := service.processingStepRepository.AddToProcess(
+			model.ProcessingSteps[i].ProcessId,
+			model.ProcessingSteps[i].ProcessingStepType,
+			model.ProcessingSteps[i].ParameterJson,
+			model.ProcessingSteps[i].ExecutionPosition)
+		if error != nil {
+			return error
+		}
+	}
+
+	return nil
+}
+
 func (service *processService) GetAllProcesses(email string) []webmodels.Process {
 	user := service.userRepository.FindByEmail(email)
 	processes := service.processRepository.GetAll(user.OrganizationId)
