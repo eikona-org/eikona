@@ -60,10 +60,6 @@ func Serve() {
 		protectedEndpoints.GET("/processingsteptypes", processController.ListAllProcessingStepTypes)
 		// -> POST /api/auth/process
 		protectedEndpoints.POST("/process", processController.CreateProcess)
-		// -> POST /api/auth/processingstep
-		protectedEndpoints.POST("/processingstep", processController.AttachStepToProcess)
-		// -> POST /api/auth/processingsteps
-		protectedEndpoints.POST("/processingsteps", processController.AttachStepsToProcess)
 		// -> POST /api/auth/upload
 		protectedEndpoints.POST("/upload", imageController.UploadImage)
 	}

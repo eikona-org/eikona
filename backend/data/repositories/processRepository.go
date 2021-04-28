@@ -1,9 +1,9 @@
 package repositories
 
 import (
-	"github.com/google/uuid"
 	"github.com/eikona-org/eikona/v2/data"
 	datamodels "github.com/eikona-org/eikona/v2/data/datamodels"
+	"github.com/google/uuid"
 )
 
 type ProcessRepository struct{}

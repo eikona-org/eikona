@@ -10,21 +10,12 @@ const Confirm = ({ handleNext, handleBack, values, selected }) => {
     const { name } = values
     const { token } = useToken()
     const [error, setError] = useState(null)
-    const [processId, setProcessId] = useState(null)
 
     const handleSubmit = () => {
-        const process = fetch(`https://${window._env_.API_URL}/api/auth/process`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token,
-            },
-            body: JSON.stringify({ name }),
-        }).then((res) => res.json())
-        setProcessId(process['ProcessId'])
-        var stepsToInsert = {
+        var createPayload = {
+            name,
             processingSteps: [],
-        }
+        };
 
         selected.map(function (item) {
             var parameterObj = {}
@@ -32,32 +23,31 @@ const Confirm = ({ handleNext, handleBack, values, selected }) => {
                 parameterObj[options] = item.optionsFilled[index]
             })
             var parameterJson = JSON.stringify(parameterObj)
-            stepsToInsert.processingSteps.push({
-                processId: processId,
+            createPayload.processingSteps.push({
                 processingStepType: item.Id,
                 executionPosition: parseInt(item.sequence),
                 parameterJson: parameterJson,
             })
-        })
-        return fetch(`https://${window._env_.API_URL}/api/auth/processingsteps`, {
+        });
+
+        return fetch(`https://${window._env_.API_URL}/api/auth/process`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token,
             },
-            body: JSON.stringify(stepsToInsert),
+            body: JSON.stringify(createPayload),
+        }).then((response) => {
+            if (!response.ok) {
+                throw new Error('Something went wrong')
+            }
         })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Something went wrong')
-                }
-            })
-            .then(() => {
-                handleNext()
-            })
-            .catch((error) => {
-                setError(error)
-            })
+        .then(() => {
+            handleNext()
+        })
+        .catch((error) => {
+            setError(error)
+        });
     }
 
     return (
