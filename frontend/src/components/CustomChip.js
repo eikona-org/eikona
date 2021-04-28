@@ -120,11 +120,11 @@ const CustomChip = ({ updateSelected }) => {
                                 <DialogTitle id="form-dialog-title">{step.Name}</DialogTitle>
                                 <DialogContent>
                                     <TextField
-                                        name="Sequence"
+                                        name="Execution position"
                                         onChange={(e) => handleChangeSequence(e, index)}
                                         autoFocus
                                         margin="dense"
-                                        label="Sequence"
+                                        label="Execution position"
                                         type="number"
                                         value={step.sequence}
                                         fullWidth

@@ -5,53 +5,60 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import useToken from './useToken'
+import Alert from '@material-ui/lab/Alert'
+import Hidden from '@material-ui/core/Hidden'
 
 const Confirm = ({ handleNext, handleBack, values, selected }) => {
     const { name } = values
     const { token } = useToken()
     const [error, setError] = useState(null)
 
-    const handleSubmit = () => {
-        var createPayload = {
-            name,
+    const createProcess = async (process) => {
+        const response = await fetch(`https://${window._env_.API_URL}/api/auth/process`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + token,
+            },
+            body: JSON.stringify(process),
+        })
+        if (!response.ok) {
+            const message = `An error has occured: ${response.status}`;
+            throw new Error(message);
+        }
+    }
+
+    const buildStepsArray = () => {
+        var process = {
+            name: name,
             processingSteps: [],
-        };
+        }
 
         selected.map(function (item) {
             var parameterObj = {}
             item['Options'].map(function (options, index) {
                 parameterObj[options] = item.optionsFilled[index]
             })
-            var parameterJson = JSON.stringify(parameterObj)
-            createPayload.processingSteps.push({
+            process.processingSteps.push({
                 processingStepType: item.Id,
                 executionPosition: parseInt(item.sequence),
-                parameterJson: parameterJson,
+                parameterJson: JSON.stringify(parameterObj),
             })
-        });
-
-        return fetch(`https://${window._env_.API_URL}/api/auth/process`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token,
-            },
-            body: JSON.stringify(createPayload),
-        }).then((response) => {
-            if (!response.ok) {
-                throw new Error('Something went wrong')
-            }
         })
-        .then(() => {
+        return process
+    }
+    const handleSubmit = () => {
+        const process = buildStepsArray()
+        createProcess(process).then(function(){
             handleNext()
-        })
-        .catch((error) => {
+        }).catch(error => {
             setError(error)
         });
     }
 
     return (
         <Fragment>
+            <Hidden>{error && <Alert severity="error">Upps, something went wrong!</Alert>}</Hidden>
             <List disablePadding>
                 <ListItem>
                     <ListItemText primary="Name" secondary={name} />
