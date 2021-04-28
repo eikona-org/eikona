@@ -29,7 +29,6 @@ func NewProcessService(processRepo repositories.ProcessRepository, processingSte
 	}
 }
 
-
 func (service *processService) AddProcessingStep(model webmodels.ProcessStepAttachment) error {
 	error := service.processingStepRepository.AddToProcess(model.ProcessId, model.ProcessingStepType, model.ParameterJson, model.ExecutionPosition)
 	if error != nil {
@@ -75,11 +74,22 @@ func (service *processService) CreateProcess(dto webmodels.CreateProcess, email 
 	org := service.orgRepository.Find(user.OrganizationId)
 
 	process := service.processRepository.Create(dto.Name, org.OrganizationId)
-	apiProcessModel := webmodels.Process{
+
+	for i := 0; i < len(dto.ProcessingSteps); i++ {
+		err := service.processingStepRepository.AddToProcess(
+			process.ProcessId,
+			dto.ProcessingSteps[i].ProcessingStepType,
+			dto.ProcessingSteps[i].ParameterJson,
+			dto.ProcessingSteps[i].ExecutionPosition)
+		if err != nil {
+			return webmodels.Process{}
+		}
+	}
+
+	return webmodels.Process{
 		ProcessId: process.ProcessId,
 		Name:      process.Name,
 	}
-	return apiProcessModel
 }
 
 func (service *processService) GetAllProcessingStepTypes() []webmodels.ProcessingStepType {

@@ -85,8 +85,8 @@ func (c *processController) ListAllProcessingStepTypes(context *gin.Context) {
 // @Failure 500 {string} string "Internal Server Error"
 // @Router /auth/process [post]
 func (c *processController) CreateProcess(context *gin.Context) {
-	var createProzessDTO webmodels.CreateProcess
-	errDTO := context.ShouldBind(&createProzessDTO)
+	var createProcessDTO webmodels.CreateProcess
+	errDTO := context.ShouldBind(&createProcessDTO)
 	if errDTO != nil {
 		response := helper.BuildErrorResponse("Failed to process request", errDTO.Error(), helper.EmptyObj{})
 		context.AbortWithStatusJSON(http.StatusBadRequest, response)
@@ -95,7 +95,7 @@ func (c *processController) CreateProcess(context *gin.Context) {
 	authHeader := context.GetHeader("Authorization")
 	email := c.getEmailByToken(authHeader)
 
-	var process = c.processService.CreateProcess(createProzessDTO, email)
+	var process = c.processService.CreateProcess(createProcessDTO, email)
 	if process == (webmodels.Process{}) {
 		context.AbortWithStatus(http.StatusNoContent)
 	}

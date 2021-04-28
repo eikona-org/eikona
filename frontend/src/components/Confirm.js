@@ -5,24 +5,32 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
 import useToken from './useToken'
+import Alert from '@material-ui/lab/Alert'
+import Hidden from '@material-ui/core/Hidden'
 
 const Confirm = ({ handleNext, handleBack, values, selected }) => {
     const { name } = values
     const { token } = useToken()
     const [error, setError] = useState(null)
-    const [processId, setProcessId] = useState(null)
 
-    const handleSubmit = () => {
-        const process = fetch(`https://${window._env_.API_URL}/api/auth/process`, {
+    const createProcess = async (process) => {
+        const response = await fetch(`https://${window._env_.API_URL}/api/auth/process`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token,
             },
-            body: JSON.stringify({ name }),
-        }).then((res) => res.json())
-        setProcessId(process['ProcessId'])
-        var stepsToInsert = {
+            body: JSON.stringify(process),
+        })
+        if (!response.ok) {
+            const message = `An error has occured: ${response.status}`;
+            throw new Error(message);
+        }
+    }
+
+    const buildStepsArray = () => {
+        var process = {
+            name: name,
             processingSteps: [],
         }
 
@@ -31,37 +39,26 @@ const Confirm = ({ handleNext, handleBack, values, selected }) => {
             item['Options'].map(function (options, index) {
                 parameterObj[options] = item.optionsFilled[index]
             })
-            var parameterJson = JSON.stringify(parameterObj)
-            stepsToInsert.processingSteps.push({
-                processId: processId,
+            process.processingSteps.push({
                 processingStepType: item.Id,
                 executionPosition: parseInt(item.sequence),
-                parameterJson: parameterJson,
+                parameterJson: JSON.stringify(parameterObj),
             })
         })
-        return fetch(`https://${window._env_.API_URL}/api/auth/processingsteps`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + token,
-            },
-            body: JSON.stringify(stepsToInsert),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Something went wrong')
-                }
-            })
-            .then(() => {
-                handleNext()
-            })
-            .catch((error) => {
-                setError(error)
-            })
+        return process
+    }
+    const handleSubmit = () => {
+        const process = buildStepsArray()
+        createProcess(process).then(function(){
+            handleNext()
+        }).catch(error => {
+            setError(error)
+        });
     }
 
     return (
         <Fragment>
+            <Hidden>{error && <Alert severity="error">Upps, something went wrong!</Alert>}</Hidden>
             <List disablePadding>
                 <ListItem>
                     <ListItemText primary="Name" secondary={name} />
