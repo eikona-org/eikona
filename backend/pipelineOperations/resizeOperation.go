@@ -6,8 +6,8 @@ import (
 )
 
 type resizeParameters struct {
-	Width  int
-	Height int
+	Width  int `json:",string"`
+	Height int `json:",string"`
 }
 
 func ApplyResizeOperation(pipeline *gift.GIFT, params string) {

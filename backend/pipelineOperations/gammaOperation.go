@@ -6,7 +6,7 @@ import (
 )
 
 type gammaParameters struct {
-	Gamma float32
+	Gamma float32 `json:",string"`
 }
 
 func ApplyGammaOperation(pipeline *gift.GIFT, params string) {

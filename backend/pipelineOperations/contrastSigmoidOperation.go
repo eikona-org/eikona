@@ -6,8 +6,8 @@ import (
 )
 
 type contrastSigmoidParameters struct {
-	Midpoint float32
-	Factor   float32
+	Midpoint float32 `json:",string"`
+	Factor   float32 `json:",string"`
 }
 
 func ApplyContrastSigmoidOperation(pipeline *gift.GIFT, params string) {

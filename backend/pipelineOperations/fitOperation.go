@@ -6,8 +6,8 @@ import (
 )
 
 type fitParameters struct {
-	Width  int
-	Height int
+	Width  int `json:",string"`
+	Height int `json:",string"`
 }
 
 func ApplyFitOperation(pipeline *gift.GIFT, params string) {

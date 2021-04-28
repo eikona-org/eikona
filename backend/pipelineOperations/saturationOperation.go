@@ -6,7 +6,7 @@ import (
 )
 
 type saturationParameters struct {
-	Percentage float32
+	Percentage float32 `json:",string"`
 }
 
 func ApplySaturationOperation(pipeline *gift.GIFT, params string) {

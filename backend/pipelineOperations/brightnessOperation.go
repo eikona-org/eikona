@@ -6,7 +6,7 @@ import (
 )
 
 type brightnessParameters struct {
-	Percentage float32
+	Percentage float32 `json:",string"`
 }
 
 func ApplyBrightnessOperation(pipeline *gift.GIFT, params string) {

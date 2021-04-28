@@ -6,9 +6,9 @@ import (
 )
 
 type sharpenParameters struct {
-	Sigma     float32
-	Amount    float32
-	Threshold float32
+	Sigma     float32 `json:",string"`
+	Amount    float32 `json:",string"`
+	Threshold float32 `json:",string"`
 }
 
 func ApplySharpenOperation(pipeline *gift.GIFT, params string) {

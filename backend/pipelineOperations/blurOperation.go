@@ -6,7 +6,7 @@ import (
 )
 
 type blurParameters struct {
-	Sigma float32
+	Sigma float32 `json:",string"`
 }
 
 func ApplyBlurOperation(pipeline *gift.GIFT, params string) {

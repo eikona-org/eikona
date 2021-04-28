@@ -8,7 +8,7 @@ import (
 )
 
 type rotateParameters struct {
-	Angle float32
+	Angle float32 `json:",string"`
 }
 
 func ApplyRotateOperation(pipeline *gift.GIFT, params string) {

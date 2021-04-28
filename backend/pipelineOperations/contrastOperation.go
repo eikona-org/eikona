@@ -6,7 +6,7 @@ import (
 )
 
 type contrastParameters struct {
-	Percentage float32
+	Percentage float32 `json:",string"`
 }
 
 func ApplyContrastOperation(pipeline *gift.GIFT, params string) {

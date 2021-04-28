@@ -6,8 +6,8 @@ import (
 )
 
 type cropParameters struct {
-	Width  int
-	Height int
+	Width  int `json:",string"`
+	Height int `json:",string"`
 }
 
 func ApplyCropOperation(pipeline *gift.GIFT, params string) {

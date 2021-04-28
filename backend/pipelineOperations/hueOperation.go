@@ -6,7 +6,7 @@ import (
 )
 
 type hueParameters struct {
-	Shift float32
+	Shift float32 `json:",string"`
 }
 
 func ApplyHueOperation(pipeline *gift.GIFT, params string) {
