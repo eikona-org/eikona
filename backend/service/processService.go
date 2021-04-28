@@ -40,12 +40,12 @@ func (service *processService) AddProcessingStep(model webmodels.ProcessStepAtta
 }
 
 func (service *processService) AddProcessingSteps(model webmodels.ProcessStepsAttachment) error {
-	for i := 0; i < len(model.ProcessSteps); i++ {
+	for i := 0; i < len(model.ProcessingSteps); i++ {
 		error := service.processingStepRepository.AddToProcess(
-			model.ProcessSteps[i].ProcessId,
-			model.ProcessSteps[i].ProcessingStepType,
-			model.ProcessSteps[i].ParameterJson,
-			model.ProcessSteps[i].ExecutionPosition)
+			model.ProcessingSteps[i].ProcessId,
+			model.ProcessingSteps[i].ProcessingStepType,
+			model.ProcessingSteps[i].ParameterJson,
+			model.ProcessingSteps[i].ExecutionPosition)
 		if error != nil {
 			return error
 		}
