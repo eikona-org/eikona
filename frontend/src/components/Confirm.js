@@ -12,8 +12,8 @@ const Confirm = ({ handleNext, handleBack, values, selected }) => {
     const [error, setError] = useState(null)
     const [processId, setProcessId] = useState(null)
 
-    const handleSubmit = async () => {
-        const process = await fetch(`https://${window._env_.API_URL}/api/auth/process`, {
+    const handleSubmit = () => {
+        const process = fetch(`https://${window._env_.API_URL}/api/auth/process`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -22,17 +22,42 @@ const Confirm = ({ handleNext, handleBack, values, selected }) => {
             body: JSON.stringify({ name }),
         }).then((res) => res.json())
         setProcessId(process['ProcessId'])
-        console.log(processId)
-        console.log(selected)
-        const steps = await fetch(`https://${window._env_.API_URL}/api/auth/processsteps`, {
+        var stepsToInsert = {
+            processingSteps: [],
+        }
+
+        selected.map(function (item) {
+            var parameterObj = {}
+            item['Options'].map(function (options, index) {
+                parameterObj[options] = item.optionsFilled[index]
+            })
+            var parameterJson = JSON.stringify(parameterObj)
+            stepsToInsert.processingSteps.push({
+                processId: processId,
+                processingStepType: item.Id,
+                executionPosition: parseInt(item.sequence),
+                parameterJson: parameterJson,
+            })
+        })
+        return fetch(`https://${window._env_.API_URL}/api/auth/processingsteps`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + token,
             },
-            body: JSON.stringify({ processId, selected }),
-        }).then((res) => res.json())
-        handleNext()
+            body: JSON.stringify(stepsToInsert),
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Something went wrong')
+                }
+            })
+            .then(() => {
+                handleNext()
+            })
+            .catch((error) => {
+                setError(error)
+            })
     }
 
     return (
