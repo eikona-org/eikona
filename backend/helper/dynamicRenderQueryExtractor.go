@@ -37,7 +37,7 @@ func applyOperationsToPipeline(operationsConfig operationsConfiguration) []datam
 	if 0 != operationsConfig.resizeWidth || 0 != operationsConfig.resizeHeight {
 		processSteps = append(processSteps, datamodels.ProcessingStep{
 			ProcessingStepType: datamodels.Resize,
-			ParameterJson:      fmt.Sprintf(`{"width":%d,"height":%d}`, operationsConfig.resizeWidth, operationsConfig.resizeHeight),
+			ParameterJson:      fmt.Sprintf(`{"width":"%d","height":"%d"}`, operationsConfig.resizeWidth, operationsConfig.resizeHeight),
 		})
 	}
 
