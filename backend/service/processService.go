@@ -8,6 +8,7 @@ import (
 
 type ProcessService interface {
 	AddProcessingStep(model webmodels.ProcessStepAttachment) error
+	AddProcessingSteps(model webmodels.ProcessStepsAttachment) error
 	GetAllProcesses(email string) []webmodels.Process
 	GetAllProcessingStepTypes() []webmodels.ProcessingStepType
 	CreateProcess(dto webmodels.CreateProcess, email string) webmodels.Process
@@ -33,6 +34,21 @@ func (service *processService) AddProcessingStep(model webmodels.ProcessStepAtta
 	error := service.processingStepRepository.AddToProcess(model.ProcessId, model.ProcessingStepType, model.ParameterJson, model.ExecutionPosition)
 	if error != nil {
 		return error
+	}
+
+	return nil
+}
+
+func (service *processService) AddProcessingSteps(model webmodels.ProcessStepsAttachment) error {
+	for i := 0; i < len(model.ProcessSteps); i++ {
+		error := service.processingStepRepository.AddToProcess(
+			model.ProcessSteps[i].ProcessId,
+			model.ProcessSteps[i].ProcessingStepType,
+			model.ProcessSteps[i].ParameterJson,
+			model.ProcessSteps[i].ExecutionPosition)
+		if error != nil {
+			return error
+		}
 	}
 
 	return nil
