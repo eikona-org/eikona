@@ -1,9 +1,9 @@
 package repositories
 
 import (
-	"github.com/google/uuid"
 	"github.com/eikona-org/eikona/v2/data"
 	datamodels "github.com/eikona-org/eikona/v2/data/datamodels"
+	"github.com/google/uuid"
 )
 
 type ProcessingStepRepository struct{}
@@ -17,7 +17,7 @@ func (r ProcessingStepRepository) AddToProcess(processId uuid.UUID, stepType dat
 		return transactionError
 	}
 
-	//Shift ExecutionPositions back if necessary
+	// Shift ExecutionPositions back if necessary
 	existingSteps := findProcessingStepsByProcessId(processId)
 	positionBuffer := executionPosition
 	for i := 0; i < len(*existingSteps); i++ {
