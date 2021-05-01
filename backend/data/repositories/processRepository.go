@@ -3,6 +3,7 @@ package repositories
 import (
 	"github.com/eikona-org/eikona/v2/data"
 	datamodels "github.com/eikona-org/eikona/v2/data/datamodels"
+	"github.com/go-pg/pg/v10/orm"
 	"github.com/google/uuid"
 )
 
@@ -69,7 +70,9 @@ func findProcess(id uuid.UUID) *datamodels.Process {
 
 	process := &datamodels.Process{ProcessId: id}
 	err := dbConnection.Model(process).
-		Relation("ProcessingSteps").
+		Relation("ProcessingSteps", func(q *orm.Query) (*orm.Query, error) {
+			return q.Order("processing_step.execution_position ASC"), nil
+		}).
 		WherePK().
 		Select()
 
@@ -86,7 +89,9 @@ func findProcessByIdAndOrganizationId(id uuid.UUID, ownerId uuid.UUID) *datamode
 
 	process := &datamodels.Process{ProcessId: id, OwnerId: ownerId}
 	err := dbConnection.Model(process).
-		Relation("ProcessingSteps").
+		Relation("ProcessingSteps", func(q *orm.Query) (*orm.Query, error) {
+			return q.Order("processing_step.execution_position ASC"), nil
+		}).
 		WherePK().
 		Select()
 
