@@ -104,7 +104,7 @@ func (c *renderController) PipelineRender(ctx *gin.Context) {
 	if cacheHit {
 		imgWrapper = &helper.ImageWrapper{ImageType: cacheValue.ImageType, EncodedImage: &cacheValue.EncodedImage}
 	} else {
-		imgWrapper := c.renderService.PipelineRender(imgUuid, procUuid)
+		imgWrapper = c.renderService.PipelineRender(imgUuid, procUuid)
 		c.cacheService.AddToCache(cacheKey, imgWrapper)
 	}
 
