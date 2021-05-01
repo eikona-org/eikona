@@ -21,6 +21,7 @@ type CacheEntry struct {
 }
 
 func NewCacheService() CacheService {
+	// TODO: This is only a basic cache solution that won't scale. This should be replaced by a nginx/varnish cache
 	imgCache, err := ristretto.NewCache(&ristretto.Config{
 		NumCounters: 1e7,     // number of keys to track frequency of (10M).
 		MaxCost:     1 << 30, // maximum cost of cache (1GB).
