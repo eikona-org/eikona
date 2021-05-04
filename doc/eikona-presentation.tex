@@ -43,7 +43,7 @@
 		\begin{itemize}
 			\item{\href{https://golang.org/}{go} (1.16.3)}
 			\begin{itemize}
-				\item{\href{https://gin-gonic.com/}{gin} (1.7.1)}
+				\item{\href{https://gin-gonic.com/}{gin} (1.7.1) with \href{https://github.com/dgraph-io/ristretto}{Ristretto} (0.0.3)}
 				\item{JWT}
 			\end{itemize}
 		\end{itemize}
@@ -125,9 +125,9 @@
 			\item{JWT authentication using middleware}
 			\item{API Documentation using \href{https://github.com/swaggo/swag}{swagger}}
 		\end{itemize}
-		\item{Quickwin: Simple caching at application level}
+		\item{Quickwin: Simple caching at application level using  \href{https://github.com/dgraph-io/ristretto}{Ristretto}}
 		\begin{itemize}
-			\item{TODO: Use varnish, nginx or traefik enterprise in front of application}
+			\item{TODO: Use varnish, nginx or traefik enterprise in front of application to handle image caching}
 		\end{itemize}
 	\end{itemize}
 \end{frame}
