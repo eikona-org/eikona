@@ -60,7 +60,7 @@ func (service *pipelineService) applyOperation(procStep datamodels.ProcessingSte
 		pipelineOperations.ApplyCropOperation(service.pipeline, procStep.ParameterJson)
 		break
 	case datamodels.CropCenter:
-		pipelineOperations.ApplyCropOperation(service.pipeline, procStep.ParameterJson)
+		pipelineOperations.ApplyCropCenterOperation(service.pipeline, procStep.ParameterJson)
 		break
 	case datamodels.Fill:
 		pipelineOperations.ApplyFillOperation(service.pipeline, procStep.ParameterJson)
