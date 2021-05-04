@@ -8,6 +8,9 @@
 
 > εικόνα resizes, adjust quality, convert images on-the-fly and provides a simple REST API. This project was built for the OST DS1 Challenge Task.
 
+
+⚠️ This is a school project and not production-ready! Run at your own risk.
+
 ### 🏠 [Homepage](https://github.com/eikona-org/eikona)
 
 ### ✨ [Demo](https://eikona.pesc.xyz/)
