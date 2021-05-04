@@ -6,7 +6,7 @@
   </a>
 </p>
 
-> εικόνα resizes, adjusts quality, converts images on-the-fly and provides a simple REST API. This project was built for the OST DS1 Challenge Task.
+> εικόνα resizes, adjusts quality and converts images on-the-fly. This is all provided via a simple REST API. This project was built for the OST DS1 Challenge Task.
 
 
 ⚠️ This is a school project and not production-ready! Run at your own risk.
@@ -85,7 +85,7 @@ Database: docker.localhost:5432
 
 👤 **Lukas Ribi, Dominik Castelberg, Pascal Christen**
 
-* Github: [@lribi](https://github.com/lribi) [@dcastelberg](https://github.com/dcastelberg) [@pesc](https://github.com/pesc))
+* Github: [@lribi](https://github.com/lribi) [@dcastelberg](https://github.com/dcastelberg) [@pesc](https://github.com/pesc)
 
 ## 🤝 Contributing
 
