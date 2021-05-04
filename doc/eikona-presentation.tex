@@ -113,25 +113,6 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Backend}{3. Development}
-	\underline{Golang}:
-	\begin{itemize}
-		\item{Image filtering using \href{https://github.com/disintegration/gift}{gift}:}
-		\begin{itemize}
-			\item{25 operations right now (expanding...)}
-		\end{itemize}
-		\item{REST API using \href{https://github.com/gin-gonic/gin}{gin}:}
-		\begin{itemize}
-			\item{JWT authentication using middleware}
-			\item{API Documentation using \href{https://github.com/swaggo/swag}{swagger}}
-		\end{itemize}
-		\item{Quickwin: Simple caching at application level using \href{https://github.com/dgraph-io/ristretto}{Ristretto}}
-		\begin{itemize}
-			\item{TODO: Use varnish, nginx or traefik enterprise in front of application to handle image caching}
-		\end{itemize}
-	\end{itemize}
-\end{frame}
-
 \begin{frame}{Frontend}{3. Development}
 	\begin{columns}[onlytextwidth,T]
 		\begin{column}{.40\linewidth}
@@ -155,6 +136,25 @@
 	\end{columns}
 \end{frame}
 
+\begin{frame}{Backend}{3. Development}
+	\underline{Golang}:
+	\begin{itemize}
+		\item{Image filtering using \href{https://github.com/disintegration/gift}{gift}:}
+		\begin{itemize}
+			\item{25 operations right now (expanding...)}
+		\end{itemize}
+		\item{REST API using \href{https://github.com/gin-gonic/gin}{gin}:}
+		\begin{itemize}
+			\item{JWT authentication using middleware}
+			\item{API Documentation using \href{https://github.com/swaggo/swag}{swagger}}
+		\end{itemize}
+		\item{Quickwin: Simple caching at application level using \href{https://github.com/dgraph-io/ristretto}{Ristretto}}
+		\begin{itemize}
+			\item{TODO: Use varnish, nginx or traefik enterprise in front of application to handle image caching}
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
 \begin{frame}{Storage}{3. Development}
 	\begin{columns}[onlytextwidth,T]
 		\begin{column}{.40\linewidth}
@@ -174,7 +174,7 @@
 \begin{frame}{Fulfillment of Requirements}{4. Legal}
 	\begin{itemize}
 		\item{Dockerized: \textcolor{deepgreen}{Used (images hosted on Github)}}
-		\item{Load balancing: \textcolor{deepgreen}{Treafik}}
+		\item{Load balancing: \textcolor{deepgreen}{Traefik}}
 		\item{Scalable service: \textcolor{deepgreen}{Backend and Frontend}}
 		\item{JWT Authentication: \textcolor{deepgreen}{Used}}
 		\item{Latest FOSS: \textcolor{deepgreen}{Used}}
