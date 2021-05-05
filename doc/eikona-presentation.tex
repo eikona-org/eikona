@@ -8,7 +8,7 @@
 \graphicspath{ {./images/} }
 \usetheme{ost}
 
-\title{εικόνα - Challenge Project}
+\title{εικόνα [iˈkɔna] - Challenge Project}
 \subtitle{OST — Ostschweizer Fachhochschule}
 \date{May 18, 2021}
 \author{Lukas Ribi, Dominik Castelberg, Pascal Christen}
@@ -21,12 +21,12 @@
 \end{frame}
 
 \begin{frame}{Goal}{1. Introduction}
-	\underline{Problem}: Often you need to resize, adjust quality, and convert on-demand:
+	\underline{Problem}: Often you need to resize, adjust quality, and convert on-demand for:
 	\vspace{1in}
 	\begin{columns}[onlytextwidth,T]
 		\begin{column}{.25\linewidth}
 			\begin{itemize}
-				\item{Responsive Websites}
+				\item{Responsive websites}
 				\item{Upload of an image}
 			\end{itemize}
 		\end{column}
@@ -34,7 +34,7 @@
 			\includegraphics[scale=0.55]{vzug}
 		\end{column}
 	\end{columns}
-	\underline{Solution}: Our \textit{eikona} service converts the image \textbf{on-the-fly} and provides a simple \textit{REST API}.
+	\underline{Solution}: Our \textit{εικόνα} service converts the image \textbf{on-the-fly} and provides a simple \textit{REST API}.
 \end{frame}
 
 \begin{frame}{Setup}{2. Technology}
@@ -86,6 +86,7 @@
 			\item{Frontend}
 			\item{Backend}
 		\end{itemize}
+		\item{Images hosted by GitHub Packages (\href{https://ghcr.io}{ghcr.io})}
 		\item{Security by scanning for \href{https://github.com/marketplace/actions/container-image-scan/}{CVE}}
 		\includegraphics[scale=0.8]{action}
 	\end{itemize}
@@ -93,8 +94,17 @@
 
 \begin{frame}{docker-compose}{3. Development}
 	\begin{itemize}
-		\item{Production and Development environment}
-		\item{Restriced access on production}
+		\item{Development environment:}
+		\begin{itemize}
+			\item{Debugging with \href{https://github.com/go-delve/delve}{delve}}
+			\item{Live reloading with \href{https://github.com/cosmtrek/air}{air}}
+			\item{Local certificates with \href{https://github.com/FiloSottile/mkcert}{mkcert}}
+		\end{itemize}
+		\item{Production environment:}
+		\begin{itemize}
+			\item{Only exposing Loadbalancer network (Port 443/80)}
+		\end{itemize}
+		\item{Using multiple networks}
 		\item{Working with environments}
 	\end{itemize}
 \end{frame}
@@ -108,7 +118,6 @@
 			\item{- Security}
 		\end{itemize}
 		\item{HTTP -> HTTPS Middleware}
-		\item{Self-signed cert with \href{https://github.com/FiloSottile/mkcert}{mkcert} for development}
 		\item{Healthchecks}
 	\end{itemize}
 \end{frame}
@@ -126,7 +135,7 @@
 					\item{Dashboard}
 					\item{Upload Image}
 					\item{Create Process}
-					\item{API Overview}
+					\item{API Docs}
 				\end{itemize}
 			\end{itemize}
 		\end{column}	
