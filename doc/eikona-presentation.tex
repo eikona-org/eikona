@@ -150,16 +150,19 @@
 	\begin{itemize}
 		\item{Image filtering using \href{https://github.com/disintegration/gift}{gift}:}
 		\begin{itemize}
-			\item{25 operations right now (expanding...)}
+			\item{\href{https://github.com/disintegration/imaging\#whats-the-difference-between-imaging-and-gift-packages}{gift vs. imaging}}
+			\item{Advanced image processing capabilities and filter chaining}
+			\item{25 implemented operations right now (expanding...)}
 		\end{itemize}
 		\item{REST API using \href{https://github.com/gin-gonic/gin}{gin}:}
 		\begin{itemize}
 			\item{JWT authentication using middleware}
 			\item{API Documentation using \href{https://github.com/swaggo/swag}{swagger}}
 		\end{itemize}
-		\item{Quick win: Simple caching at the application level using \href{https://github.com/dgraph-io/ristretto}{Ristretto}}
+		\item{Quick win: Simple caching using \href{https://github.com/dgraph-io/ristretto}{Ristretto} at the single process level}
 		\begin{itemize}
-			\item{TODO: Use varnish, nginx or Traefik enterprise in front of the application to handle image caching}
+			\item{Caching based on request (parameters / image id \& pipeline combination}
+			\item{Enhancement: Use varnish, nginx or Traefik enterprise in front of the application to handle image caching}
 		\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -171,7 +174,9 @@
 			\vspace{1in}
 			\begin{itemize}
 				\item{High Performance, Kubernetes Native Object Storage}
+				\item{Ready for distributed usage}
 				\item{Compatible with Amazon S3}
+				\item{Isolated buckets per organization with source images}
 			\end{itemize}
 		\end{column}
 		\begin{column}{.60\linewidth}
